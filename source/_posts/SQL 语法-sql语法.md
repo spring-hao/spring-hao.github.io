@@ -343,6 +343,8 @@ mysql> SELECT NOW();
 
 ## 十三、分组
 
+### group by
+
 把具有相同的数据值的行放在同一组中。
 
 可以对同一分组数据使用汇总函数进行处理，例如求分组数据的平均值等。
@@ -380,6 +382,28 @@ HAVING num >= 2;
 - 除了汇总字段外，SELECT 语句中的每一字段都必须在 GROUP BY 子句中给出；
 - NULL 的行会单独分为一组；
 - 大多数 SQL 实现不支持 GROUP BY 列具有可变长度的数据类型。
+
+### 窗口函数
+
+> MySQL 8.0以后支持
+
+聚合函数将来自多行的数据汇总到单个结果行中。
+
+`GROUP BY`可以把聚合函数应用到每个分组中，使用聚合函数可以减少返回数据的行数，增大查询效率。
+
+窗口函数也对行的子集进行操作，**但它们不会减少查询返回的行数**。
+
+```sql
+SELECT 
+    fiscal_year, 
+    sales_employee,
+    sale,
+    SUM(sale) OVER (PARTITION BY fiscal_year) total_sales
+FROM
+    sales; 
+```
+
+
 
 ## 十四、子查询
 
