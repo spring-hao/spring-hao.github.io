@@ -2,10 +2,14 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
+nav:
+  search: /search/
+
 search:
   path: search.xml
-  field: all
+  field: post
   content: true
+  format: html
 
 # Site
 title: Hao
@@ -18,7 +22,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://wixhz.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -105,7 +109,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: cactus
+theme: next
 
 
 # Deployment
