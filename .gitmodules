@@ -1,3 +1,3 @@
-[submodule "themes/next_v8"]
-	path = themes/next_v8
+[submodule "themes/next_latest"]
+	path = themes/next_latest
 	url = https://github.com/next-theme/hexo-theme-next
