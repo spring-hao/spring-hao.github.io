@@ -11,7 +11,44 @@ tags:
 
 
 
+# git日常使用的小问题
+
+## 1. 嵌套仓库
+
+如果在一个git仓库中嵌套了一个git仓库，那么被嵌套的git仓库的改动，不能被大git仓库检测到。
+
+**解决方案：**
+
+- 可以使用submodule，当引入子仓库时，使用如下命令即可：
+
+  ```
+  git submodule add https://github.com/***
+  ```
+
+  作用类似git clone，但是他会在父仓库的下面新建.gitmodules文件，并且包含以下内容
+
+  ```
+  [submodule "apps/firstApp"]
+  	path = apps/firstApp
+  	url = https://github.com/muchang/mean-seed-app.git
+  ```
+
+  这一段表示子仓库的位置，以及子仓库的远程仓库的地址。
+
+  删除子仓库并且commit之后，这个文件和这个子仓库有关的部分就会消失。
+
+- 本质和第一个方案类似：
+
+  ```
+  git clone --recursive https://github.com/***
+  ```
+
+  **这两种方案可以同时维护两个仓库，字仓库也可以随时拉取更新**
+
+- 删除字仓库`.git`目录，等于放弃了字仓库的远程关联
+
 # git介绍
+
 **Git是目前世界上最先进的分布式版本控制系统**,与常用的版本控制工具 CVS, Subversion 等不同，它采用了分布式版本库的方式，不必服务器端软件支持。
 
 集中式vs分布式:[Git教程- 廖雪峰的官方网站](https://www.liaoxuefeng.com/wiki/896043488029600/896202780297248)
@@ -35,17 +72,20 @@ Git 自带一个 git config 的工具来帮助设置控制 Git 外观和行为�
 
 每一个级别会覆盖上一级别的配置，所以 .git/config 的配置变量会覆盖 /etc/gitconfig 中的配置变量。
 ## 用户信息
+
 安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。 这一点很重要，因为每一个 Git 提交都会使 用这些信息，它们会写入到你的每一次提交中，不可更改:
 ```bash
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
 ```
 ## 检查配置信息
+
 ```bash
 git config --list
 ```
 # 创建本地仓库
 ## 1. 新建仓库
+
 ```bash
 $ git init
 Initialized empty Git repository in D:/testgit/.git/
