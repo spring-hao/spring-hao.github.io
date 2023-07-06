@@ -22,7 +22,7 @@ tags:
 - 可以使用submodule，当引入子仓库时，使用如下命令即可：
 
   ```
-  git submodule add https://github.com/***
+  git submodule add https://github.com/子仓库
   ```
 
   作用类似git clone，但是他会在父仓库的下面新建.gitmodules文件，并且包含以下内容
@@ -37,15 +37,39 @@ tags:
 
   删除子仓库并且commit之后，这个文件和这个子仓库有关的部分就会消失。
 
-- 本质和第一个方案类似：
+- 本质和第一个方案类似，它会把总仓库内的所有内容拉取下来（**包含子仓库**）：
 
   ```
-  git clone --recursive https://github.com/***
+  git clone --recursive https://github.com/总仓库
   ```
 
   **这两种方案可以同时维护两个仓库，字仓库也可以随时拉取更新**
 
-- 删除字仓库`.git`目录，等于放弃了字仓库的远程关联
+- 删除子仓库
+
+  1. 卸载子模块	`git submodule deinit <submodule_path>`
+
+  2. 删除子模块目录   `git rm <submodule_path>`
+
+  3. ```java
+     git add .
+     git commit -m "Remove submodule <submodule_path>"
+     ```
+
+## 2. 复杂命令
+
+- **git reset commitId** ：`head`指针移动到指定的commit，并且之前的HEAD ->commitId之间的所有修改的内容会**被置于工作区**，需要重新add、commit。
+
+  > 慎重使用 `--hard `指令，在回滚HEAD指针的时候，很强硬的将所有HEAD ->commitId之间的改动内容“全部删除”！
+
+- **git rebase**：`merge`命令会形成一个钻石结构，如果多个feature分支同时开发，最终合并到主分支会带来多个钻石分叉，影响master分支的历史美观度，master对长分叉历史不敏感。为了解决这种问题，在merge分支后通常对master进行变基操作，去除掉那些分叉的历史，保证master的连续性。
+
+- **git checkout**：丢弃工作区的修改，返回到上次提交状态
+
+- **git reflog**：当reset HEAD指针之后，git log里只会显示当前分支HEAD之前的所有commitId，而git reflog可以显示所有的commit Id。
+
+- **git revert**：revert命令实现了HEAD指针的继续前进，新生成的commit和要撤销的目标提交具有相反的操作，实现了“后悔”的操作。
+
 
 # git介绍
 
