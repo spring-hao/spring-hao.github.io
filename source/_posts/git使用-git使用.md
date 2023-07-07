@@ -13,7 +13,7 @@ tags:
 
 # git日常使用的小问题
 
-## 1. 嵌套仓库
+## 嵌套仓库
 
 如果在一个git仓库中嵌套了一个git仓库，那么被嵌套的git仓库的改动，不能被大git仓库检测到。
 
@@ -48,15 +48,11 @@ tags:
 - 删除子仓库
 
   1. 卸载子模块	`git submodule deinit <submodule_path>`
-
   2. 删除子模块目录   `git rm <submodule_path>`
+  3. `git add`
+  4. `git commit -m "Remove submodule <submodule_path>"`
 
-  3. ```java
-     git add .
-     git commit -m "Remove submodule <submodule_path>"
-     ```
-
-## 2. 复杂命令
+## 复杂命令
 
 - **git reset commitId** ：`head`指针移动到指定的commit，并且之前的HEAD ->commitId之间的所有修改的内容会**被置于工作区**，需要重新add、commit。
 
@@ -79,7 +75,7 @@ tags:
 > - 集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。中央服务器就好比是一个图书馆，你要改一本书，必须先从图书馆借出来，然后回到家自己改，改完了，再放回图书馆。
 > - 段落引用分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库，这样，你工作的时候，就不需要联网了，因为版本库就在你自己的电脑上。既然每个人电脑上都有一个完整的版本库，那多个人如何协作呢？比方说你在自己电脑上改了文件A，你的同事也在他的电脑上改了文件A，这时，你们俩之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。
 
-Git 更像是把数据看作是对小型文件系统的一系列快照。 在 Git 中，每当你提交更新或保存项目状态时，它基本上就会对当时的全部文件创建一个快照并保存这个快照的索引。 为了效率，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。 Git 对待 数据更像是一个 快照流。++这是 Git 与几乎所有其它版本控制系统的重要区别。++ 
+Git 更像是把数据看作是对小型文件系统的一系列快照。 在 Git 中，每当你提交更新或保存项目状态时，它基本上就会对当时的全部文件创建一个快照并保存这个快照的索引。 为了效率，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。 Git 对待 数据更像是一个 快照流。++这是 Git 与几乎所有其它版本控制系统的重要区别。
 ![存储项目随时间改变的快照.png](/upload/2022/02/%E5%AD%98%E5%82%A8%E9%A1%B9%E7%9B%AE%E9%9A%8F%E6%97%B6%E9%97%B4%E6%94%B9%E5%8F%98%E7%9A%84%E5%BF%AB%E7%85%A7-2494d6dda12142d58eef358e12fa39a8.png)
 
 Git 有三种状态，你的文件可能处于其中之一: 已提交(committed)、已修改(modified) 和 已暂存(staged)。
@@ -108,7 +104,7 @@ git config --global user.email johndoe@example.com
 git config --list
 ```
 # 创建本地仓库
-## 1. 新建仓库
+## 新建仓库
 
 ```bash
 $ git init
@@ -117,13 +113,15 @@ Initialized empty Git repository in D:/testgit/.git/
 //克隆一个仓库并命名为mylibgit
 $ git clone https://github.com/libgit2/libgit2 mylibgit
 ```
-## 2. 把新增文件添加仓库
+##  把新增文件添加仓库
+
 ```git add```告诉Git，把文件添加到仓库,```git add```后跟文件名或者```.```,```.```表示所有文件
 ```bash
 git add readme.txt
 git add .
 ```
-## 3. 文件提交到仓库
+## 文件提交到仓库
+
 ```bash
 $ git commit -m "test"
 [master (root-commit) 60bffb4] test
@@ -138,7 +136,8 @@ $ git commit -m "test"
 git checkout -- readme.txt
 ```
 意思就是，把readme.txt文件在工作区的修改全部撤销，就是让这个文件回到最近一次git commit或git add时的状态。
-## 4. 忽略文件
+##  忽略文件
+
 一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。 通常都是些自动生成的文 件，比如日志文件，或者编译过程中创建的临时文件等。 在这种情况下，我们可以创建一个名为 .gitignore 的文件，列出要忽略的文件的模式。 
 ```bash
 $ cat .gitignore
@@ -299,14 +298,16 @@ $ git rm --cached README
 git mv file_from file_to
 ```
 # 远程仓库
-## 1. 将本地仓库与远程仓库关联
+## 将本地仓库与远程仓库关联
+
 `git remote add <shortname> <url> `添加一个新的远程 Git 仓库，同时指定一个方便 使用的简写:
 ```bash
 git remote add origin git@github.com:spring-hao/git-study.git
 ```
 添加后，远程库的名字就是origin。
 
-## 2. 推送
+##  推送
+
 ```bash
 git push <remote> <branch>
 ```
@@ -316,7 +317,8 @@ git push <remote> <branch>
 
 由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
 
-## 3. 删除远程库
+##  删除远程库
+
 ```bash
 //查看已经配置的远程仓库服务器
 git remote -v
@@ -328,7 +330,8 @@ origin  git@github.com:michaelliao/learn-git.git (push)
 ```bash
 git remote rm origin
 ```
-## 4. 克隆远程库
+##  克隆远程库
+
 ```bash
 $ git clone git@github.com:michaelliao/gitskills.git
 
@@ -338,7 +341,8 @@ $ git fetch <remote>
 
 如果使用`clone`命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以`git fetch origin`会抓取克隆(或上一次抓取)后新推送的所有工作。必须注意`git fetch`命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。 
 
-## 5. 打标签
+##  打标签
+
 Git 可以给仓库历史中的某一个提交打上标签，以示重要。在Git中列出已有的标签非常简单，只需要输入git tag(可带上可选的-l选项--list):
 ```bash
 $ git tag
@@ -368,7 +372,8 @@ Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git
 
 > Git 的 master 分支并不是一个特殊分支。 它就跟其它分支完全没有区别。 之所以几乎每一 个仓库都有master分支，是因为git init命令默认创建它，并且大多数人都懒得去改动它。
 
-## 1. 创建与合并分支
+## 创建与合并分支
+
 > HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。[详细介绍](https://www.liaoxuefeng.com/wiki/896043488029600/900003767775424)
 
 创建dev分支，然后切换到dev分支：
@@ -416,7 +421,9 @@ Deleted branch dev (was b17d20e)
 > 由于 Git 的分支实质上仅是包含所指对象校验和(长度为 40 的 SHA-1 值字符串)的文件，所以它的创建和销毁 都异常高效。 创建一个新分支就相当于往一个文件中写入 41 个字节。
 这与过去大多数版本控制系统形成了鲜明的对比，它们在创建分支时，将所有的项目文件都复制一遍，并保存到一个特定的目录，所需时间的长短，完全取决于项目的规模。 而在 Git 中，任何规模的项目都能在瞬间创建新分支。同时，由于每次提交都会记录父对象，所以寻找恰当的合并基础(译注:即共同祖先)也是同样的简单和高效。 
 
-## 2. 遇到冲突时的分支合并
+## 遇到冲突时的分支合并
+
 如果你在两个不同的分支中，对同一个文件的同一个部分进行了不同的修改，Git 就没法干净的合并它们。
-## 3. 分支开发工作流
+##  分支开发工作流
+
 ![git工作流](/upload/2021/11/git%E5%B7%A5%E4%BD%9C%E6%B5%81-4e949255699145e2811f45967aa734d3.png)
