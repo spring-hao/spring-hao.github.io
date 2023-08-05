@@ -259,12 +259,26 @@ Kafka 使用 **Compact 策略**来删除位移主题中的过期消息，避免�
 
 Kafka 提供了专门的**后台线程**称为 Log Cleaner定期地巡检待 Compact 的主题，看看是否存在满足条件的可删除数据。
 
+#### 位移提交
+
 #### Rebalance
 
-Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下**所有**的 Consumer 实例都会在协调者组件的帮助下共同参与，因此在这个过程中所有的实例都不能消费消息。Rebalance的触发条件有三个：
+Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下**所有**的 Consumer 实例都会在协调者组件的帮助下共同参与，因此在这个过程中所有的实例都不能消费消息（stop the world）。协调者在 Kafka 中对应的术语是 Coordinator，它专门为 Consumer Group 服务，负责为 Group 执行 Rebalance 以及提供位移管理和组成员管理等。Consumer 端应用程序在提交位移时，其实是向 Coordinator 所在的 Broker 提交位移。同样地，当 Consumer 应用启动时，也是向 Coordinator 所在的 Broker 发送各种请求，然后由 Coordinator 负责执行消费者组的注册、成员管理记录等元数据管理操作。
 
+所有 Broker 在启动时，都会创建和开启相应的 Coordinator 组件。也就是说，**所有 Broker 都有各自的 Coordinator 组件**，消费者组通过以下算法定位为自己负责的 Coordinator 组件：
+
+1. 确定由位移主题的哪个分区来保存该 Group 数据：partitionId=Math.abs(groupId.hashCode() % offsetsTopicPartitionCount)；
+2. 找出该分区 Leader 副本所在的 Broker，该 Broker 即为对应的 Coordinator。
+
+Rebalance的触发条件有三个：
 1. **组成员数发生变更**。比如有新的 Consumer 实例加入组或者离开组，抑或是有 Consumer 实例崩溃被“踢出”组。
 2. **订阅主题数发生变更**。若Consumer Group 订阅所有以字母 t 开头、字母 c 结尾的主题，在 Consumer Group 的运行过程中，新创建了一个满足这样条件的主题，那么该 Group 就会发生 Rebalance。
 3. **订阅主题的分区数发生变更**。Kafka 当前只能允许增加一个主题的分区数。当分区数增加时，就会触发订阅该主题的所有 Group 开启 Rebalance。
 
-**在 Rebalance 过程中，所有 Consumer 实例都会停止消费，等待 Rebalance 完成，其次目前 Rebalance 的设计是所有 Consumer 实例共同参与，全部重新分配所有分区。**
+在 Rebalance 过程中，所有 Consumer 实例都会**停止消费**，等待 Rebalance 完成，其次目前 Rebalance 的设计是所有 Consumer 实例共同参与，**不考虑局部性原理**，全部重新分配所有分区。
+
+消费端有三个参数可能影响到Rebalance触发，实际上多数Rebalance发生都是这些原因，也是实际生产环境应该经历避免的。：
+
+1. 消费端有`session.timeout.ms`参数来控制心跳时间，超出时间没有进行心跳连接，Coordinator 就会认为该实例下线，进而进行Rebalance，推荐设置为6s
+2. Consumer 还提供了一个允许控制发送心跳请求频率的参数，就是`heartbeat.interval.ms`。这个值设置得越小，Consumer 实例发送心跳请求的频率就越高。频繁地发送心跳请求会额外消耗带宽资源，但**好处是能够更加快速地知晓当前是否开启 Rebalance**，因为，目前 Coordinator 通知各个 Consumer 实例开启 Rebalance 的方法，就是将 REBALANCE_NEEDED 标志封装进心跳请求的响应体中，推荐设置为2s，也就是判断下线应该至少经历三次心跳无反应。
+3. Consumer 端`max.poll.interval.ms`参数用于控制 Consumer 实际消费能力对 Rebalance 的影响。它限定了 Consumer 端应用程序两次调用 poll 方法的最大时间间隔，表示 Consumer 程序如果在指定时间内无法消费完 poll 方法返回的消息，那么 Consumer 会主动发起“离开组”的请求，Coordinator 也会开启新一轮 Rebalance。推荐根据下游消费逻辑消耗时间设置此值。
