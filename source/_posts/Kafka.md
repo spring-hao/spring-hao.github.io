@@ -261,7 +261,7 @@ Kafka 提供了专门的**后台线程**称为 Log Cleaner定期地巡检待 Com
 
 #### Rebalance
 
-Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下所有的 Consumer 实例都会协调在一起共同参与。Rebalance的触发条件有三个：
+Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下**所有**的 Consumer 实例都会在协调者组件的帮助下共同参与，因此在这个过程中所有的实例都不能消费消息。Rebalance的触发条件有三个：
 
 1. **组成员数发生变更**。比如有新的 Consumer 实例加入组或者离开组，抑或是有 Consumer 实例崩溃被“踢出”组。
 2. **订阅主题数发生变更**。若Consumer Group 订阅所有以字母 t 开头、字母 c 结尾的主题，在 Consumer Group 的运行过程中，新创建了一个满足这样条件的主题，那么该 Group 就会发生 Rebalance。
