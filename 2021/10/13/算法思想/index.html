@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wixhz.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="十大经典排序算法  1. 冒泡排序冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。 123456789101112131415161718function bubbleSort(arr) &amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法思想">
+<meta property="og:url" content="https://wixhz.github.io/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="十大经典排序算法  1. 冒泡排序冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。 123456789101112131415161718function bubbleSort(arr) &amp;#1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wixhz.github.io/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6-771dd4ec27c24ec3af073bf57b82c2f1.png">
+<meta property="article:published_time" content="2021-10-13T01:52:57.358Z">
+<meta property="article:modified_time" content="2022-06-20T09:46:35.975Z">
+<meta property="article:author" content="Hao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wixhz.github.io/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6-771dd4ec27c24ec3af073bf57b82c2f1.png">
+
+
+<link rel="canonical" href="https://wixhz.github.io/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wixhz.github.io/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/","path":"2021/10/13/算法思想/","title":"算法思想"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>算法思想 | </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title"></p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">十大经典排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">1.1.</span> <span class="nav-text">1. 冒泡排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">2. 选择排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">1.3.</span> <span class="nav-text">3. 插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="nav-number">1.4.</span> <span class="nav-text">4. 希尔排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">1.5.</span> <span class="nav-text">5. 归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">1.6.</span> <span class="nav-text">6. 快速排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2"><span class="nav-number">2.</span> <span class="nav-text">二分搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AF%BB%E6%89%BE%E5%B7%A6%E4%BE%A7%E8%BE%B9%E7%95%8C%E7%9A%84%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2"><span class="nav-number">2.1.</span> <span class="nav-text">1. 寻找左侧边界的二分搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#while%E5%BE%AA%E7%8E%AF%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.1.1.</span> <span class="nav-text">while循环的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E5%88%A4%E6%96%AD"><span class="nav-number">2.1.2.</span> <span class="nav-text">边界判断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AF%BB%E6%89%BE%E5%8F%B3%E4%BE%A7%E8%BE%B9%E7%95%8C%E7%9A%84%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="nav-number">2.2.</span> <span class="nav-text">2. 寻找右侧边界的二分查找</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95-DFS"><span class="nav-number">3.</span> <span class="nav-text">回溯算法(DFS)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BFS%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">BFS算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">5.</span> <span class="nav-text">动态规划</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">贪心算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">分治算法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hao</p>
+  <div class="site-description" itemprop="description">韶光易逝，劝君惜取少年时</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="算法思想 | null">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法思想
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-13 09:52:57" itemprop="dateCreated datePublished" datetime="2021-10-13T09:52:57+08:00">2021-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-06-20 17:46:35" itemprop="dateModified" datetime="2022-06-20T17:46:35+08:00">2022-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="十大经典排序算法"><a href="#十大经典排序算法" class="headerlink" title="十大经典排序算法"></a>十大经典排序算法</h1><img src="/2021/10/13/%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6-771dd4ec27c24ec3af073bf57b82c2f1.png" class="" title="算法复杂度.png">
+
+<h2 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1. 冒泡排序"></a>1. 冒泡排序</h2><p>冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function <span class="title function_">bubbleSort</span><span class="params">(arr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">	<span class="comment">// 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; len - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j+<span class="number">1</span>]) &#123;        <span class="comment">// 相邻元素两两对比</span></span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> arr[j+<span class="number">1</span>];        <span class="comment">// 元素交换</span></span><br><span class="line">                arr[j+<span class="number">1</span>] = arr[j];</span><br><span class="line">                arr[j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">	<span class="keyword">if</span> (flag) &#123;</span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在比较交换的时候可以让相同的元素不发生交换，因此冒泡是一个稳定的排序算法。但是每次交换冒泡需要赋值三次，效率不如其他算法。</p>
+<h2 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2. 选择排序"></a>2. 选择排序</h2><p>选择排序(Selection-sort)是一种简单直观的排序算法。它的工作原理：首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function <span class="title function_">selectionSort</span><span class="params">(arr)</span> &#123;</span><br><span class="line">    <span class="type">var</span> <span class="variable">len</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="keyword">var</span> minIndex, temp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">var</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        minIndex = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">var</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt; arr[minIndex]) &#123;     <span class="comment">// 寻找最小的数</span></span><br><span class="line">                minIndex = j;                 <span class="comment">// 将最小数的索引保存</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        temp = arr[i];</span><br><span class="line">        arr[i] = arr[minIndex];</span><br><span class="line">        arr[minIndex] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>选择排序每次都要找剩余未排序元素中的最小值，并和前面的元素交换位置，这样破坏了稳定性。</p>
+<h2 id="3-插入排序"><a href="#3-插入排序" class="headerlink" title="3. 插入排序"></a>3. 插入排序</h2><p>插入排序（Insertion-Sort）的算法描述是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertionSort</span><span class="params">(<span class="type">int</span>[] a, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> a[i];</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// 查找插入的位置</span></span><br><span class="line">        <span class="keyword">for</span> (; j &gt;= <span class="number">0</span>; --j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &gt; value) &#123;</span><br><span class="line">                a[j + <span class="number">1</span>] = a[j]; <span class="comment">// 数据移动</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j + <span class="number">1</span>] = value; <span class="comment">// 插入数据</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>插入排序在移动元素的时候只需一次，因此它的效率比冒泡要好，同时也是一种稳定的排序算法。</p>
+<h2 id="4-希尔排序"><a href="#4-希尔排序" class="headerlink" title="4. 希尔排序"></a>4. 希尔排序</h2><p>希尔排序，也称缩小增量排序，是插入排序的一种更高效的改进版本。但希尔排序是非稳定排序算法。希尔排序的基本思想是：先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，待整个序列中的记录”基本有序”时，再对全体记录进行依次直接插入排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function <span class="title function_">shellSort</span><span class="params">(arr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="type">int</span> temp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">step</span> <span class="operator">=</span> length / <span class="number">2</span>; step &gt;= <span class="number">1</span>; step /= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> step; i &lt; length; i++) &#123;</span><br><span class="line">            temp = arr[i];</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i - step;</span><br><span class="line">            <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; arr[j] &gt; temp) &#123;</span><br><span class="line">                arr[j + step] = arr[j];</span><br><span class="line">                j -= step;</span><br><span class="line">            &#125;</span><br><span class="line">            arr[j + step] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5. 归并排序"></a>5. 归并排序</h2><p>归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。<strong>分治是一种解决问题的处理思想，递归是一种编程技巧</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function <span class="title function_">mergeSort</span><span class="params">(arr)</span> &#123;</span><br><span class="line">    <span class="type">var</span> <span class="variable">len</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="keyword">if</span> (len &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">var</span> <span class="variable">middle</span> <span class="operator">=</span> Math.floor(len / <span class="number">2</span>),</span><br><span class="line">        left = arr.slice(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.slice(middle);</span><br><span class="line">    <span class="keyword">return</span> merge(mergeSort(left), mergeSort(right));</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">function <span class="title function_">merge</span><span class="params">(left, right)</span> &#123;</span><br><span class="line">    <span class="type">var</span> <span class="variable">result</span> <span class="operator">=</span> [];</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span> (left.length&gt;<span class="number">0</span> &amp;&amp; right.length&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (left[<span class="number">0</span>] &lt;= right[<span class="number">0</span>]) &#123;</span><br><span class="line">            result.push(left.shift());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result.push(right.shift());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span> (left.length)</span><br><span class="line">        result.push(left.shift());</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span> (right.length)</span><br><span class="line">        result.push(right.shift());</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>归并排序稳不稳定关键要看merge() 函数，在合并的过程中，如果<code>A[p…q]</code>和<code>A[q+1…r]</code>之间有值相同的元素，可以先把<code>A[p…q]</code>中的元素放入 tmp 数组。这样就保证了值相同的元素，在合并前后的先后顺序不变。所以，<strong>归并排序是一个稳定的排序算法</strong>。</p>
+<p>归并排序的执行效率与要排序的原始数组的有序程度无关，所以其时间复杂度是非常稳定的，**不管是最好情况、最坏情况，还是平均情况，时间复杂度都是 O(nlogn)<strong>。实际上，递归代码的空间复杂度并不能像时间复杂度那样累加。尽管每次合并操作都需要申请额外的内存空间，但在合并完成之后，临时开辟的内存空间就被释放掉了。在任意时刻，CPU 只会有一个函数在执行，也就只会有一个临时的内存空间在使用。临时内存空间最大也不会超过 n 个数据的大小，所以</strong>空间复杂度是 O(n)**。</p>
+<h2 id="6-快速排序"><a href="#6-快速排序" class="headerlink" title="6. 快速排序"></a>6. 快速排序</h2><p>快速排序的基本思想：通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] sortArray(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">        quicksort(nums,<span class="number">0</span>,nums.length-<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">quicksort</span><span class="params">(<span class="type">int</span>[] nums,<span class="type">int</span> left,<span class="type">int</span> right)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(left&gt;=right) <span class="keyword">return</span>;</span><br><span class="line">        <span class="type">int</span> index=help(nums,left,right);</span><br><span class="line">        quicksort(nums,left,index-<span class="number">1</span>);</span><br><span class="line">        quicksort(nums,index+<span class="number">1</span>,right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">help</span><span class="params">(<span class="type">int</span>[] nums,<span class="type">int</span> left,<span class="type">int</span> right)</span>&#123;</span><br><span class="line">        <span class="type">int</span> t=nums[right];</span><br><span class="line">        <span class="type">int</span> index=left;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=left;i&lt;right;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&lt;t)&#123;</span><br><span class="line">                swap(nums,index,i);</span><br><span class="line">                index++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        swap(nums,index,right);</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span>[] nums,<span class="type">int</span> a,<span class="type">int</span> b)</span>&#123;</span><br><span class="line">        <span class="type">int</span> t=nums[a];</span><br><span class="line">        nums[a]=nums[b];</span><br><span class="line">        nums[b]=t;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>因为分区的过程涉及交换操作，如果数组中有两个相同的元素在经过第一次分区操作之后，两个元素的相对先后顺序就会改变。所以，快速排序并不是一个稳定的排序算法。</p>
+<p>如果数组中的数据原来已经是有序的了，比如 1，3，5，6，8。如果每次选择最后一个元素作为 pivot，那每次分区得到的两个区间都是不均等的。需要进行大约 n 次分区操作，才能完成快排的整个过程。每次分区我们平均要扫描大约 n&#x2F;2 个元素，这种情况下，快排的时间复杂度就从 O(nlogn) 退化成了 O(n^2)。</p>
+<h1 id="二分搜索"><a href="#二分搜索" class="headerlink" title="二分搜索"></a>二分搜索</h1><h2 id="1-寻找左侧边界的二分搜索"><a href="#1-寻找左侧边界的二分搜索" class="headerlink" title="1. 寻找左侧边界的二分搜索"></a>1. 寻找左侧边界的二分搜索</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">left_bound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// 搜索区间为 [left, right]</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            <span class="comment">// 搜索区间变为 [mid+1, right]</span></span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">            <span class="comment">// 搜索区间变为 [left, mid-1]</span></span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            <span class="comment">// 收缩右侧边界</span></span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 检查出界情况</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong> :</p>
+<ol>
+<li><code>left + (right - left) / 2</code>和<code>(left + right) / 2</code>的结果相同，但是有效防止了 left 和 right 太大直接相加导致溢出。</li>
+<li>左右边界，mid，取值。</li>
+</ol>
+<h3 id="while循环的条件"><a href="#while循环的条件" class="headerlink" title="while循环的条件"></a>while循环的条件</h3><p>初始化 right 的赋值是 nums.length - 1，即最后一个元素的索引，而不是 nums.length。</p>
+<p>这二者可能出现在不同功能的二分查找中，区别是：前者相当于两端都闭区间 [left, right]，这个区间其实就是每次进行搜索的区间。后者相当于左闭右开区间 [left, right)，因为索引大小为 nums.length 是越界的。</p>
+<h3 id="边界判断"><a href="#边界判断" class="headerlink" title="边界判断"></a>边界判断</h3><p>由于 while 的退出条件是 left &#x3D;&#x3D; right + 1，区间的形式就是 [right + 1, right]，所以当 target 比 nums 中所有元素都大时，会存在以下情况使得索引越界,因此，最后返回结果的代码应该检查越界情况</p>
+<h2 id="2-寻找右侧边界的二分查找"><a href="#2-寻找右侧边界的二分查找" class="headerlink" title="2. 寻找右侧边界的二分查找"></a>2. 寻找右侧边界的二分查找</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">right_bound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            <span class="comment">// 这里改成收缩左侧边界即可</span></span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这里改为检查 right 越界的情况</span></span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="回溯算法-DFS"><a href="#回溯算法-DFS" class="headerlink" title="回溯算法(DFS)"></a>回溯算法(DFS)</h1><p>回溯算法其实就是<strong>DFS</strong>算法，本质上就是一种暴力穷举算法。采用试错的思想，尝试分步的去解决问题。在分步解决问题的过程中，它通过尝试发现现有的分步答案不能得到有效的正确的解答的时候，它将取消上一步甚至是上几步的计算，再通过其它的可能的分步解答再次尝试寻找问题的答案。代码框架如下所示：</p>
+<ol>
+<li><p>路径：也就是已经做出的选择。</p>
+</li>
+<li><p>选择列表：也就是你当前可以做的选择。</p>
+</li>
+<li><p>结束条件：也就是到达决策树底层，无法再做选择的条件。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">result = []</span><br><span class="line">def <span class="title function_">backtrack</span><span class="params">(路径, 选择列表)</span>:</span><br><span class="line">    <span class="keyword">if</span> 满足结束条件:</span><br><span class="line">        result.add(路径)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> 选择 in 选择列表:</span><br><span class="line">        做选择</span><br><span class="line">        backtrack(路径, 选择列表)</span><br><span class="line">        撤销选择</span><br></pre></td></tr></table></figure>
+<p>要在递归之前做出选择，<strong>在递归之后撤销刚才的选择</strong>，就能正确得到每个节点的选择列表和路径。</p>
+<h1 id="BFS算法"><a href="#BFS算法" class="headerlink" title="BFS算法"></a>BFS算法</h1><p>把一些问题抽象成图,本质就是在一幅<strong>图</strong>中找到从起点 start 到终点 target 的<strong>最近距离</strong>，但是空间复杂度高，而 DFS 的空间复杂度较低。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算从起点 start 到终点 target 的最近距离</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">BFS</span><span class="params">(Node start, Node target)</span> &#123;</span><br><span class="line">    Queue&lt;Node&gt; q; <span class="comment">// 核心数据结构</span></span><br><span class="line">    Set&lt;Node&gt; visited; <span class="comment">// 避免走回头路</span></span><br><span class="line">    </span><br><span class="line">    q.offer(start); <span class="comment">// 将起点加入队列</span></span><br><span class="line">    visited.add(start);</span><br><span class="line">    <span class="type">int</span> <span class="variable">step</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 记录扩散的步数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (q not empty) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sz</span> <span class="operator">=</span> q.size();</span><br><span class="line">        <span class="comment">/* 将当前队列中的所有节点向四周扩散 */</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; sz; i++) &#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">cur</span> <span class="operator">=</span> q.poll();</span><br><span class="line">            <span class="comment">/* 划重点：这里判断是否到达终点 */</span></span><br><span class="line">            <span class="keyword">if</span> (cur is target)</span><br><span class="line">                <span class="keyword">return</span> step;</span><br><span class="line">            <span class="comment">/* 将 cur 的相邻节点加入队列 */</span></span><br><span class="line">            <span class="keyword">for</span> (Node x : cur.adj())</span><br><span class="line">                <span class="keyword">if</span> (x not in visited) &#123;</span><br><span class="line">                    q.offer(x);</span><br><span class="line">                    visited.add(x);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* 划重点：更新步数在这里 */</span></span><br><span class="line">        step++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>cur.adj()</code> 泛指 cur 相邻的节点，比如说二维数组中，cur 上下左右四面的位置就是相邻节点；<code>visited</code> 的主要作用是防止走回头路，大部分时候都是必须的，但是像一般的二叉树结构，没有子节点到父节点的指针，不会走回头路就不需要 visited</p>
+<h1 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h1><p>动态规划问题的一般形式就是求最值，核心问题是穷举。动态规划存在重叠子问题和最优子结构，可以通过dp数组来进行剪枝优化，最后写出状态转移方程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 初始化 base <span class="keyword">case</span></span><br><span class="line">dp[<span class="number">0</span>][<span class="number">0</span>][...] = base</span><br><span class="line"># 进行状态转移</span><br><span class="line"><span class="keyword">for</span> 状态<span class="number">1</span> in 状态<span class="number">1</span>的所有取值：</span><br><span class="line">    <span class="keyword">for</span> 状态<span class="number">2</span> in 状态<span class="number">2</span>的所有取值：</span><br><span class="line">        <span class="keyword">for</span> ...</span><br><span class="line">            dp[状态<span class="number">1</span>][状态<span class="number">2</span>][...] = 求最值(选择<span class="number">1</span>，选择<span class="number">2.</span>..)</span><br></pre></td></tr></table></figure>
+
+<h1 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h1><p>贪心算法是动态规划算法的一个特例，相比动态规划，使用贪心算法需要满足更多的条件（贪心选择性质），但是效率比动态规划要高。</p>
+<p>++贪心选择性质：每一步都做出一个局部最优的选择，最终的结果就是全局最优。++</p>
+<h1 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h1><p>分治算法通过将原问题分解成小规模的子问题，然后根据子问题的结果构造出原问题的答案。分治算法也需要满足一些条件，原问题结果应可以通过合并子问题结果来计算。</p>
+<ol>
+<li>不思考整体，而是把目光聚焦局部</li>
+<li>明确递归函数的定义是什么，相信并且利用好函数的定义</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/09/SQL%20%E8%AF%AD%E6%B3%95/" rel="prev" title="SQL 语法">
+                  <i class="fa fa-angle-left"></i> SQL 语法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/20/Docker/" rel="next" title="Docker">
+                  Docker <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hao</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

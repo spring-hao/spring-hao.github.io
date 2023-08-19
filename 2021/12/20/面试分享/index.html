@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wixhz.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="http与httpshttp的缺点：  通信使用明文（不加密），内容可能会被窃听 不验证通信方的身份，因此有可能遭遇伪装 无法证明报文的完整性，所以有可能已遭篡改  用 SSL建立安全通信线路之后，就可以在这条线路上进行HTTP通信了。HTTP+ 加密 + 认证 + 完整性保护&#x3D;HTTPS，简言之，所谓 HTTPS，其实就是身披SSL协议这层外壳的 HTTP。 加密方式：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试分享">
+<meta property="og:url" content="https://wixhz.github.io/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="http与httpshttp的缺点：  通信使用明文（不加密），内容可能会被窃听 不验证通信方的身份，因此有可能遭遇伪装 无法证明报文的完整性，所以有可能已遭篡改  用 SSL建立安全通信线路之后，就可以在这条线路上进行HTTP通信了。HTTP+ 加密 + 认证 + 完整性保护&#x3D;HTTPS，简言之，所谓 HTTPS，其实就是身披SSL协议这层外壳的 HTTP。 加密方式：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wixhz.github.io/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/https%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-a4d70d3bf2534a4cb742d08f83206e39.png">
+<meta property="article:published_time" content="2021-12-20T03:32:48.885Z">
+<meta property="article:modified_time" content="2022-08-10T09:37:15.802Z">
+<meta property="article:author" content="Hao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wixhz.github.io/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/https%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-a4d70d3bf2534a4cb742d08f83206e39.png">
+
+
+<link rel="canonical" href="https://wixhz.github.io/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wixhz.github.io/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/","path":"2021/12/20/面试分享/","title":"面试分享"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>面试分享 | </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title"></p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#http%E4%B8%8Ehttps"><span class="nav-number">1.</span> <span class="nav-text">http与https</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie%E5%92%8Csession"><span class="nav-number">2.</span> <span class="nav-text">cookie和session</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http%E7%8A%B6%E6%80%81%E7%A0%81%E5%90%AB%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">http状态码含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AD%BB%E9%94%81"><span class="nav-number">4.</span> <span class="nav-text">数据库死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring%E7%9A%84aop%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">5.</span> <span class="nav-text">spring的aop是什么？如何实现的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">6.</span> <span class="nav-text">面向对象的设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F%E5%8F%AF%E4%BB%A5%E6%98%AFGC-root-%E5%90%97"><span class="nav-number">7.</span> <span class="nav-text">实例变量可以是GC root 吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mybatis-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.</span> <span class="nav-text">Mybatis # 和 $ 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql"><span class="nav-number">9.</span> <span class="nav-text">mysql</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hao</p>
+  <div class="site-description" itemprop="description">韶光易逝，劝君惜取少年时</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="面试分享 | null">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面试分享
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-12-20 11:32:48" itemprop="dateCreated datePublished" datetime="2021-12-20T11:32:48+08:00">2021-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-08-10 17:37:15" itemprop="dateModified" datetime="2022-08-10T17:37:15+08:00">2022-08-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="http与https"><a href="#http与https" class="headerlink" title="http与https"></a>http与https</h2><p><strong>http的缺点：</strong></p>
+<ul>
+<li>通信使用明文（不加密），内容可能会被窃听</li>
+<li>不验证通信方的身份，因此有可能遭遇伪装</li>
+<li>无法证明报文的完整性，所以有可能已遭篡改</li>
+</ul>
+<p>用 SSL建立<strong>安全通信线路</strong>之后，就可以在这条线路上进行HTTP通信了。<br><strong>HTTP+ 加密 + 认证 + 完整性保护&#x3D;HTTPS</strong>，简言之，所谓 HTTPS，其实就是身披SSL协议这层外壳的 HTTP。</p>
+<p><strong>加密方式：</strong></p>
+<ul>
+<li>加密和解密同用一个密钥的方式称为共享密钥加密，也被叫做<strong>对称加密</strong>。</li>
+<li>公开密钥加密使用一对<strong>非对称</strong>的密钥。一把叫做私有密钥，另一把叫做公开密钥。顾名思义，私有密钥不能让其他任何人知道，而公开密钥则可以随意发布，任何人都可以获得。</li>
+</ul>
+<p>HTTPS 采用共享密钥加密和公开密钥加密两者并用的混合加密机制。</p>
+<p>公开密钥加密方式还是存在一些问题的，那就是无法证明公开密钥本身就是货真价实的公开密钥。为了解决上述问题，可以使用由数字证书认证机构和其相关机关颁发的公开密钥证书。</p>
+<img src="/2021/12/20/%E9%9D%A2%E8%AF%95%E5%88%86%E4%BA%AB/https%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-a4d70d3bf2534a4cb742d08f83206e39.png" class="" title="https非对称加密.png">
+<p>首先服务器把经过认证机构的公开密钥发送给客户端，客户端对接收到的密钥进行验证，接着使用该密钥把对称加密的密钥加密后发送给服务器，接下来的通信过程都使用对称加密进行。</p>
+<h2 id="cookie和session"><a href="#cookie和session" class="headerlink" title="cookie和session"></a>cookie和session</h2><blockquote>
+<p>转载 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/ityouknow/p/10856177.html">cookie和session</a></p>
+</blockquote>
+<p>HTTP Cookie（也叫 Web Cookie或浏览器 Cookie）是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。通常，它用于告知服务端两个请求是否来自同一浏览器，如保持用户的登录状态。Cookie 使基于无状态的 HTTP 协议记录稳定的状态信息成为了可能。</p>
+<p>Cookie 主要用于以下三个方面：</p>
+<ul>
+<li>会话状态管理（如用户登录状态、购物车、游戏分数或其它需要记录的信息）</li>
+<li>个性化设置（如用户自定义设置、主题等）</li>
+<li>浏览器行为跟踪（如跟踪分析用户行为等）</li>
+</ul>
+<p>Session 代表着服务器和客户端一次会话的过程。Session 对象存储特定用户会话所需的属性及配置信息。这样，当用户在应用程序的 Web 页之间跳转时，存储在 Session 对象中的变量将不会丢失，而是在整个用户会话中一直存在下去。当客户端关闭会话，或者 Session 超时失效时会话结束。</p>
+<h2 id="http状态码含义"><a href="#http状态码含义" class="headerlink" title="http状态码含义"></a>http状态码含义</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b58025e61b2d">状态码</a></p>
+</blockquote>
+<h2 id="数据库死锁"><a href="#数据库死锁" class="headerlink" title="数据库死锁"></a>数据库死锁</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_16681169/article/details/74784193">数据库死锁解决</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wezheng/p/8366029.html">https://www.cnblogs.com/wezheng/p/8366029.html</a></p>
+</blockquote>
+<h2 id="spring的aop是什么？如何实现的"><a href="#spring的aop是什么？如何实现的" class="headerlink" title="spring的aop是什么？如何实现的"></a>spring的aop是什么？如何实现的</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/framework/spring/spring-knowledge-and-questions-summary/#%E8%B0%88%E8%B0%88%E8%87%AA%E5%B7%B1%E5%AF%B9%E4%BA%8E-aop-%E7%9A%84%E4%BA%86%E8%A7%A3">aop</a></p>
+</blockquote>
+<h2 id="面向对象的设计原则"><a href="#面向对象的设计原则" class="headerlink" title="面向对象的设计原则"></a>面向对象的设计原则</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/songgj/p/11297016.html">设计原则</a></p>
+</blockquote>
+<h2 id="实例变量可以是GC-root-吗"><a href="#实例变量可以是GC-root-吗" class="headerlink" title="实例变量可以是GC root 吗"></a>实例变量可以是GC root 吗</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/129607250">什么是被 GC Roots 直接引用的对象</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38007185/article/details/108093716">GC Roots 是什么</a></p>
+</blockquote>
+<h2 id="Mybatis-和-的区别"><a href="#Mybatis-和-的区别" class="headerlink" title="Mybatis # 和 $ 的区别"></a>Mybatis # 和 $ 的区别</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904017269620744">Mybatis中#{}与${}的区别</a></p>
+</blockquote>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><p>1.MySQL事物有哪些特性?</p>
+<p>2.简述一下MySQL事务两阶段提交的过程及故障恢复的过程？</p>
+<p>3.MySQL事物隔离级别有哪几种？分别有哪些特性</p>
+<p>4.描述一下MVCC的原理</p>
+<p>5.InnoDB引擎有哪些特性及原理是什么</p>
+<p>6.描述一下InnoDB Buffer  pool的工作机制以及有哪些逻辑链表，其中LRU链表的算法的原理是什么</p>
+<p>7.描述一下Index Condition Pushdown(ICP)、Multi-Range Read (MRR)的原理及适用的场景</p>
+<p>8.描述一下B树及B+树各自的优缺点？</p>
+<p>9.什么情况下MySQL的索引”失效”不可用？</p>
+<p>10.举几个你遇到的MySQL中的隐式转换案例</p>
+<p>11.描述一下一条update sql语句在MySQL内部执行的过程？</p>
+<p>12.MySQL执行sql时一个表只能用到一个索引吗？</p>
+<p>13.描述一下MySQL多表关联中Join的算法的原理</p>
+<p>14.MySQL常用的SQL调优手段或工具有哪些？</p>
+<p>15.MySQL的启动方式有哪些？ 这几种启动方式间有什么关系</p>
+<p>16.MySQL为什么需要设置双1才能保证主从数据的一致性？</p>
+<p>17.描述一下主从复制模式after_sync与after_commit的原理及优缺点</p>
+<p>18.描述一下主从复制的原理及SQL_thread对索引的利用</p>
+<p>19.如果线上从库延迟时间太久，如何快速恢复延迟</p>
+<p>20.show slave status状态中second behind计算方式</p>
+<p>21.主从复制线程均正常（为Yes，也没报错），Master的binlog已到binlog.00080，但slave上看到Master_Log_File却只到binlog.00070，可能的原因有哪些?</p>
+<p>22.在主从服务器上，同一个表的表空间文件大小相差特别大，可能原因是什么，怎么解决？</p>
+<p>23.描述一下MySQL并行复制的原理及5.6、5.7版本并行复制的区别</p>
+<p>24.MySQL GTID工作原理及不支持的操作</p>
+<p>25.MHA、MGR、PXC各自的优缺点及使用场景，简述一下MGR的数据同步原理</p>
+<p>26.创建表的各种规范</p>
+<p>27.MySQL 数据库CPU使用率突然升到100%该如何处理</p>
+<p>28.MySQL有哪些行锁，是如何解决幻读的？</p>
+<p>29.explain出来的各种item的意义</p>
+<p>30.用xtrabackup做mysql物理备份，建议授予哪些权限？</p>
+<p>31.监控MySQL的性能，应该主要观察那几个监控项？</p>
+<p>32 MySQL 8.0有哪些新特性？</p>
+<p>33.项目选型中确定要使用MySQL，你做为MySQL DBA需要准备什么?</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/11/JUC/" rel="prev" title="JUC">
+                  <i class="fa fa-angle-left"></i> JUC
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/12/29/java%E5%AE%B9%E5%99%A8/" rel="next" title="java容器">
+                  java容器 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hao</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
