@@ -267,7 +267,7 @@ Human human = (new Random()).nextBoolean() ? new Man() : new Woman();//父类指
 - 运行时异常：运行时异常程序员导致的异常。即使不处理此类异常也可以正常通过编译，并不强制进行显示处理
 
 ## 异常的结构
-![Java异常类层次结构图.png](/upload/2021/10/Java%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%9B%BE-c444dd42d5db472bb4c305f9281e7b15.png)
+![Java异常类层次结构图.png](Java基础/Java异常类层次结构图-c444dd42d5db472bb4c305f9281e7b15.png)
 
 `RuntimeException`及其子类都统称为非受检性异常，例如：`NullPointerException`、`NumberFormatException`（字符串转换为数字）、`ArrayIndexOutOfBoundsException`（数组越界）、`ClassCastException`（类型转换错误）、`ArithmeticException`（算术错误）等
 

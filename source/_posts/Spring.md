@@ -228,11 +228,11 @@ public interface FactoryBean<T> {
 
 是ApplicationContext的父接口，是spring的核心容器。实际上的控制反转、依赖注入、Bean生命周期的各种功能都由它的实现类提供。
 
-![image-20220325104441524](/upload/2022/04/image-20220325104441524.png)
+![image-20220325104441524](Spring/image-20220325104441524.png)
 
 BeanFactory的主要实现类
 
-![image-20220325104702467](/upload/2022/04/image-20220325104702467.png)
+![image-20220325104702467](Spring/image-20220325104702467.png)
 
 #### ApplicationContext
 BeanFactory是底层的IOC容器，ApplicationContext是 BeanFactory 的子接口。它组合并扩展了 BeanFactory 的功能，不仅仅是继承关系，如：
@@ -274,7 +274,7 @@ BeanFactory是底层的IOC容器，ApplicationContext是 BeanFactory 的子接�
 
   
 
-![image-20220325110338651](/upload/2022/04/image-20220325110338651.png)
+![image-20220325110338651](Spring/image-20220325110338651.png)
 
 
 ### 容器实现
@@ -933,6 +933,7 @@ HandlerAdapter--控制器实现有多种
 ```
 
 # spring事件
+
 Spring提供了事件机制，其本质是JDK提供的事件机制的应用，利用的是观察者设计模式。
 在一个完整的事件体系中存在以下的角色：
 1. 事件：描述发生了什么事情、比如说请求处理完成、Spring 容器刷新完毕
@@ -940,7 +941,8 @@ Spring提供了事件机制，其本质是JDK提供的事件机制的应用，�
 3. 事件广播器：事件和事件监听器的桥梁、负责把事件通知给事件监听器
 4. 事件监听器：监听事件的发生、可以在监听器中做一些处理
 
-### 事件
+## 事件
+
 常见的事件可能就是 ApplicationContextEvent ，抽象类，继承了JDK的EventObject接口，起到包装事件源的作用。它的子类 ContextRefreshedEvent 是常见的事件类型、在 Spring 将所有非延迟加载的 bean 实例化之后发布。
 ```java
 public abstract class ApplicationEvent extends EventObject {
@@ -972,7 +974,8 @@ public abstract class ApplicationEvent extends EventObject {
 }
 ```
 
-### 监听器
+## 监听器
+
 ApplicationListener可以通用地声明它感兴趣的事件类型。当在Spring ApplicationContext中注册时，事件将被相应地过滤，只有匹配的事件对象才会调用侦听器
 ```java
 public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
@@ -986,9 +989,10 @@ public interface ApplicationListener<E extends ApplicationEvent> extends EventLi
 }
 ```
 
-
 # 用法
-### 1. 启动之后直接执行某一段代码
+
+## 启动之后直接执行某一段代码
+
 ```java
 @Component  //此类要交给spring管理
 @Order(value=1) //首先执行
@@ -1001,7 +1005,8 @@ public class ConsumerRunner implements ApplicationRunner{
 	}
 }
 ```
-### 2. 注入Application容器
+## 注入Application容器
+
 两种方式：
 1. 实现ApplicationContextAware接口
 2. @Autowired ApplicationContext

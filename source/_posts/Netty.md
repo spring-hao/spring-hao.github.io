@@ -34,7 +34,7 @@ channel是读写数据的**双向通道**，连接要读取的文件和内存，
 #### 2. Selector
 selector的作用就是配合一个线程来管理多个channel，获取这些channel上发生的事件。这些channel工作在非阻塞模式下，不会让线程吊死在一个channel上。适合连接数多，但流量低的场景。
 
-![selector](/upload/2022/11/selector.png)
+![selector](Netty/selector.png)
 
 调用selector的select()会阻塞直到channel发生了读写就绪事件
 
@@ -185,7 +185,7 @@ ByteBuf buffer = ByteBufAllocator.DEFAULT.directBuffer(10);
 
 ByteBuf 由四部分组成
 
-![ByteBuf ](/upload/2022/12/0010.png)
+![ByteBuf ](Netty/0010.png)
 
 方法列表：
 

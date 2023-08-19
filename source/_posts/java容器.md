@@ -14,7 +14,7 @@ tags:
 
 ## Collection
 
-![image-20210914185116246](/upload/2021/09/image-20210914185116246-fbc941bd2cb249e5af06169021c82c74.png)
+![image-20210914185116246](java容器/image-20210914185116246-fbc941bd2cb249e5af06169021c82c74.png)
 
 ### 1. Set(无序的、不可重复的)
 
@@ -45,7 +45,7 @@ public static <T> List<T> asList(T... a)
 
 ## Map
 
-![map](/upload/2021/09/map-5cf72e426f3e4eecb9188f54c5a25f0a.png)
+![map](java容器/map-5cf72e426f3e4eecb9188f54c5a25f0a.png)
 
 - TreeMap：基于红黑树实现。
 - HashMap
@@ -402,7 +402,8 @@ final Node<K,V> getNode(int hash, Object key) {
 ```
 
 ### put
-![HashMap的put方法.png](/upload/2021/12/HashMap%E7%9A%84put%E6%96%B9%E6%B3%95-8433688f12514189a606a099192540fa.png)
+
+![HashMap的put方法.png](java容器/HashMap的put方法-8433688f12514189a606a099192540fa.png)
 1. 如果定位到的数组位置没有元素 就直接插入。
 2. 如果定位到的数组位置有元素就和要插入的 key 比较，如果 key 相同就直接覆盖，如果 key 不相同，就判断 p 是否是一个树节点，如果是就调用红黑树插入方法`e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value)`，如果不是就遍历链表插入(插入的是链表尾部)。
 
@@ -608,7 +609,7 @@ final Node<K,V>[] resize() {
 - JDK1.8 ConcurrentHashMap 采用的数据结构跟 HashMap1.8 的结构一样，**数组+链表/红黑二叉树**.Hashtable的底层数据结构类似都是采用 **数组+链表**的形式，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的
 - 在 JDK1.7 的时候，ConcurrentHashMap（分段锁） 对整个桶数组进行了分割分段(Segment)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。到了 JDK1.8 的时候已经摒弃了 Segment 的概念，而是直接用 Node 数组+链表+红黑树的数据结构来实现，并发控制使用 synchronized 和 CAS 来操作；而Hashtable使用synchronized 来保证线程安全，效率非常低下。
 
-![JDK1.8 的 ConcurrentHashMap.png](/upload/2021/12/JDK1.8%20%E7%9A%84%20ConcurrentHashMap-3ad1263b22994eb59e2a8565f513fb58.png)
+![JDK1.8 的 ConcurrentHashMap.png](java容器/JDK1.8 的 ConcurrentHashMap-3ad1263b22994eb59e2a8565f513fb58.png)
 
 JDK1.8后的`ConcurrentHashMap`取消了 Segment 分段锁，采用 CAS 和 synchronized 来保证并发安全。数据结构跟 HashMap1.8 的结构类似，数组+链表/红黑二叉树。Java 8 在链表长度超过一定阈值（8）时将链表（寻址时间复杂度为 O(N)）转换为红黑树（寻址时间复杂度为 O(log(N))） synchronized 只锁定当前链表或红黑二叉树的首节点，这样只要 hash 不冲突，就不会产生并发，效率又提升 N 倍。
 
@@ -692,6 +693,7 @@ Map<String, String> map=new ConcurrentHashMap<>();
 ```
 
 # 4. 容器操作
+
 ## 集合转数组
 ```java
 	//很少使用

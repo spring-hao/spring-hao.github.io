@@ -83,33 +83,37 @@ public static void main(String[] args) {
 }
 ```
 Thread 类 API：
-|                    方法                     | 说明                                                         |
-| :-----------------------------------------: | :----------------------------------------------------------- |
-|             public void start()             | 启动一个新线程，Java虚拟机调用此线程的 run 方法              |
-|              public void run()              | 线程启动后调用该方法                                         |
-|      public void setName(String name)       | 给当前线程取名字                                             |
-|            public void getName()            | 获取当前线程的名字 线程存在默认名称：子线程是 Thread-索引，主线程是 main |
-|    public static Thread currentThread()     | 获取当前线程对象，代码在哪个线程中执行                       |
-|     public static void sleep(long time)     | 让当前线程休眠多少毫秒再继续执行 **Thread.sleep(0)** : 让操作系统立刻重新进行一次 CPU 竞争 |
-|      public static native void yield()      | 提示线程调度器让出当前线程对 CPU 的使用                      |
-|       public final int getPriority()        | 返回此线程的优先级                                           |
+
+
+
+| 方法                                        | 说明                                                         |
+| :------------------------------------------ | :----------------------------------------------------------- |
+| public void start()                         | 启动一个新线程，Java虚拟机调用此线程的 run 方法              |
+| public void run()                           | 线程启动后调用该方法                                         |
+| public void setName(String name)            | 给当前线程取名字                                             |
+| public void getName()                       | 获取当前线程的名字 线程存在默认名称：子线程是 Thread-索引，主线程是 main |
+| public static Thread currentThread()        | 获取当前线程对象，代码在哪个线程中执行                       |
+| public static void sleep(long time)         | 让当前线程休眠多少毫秒再继续执行 **Thread.sleep(0)** : 让操作系统立刻重新进行一次 CPU 竞争 |
+| public static native void yield()           | 提示线程调度器让出当前线程对 CPU 的使用                      |
+| public final int getPriority()              | 返回此线程的优先级                                           |
 | public final void setPriority(int priority) | 更改此线程的优先级，常用 1 5 10                              |
-|           public void interrupt()           | 中断这个线程，异常处理机制                                   |
-|     public static boolean interrupted()     | 判断当前线程是否被打断，清除打断标记                         |
-|       public boolean isInterrupted()        | 判断当前线程是否被打断，不清除打断标记                       |
-|          public final void join()           | 等待这个线程结束                                             |
-|     public final void join(long millis)     | 等待这个线程死亡 millis 毫秒，0 意味着永远等待               |
-|    public final native boolean isAlive()    | 线程是否存活（还没有运行完毕）                               |
-|   public final void setDaemon(boolean on)   | 将此线程标记为守护线程或用户线程                             |
+| public void interrupt()                     | 中断这个线程，异常处理机制                                   |
+| public static boolean interrupted()         | 判断当前线程是否被打断，清除打断标记                         |
+| public boolean isInterrupted()              | 判断当前线程是否被打断，不清除打断标记                       |
+| public final void join()                    | 等待这个线程结束                                             |
+| public final void join(long millis)         | 等待这个线程死亡 millis 毫秒，0 意味着永远等待               |
+| public final native boolean isAlive()       | 线程是否存活（还没有运行完毕）                               |
+| public final void setDaemon(boolean on)     | 将此线程标记为守护线程或用户线程                             |
 
 ### Runnable，Callable与Future关系
+
 Thread只能接受Runnable参数，因此使用有返回值的Callable需要封装。
 
-![Thread构造方法](/upload/2022/05/Thread%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95.png)
+![Thread构造方法](JUC/Thread构造方法.png)
 
 而Future接口提供了打断线程、获取返回值等功能。
 
-![RunnableFuture](/upload/2022/05/RunnableFuture.png)
+![RunnableFuture](JUC/RunnableFuture.png)
 ```java
 public interface RunnableFuture<V> extends Runnable, Future<V> {
     /**
@@ -125,7 +129,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
 ```
 FutureTask接口通过构造函数注入，将Future于Callable结合。
 
-![FutureTask](/upload/2022/05/FutureTask.png)
+![FutureTask](JUC/FutureTask.png)
 
 ## CompletableFuture
 CompletableFuture出现原因：
@@ -204,7 +208,7 @@ public class CompletableFutureTest2 {
 3. public T getNow(T valuelfAbsent):没有计算完成的情况下给一个替代结果，计算完返回计算完成后的结果、没算完,返回设定的valuelfAbsent。**立刻获取结果不阻塞**
 4. public T join( ):join方法和get( )方法作用一样,不同的是,join方法不抛出异常
 5. public boolean complete(T value ):若计算完成则正常返回，否则打断计算并返回value。
-![获得结果和触发计算](/upload/2022/06/%E8%8E%B7%E5%BE%97%E7%BB%93%E6%9E%9C%E5%92%8C%E8%A7%A6%E5%8F%91%E8%AE%A1%E7%AE%97.png)
+![获得结果和触发计算](JUC/获得结果和触发计算.png)
 
 #### 对计算结果进行处理(thenApply、handle)
 1. `public <U> CompletableFuture<U> thenApply`
@@ -349,7 +353,7 @@ Monitor对象会和Java对象一起创建和销毁，底层由C++实现。
 #### 线程的不同状态
 
 线程在运行的生命周期中的指定时刻只可能处于下面 6 种不同状态的其中一个状态
-![Java线程状态变迁.png](/upload/2021/09/Java+%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81-0d6ff91893194aa2ab28c668c83c8e03.png)
+![Java线程状态变迁.png](JUC/Java+线程状态变迁-0d6ff91893194aa2ab28c668c83c8e03.png)
 
 1. NEW(新建)
    表示线程被创建出来还没真正启动的状态，可以认为它是个 Java 内部状态。
@@ -387,7 +391,7 @@ Monitor对象会和Java对象一起创建和销毁，底层由C++实现。
 
 ### 进程和线程的关系
 
-![Java运行时数据区域JDK1.8](/upload/2021/09/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9FJDK1.8-ebdf0e2c64844e1dbe2775adcff026cb.png)
+![Java运行时数据区域JDK1.8](JUC/Java运行时数据区域JDK1.8-ebdf0e2c64844e1dbe2775adcff026cb.png)
 
 线程是进程划分成的更小的运行单位。线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。线程执行开销小，但不利于资源的管理和保护；而进程正相反。
 
@@ -714,7 +718,7 @@ public class LockExample {
 
 通过一个共享的队列,可以使得数据由队列的一段输入,从另一端输出。阻塞队列内部包含了足够的内部同步机制，可以安全的入队出队
 
-![阻塞队列](/upload/2021/11/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97-460e4241c3c04ecc987559a73478efa7.png)
+![阻塞队列](JUC/阻塞队列-460e4241c3c04ecc987559a73478efa7.png)
 
 当队列是空的,从队列中获取元素的操作将会被阻塞
 
@@ -785,7 +789,7 @@ public E take() throws InterruptedException {
 |   检查   | element() |  peek()  | 不可用 |       不可用       |
 
 # 线程池
-![线程池架构](/upload/2021/11/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9E%B6%E6%9E%84-2f4a6690f4904fe089a0d3cb01562fe1.png)
+![线程池架构](JUC/线程池架构-2f4a6690f4904fe089a0d3cb01562fe1.png)
 
 优点：
 1. 降低资源消耗
@@ -797,7 +801,7 @@ public E take() throws InterruptedException {
 
 ### 1. 通过构造方法实现
 
-![ThreadPoolExecutor构造方法](/upload/2021/10/ThreadPoolExecutor构造方法-2a5650e5b932445aaf30fa0840f1c58c.png)
+![ThreadPoolExecutor构造方法](JUC/ThreadPoolExecutor构造方法-2a5650e5b932445aaf30fa0840f1c58c.png)
 
 ### 2. 通过工具类`Executors`来实现
 
@@ -915,7 +919,7 @@ AQS使用一个volatile的int类型的成员变量state来表示同步状态，�
 > 例如ReentrantLock用state来表示所有者线程已经重复获取该锁的次数，Semaphore用它来表示剩余的许可数。
 
 根据同步器的不同，获取操作可以是独占的(ReentrantLock.tryRelease)，也可以是非独占操作的(Semaphore.tryReleaseShared)。
-![AQS](/upload/2021/11/AQS-9b5799ca7b994376ab553bed7376cd7b.png)
+![AQS](JUC/AQS-9b5799ca7b994376ab553bed7376cd7b.png)
 
 AQS具有头尾指针,前后指针.Node内部类的等待状态变量`waitStatus`
 ```java
@@ -970,7 +974,7 @@ public class ReentrantLock implements Lock, java.io.Serializable {
 
 }
 ```
-![非公平锁与公平锁对比](/upload/2021/11/%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%E4%B8%8E%E5%85%AC%E5%B9%B3%E9%94%81%E5%AF%B9%E6%AF%94-0a43f56dfbea4baa9cfa80542330afa2.png)
+![非公平锁与公平锁对比](JUC/非公平锁与公平锁对比-0a43f56dfbea4baa9cfa80542330afa2.png)
 
 存储线程的双向链表中,第一个节点为虚节点(哨兵节点),并不存储任何信息,只是占位.真正的第一个有数据的节点,是从第二个节点开始的
 
