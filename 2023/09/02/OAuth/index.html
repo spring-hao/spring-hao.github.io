@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wixhz.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简单来说，OAuth2.0是一种授权协议，它通过颁发访问令牌的机制而不是使用用户名和密码来请求交互，保证第三方应用只有在成功获取授权之后才可以访问授权者的数据。通过这套协议，用户仅仅通过授权操作就可以免去重复注册的流程，是目前web上重要的安全手段。 OAuth2.0提供了四种许可类型：  授权码许可（Authorization Code） 隐式许可（Implicit） 客户端凭据许可（Clien">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth">
+<meta property="og:url" content="https://wixhz.github.io/2023/09/02/OAuth/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="简单来说，OAuth2.0是一种授权协议，它通过颁发访问令牌的机制而不是使用用户名和密码来请求交互，保证第三方应用只有在成功获取授权之后才可以访问授权者的数据。通过这套协议，用户仅仅通过授权操作就可以免去重复注册的流程，是目前web上重要的安全手段。 OAuth2.0提供了四种许可类型：  授权码许可（Authorization Code） 隐式许可（Implicit） 客户端凭据许可（Clien">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/Oauth2.0.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/image-20230903104511589.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/image-20230902214920832.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/image-20230903175033067.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/image-20230903220637576.png">
+<meta property="article:published_time" content="2023-09-02T01:52:56.000Z">
+<meta property="article:modified_time" content="2023-09-03T14:20:39.894Z">
+<meta property="article:author" content="Hao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wixhz.github.io/2023/09/02/OAuth/Oauth2.0.png">
+
+
+<link rel="canonical" href="https://wixhz.github.io/2023/09/02/OAuth/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wixhz.github.io/2023/09/02/OAuth/","path":"2023/09/02/OAuth/","title":"OAuth"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OAuth | </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title"></p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OAuth2-0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">OAuth2.0的基本流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">重定向的必要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%88%E6%9D%83%E7%A0%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">授权码的必要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">三方软件的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%88%E6%9D%83%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">授权服务的流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%8E%88%E6%9D%83%E7%A0%81%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.4.1.</span> <span class="nav-text">获取授权码的步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96access-token%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.4.2.</span> <span class="nav-text">获取access_token的步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B7%E6%96%B0access-token"><span class="nav-number">1.4.3.</span> <span class="nav-text">刷新access_token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8JWT"><span class="nav-number">1.4.4.</span> <span class="nav-text">使用JWT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8%E7%9A%84%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E"><span class="nav-number">2.</span> <span class="nav-text">可能存在的安全漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF%E6%94%BB%E5%87%BB"><span class="nav-number">2.1.</span> <span class="nav-text">CSRF攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS%E6%94%BB%E5%87%BB"><span class="nav-number">2.2.</span> <span class="nav-text">XSS攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83"><span class="nav-number">2.3.</span> <span class="nav-text">水平越权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%88%E6%9D%83%E7%A0%81%E5%A4%B1%E7%AA%83"><span class="nav-number">2.4.</span> <span class="nav-text">授权码失窃</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hao</p>
+  <div class="site-description" itemprop="description">韶光易逝，劝君惜取少年时</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2023/09/02/OAuth/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OAuth | null">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OAuth
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-09-02 09:52:56" itemprop="dateCreated datePublished" datetime="2023-09-02T09:52:56+08:00">2023-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-03 22:20:39" itemprop="dateModified" datetime="2023-09-03T22:20:39+08:00">2023-09-03</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>简单来说，OAuth2.0是一种<strong>授权协议</strong>，它通过颁发访问令牌的机制而不是使用用户名和密码来请求交互，保证第三方应用只有在<strong>成功获取授权之后</strong>才可以访问授权者的数据。通过这套协议，用户仅仅通过授权操作就可以免去重复注册的流程，是目前web上重要的安全手段。</p>
+<p>OAuth2.0提供了四种许可类型：</p>
+<ul>
+<li><strong>授权码许可（Authorization Code）</strong></li>
+<li>隐式许可（Implicit）</li>
+<li>客户端凭据许可（Client Credentials）</li>
+<li>资源拥有者凭据许可（Resource Owner Password Credentials）</li>
+</ul>
+<h1 id="OAuth2-0的基本流程"><a href="#OAuth2-0的基本流程" class="headerlink" title="OAuth2.0的基本流程"></a>OAuth2.0的基本流程</h1><p>OAuth2.0里有4种角色，分别是资源所有者、三方软件、授权服务和受保护资源，授权码许可的流程如下。</p>
+<img src="/2023/09/02/OAuth/Oauth2.0.png" class="" title="Oauth">
+
+<h2 id="重定向的必要性"><a href="#重定向的必要性" class="headerlink" title="重定向的必要性"></a>重定向的必要性</h2><p>如果没有重定向，只有纯粹后端逻辑的交互，那么用户在第三方平台跳转到授权服务后，用户与三方平台的连接关系就中断了，相当于用户一直停留在授权服务的页面。</p>
+<h2 id="授权码的必要性"><a href="#授权码的必要性" class="headerlink" title="授权码的必要性"></a>授权码的必要性</h2><p>用户在不同平台千万另一个平台时，由于域名的不同，需要使用重定向功能讲用户引导过去。与此同时由于域名的不同，cookie这些保存登陆态的信息无法携带跳转，即使用户在一个平台授权登录后其他平台仍然无法感知，因此需要携带一些信息告诉其他平台，用户已经授权过了。为了保证信息的安全性，携带的信息不能是用户密钥，于是使用了授权码机制（一种临时的、间接的凭证）。</p>
+<p>第三方软件最终是需要拿到安全保密性要求极高的访问令牌才能操作用户数据，而两次重定向操作是暴露在浏览器上的，有了授权码的参与，保证了访问令牌只在后端服务之间传输。</p>
+<h2 id="三方软件的流程"><a href="#三方软件的流程" class="headerlink" title="三方软件的流程"></a>三方软件的流程</h2><ol>
+<li><p>注册信息。三方软件首先需要去授权平台申请app_id、app_serect、回调地址、申请权限等信息。</p>
+</li>
+<li><p>引导授权。最终目的是为了获取access_token.</p>
+</li>
+<li><p>使用访问令牌。拿到令牌就可以去操作用户授权的数据，官方规范列出了三种使用令牌的方式：</p>
+<ul>
+<li><p><strong>Form-Encoded Body Parameter</strong>（表单参数），安全性最高。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /resource HTTP/<span class="number">1.1</span></span><br><span class="line">Host: server.example.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">access_token=b1a64d5c-5e0c-4a70-<span class="number">9711</span>-7af6568a61fb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>URI Query Parameter（URI 查询参数），路径参数需要编码、并且容易泄漏。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /resource?access_token=b1a64d5c-5e0c-4a70-9711-7af6568a61fb HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Authorization Request Header Field（授权请求头部字段），需要代码额外处理Authorization头部信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /resource HTTP/<span class="number">1.1</span></span><br><span class="line">Host: server.example.com</span><br><span class="line">Authorization: Bearer b1a64d5c-5e0c-4a70-<span class="number">9711</span>-7af6568a61fb</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>使用刷新令牌。<strong>刷新令牌是一次性的，使用之后就会失效</strong>。</p>
+</li>
+<li><p>三方软件请求不同的受保护资源服务，会由API GATEWAY 跳转到不同的受保护资源服务，省去每个资源服务都需要权限校验的操作。</p>
+<img src="/2023/09/02/OAuth/image-20230903104511589.png" class="" title="image-20230903104511589"></li>
+</ol>
+<h2 id="授权服务的流程"><a href="#授权服务的流程" class="headerlink" title="授权服务的流程"></a>授权服务的流程</h2><p>授权服务就是负责颁发令牌的服务，OAuth2.0的核心就是授权服务，而授权服务的核心是令牌。</p>
+<h3 id="获取授权码的步骤"><a href="#获取授权码的步骤" class="headerlink" title="获取授权码的步骤"></a>获取授权码的步骤</h3><ol>
+<li>三方软件首先要去授权服务进行注册，然后授权服务会给三方软件一个app_id和app_secret等信息，方便以后授权时的身份校验，同时注册时还会告诉授权服务以后请求受保护资源的访问范围，也就是scope。</li>
+<li>三方软件以后请求授权时，授权服务会先去验证三方软件的基本信息，比如是否注册过、回调地址是否合法。因为这个过程由浏览器的web端重定向操作，每一步都有可被冒充的风险，因此需要对三方软件进行合法性校验。</li>
+<li>当验证通过并且用户授权后，授权服务会对用户授权范围和三方软件注册时指定的scope进行比对，防止三方软件申请scope范围外的权限（最小权限法则）。</li>
+<li>生成授权码code并将code和app_id、user、申请的scope关联，与此同时给code设置一个过期时间</li>
+<li>重定向到三方软件，并把code返回给软件。注意code只是换取access_token的临时凭证，无法代替access_token。</li>
+</ol>
+<h3 id="获取access-token的步骤"><a href="#获取access-token的步骤" class="headerlink" title="获取access_token的步骤"></a>获取access_token的步骤</h3><ol>
+<li>验证三方软件是否存在，app_id和app_secret是否正确。</li>
+<li>验证code是否正确，<strong>code应该使用一次就失效，防止被冒用</strong>。</li>
+<li>生成access_token，将access_token与app_id、user关联，设置access_token过期时间并将之与scope关联。</li>
+</ol>
+<h3 id="刷新access-token"><a href="#刷新access-token" class="headerlink" title="刷新access_token"></a>刷新access_token</h3><p>当access_token过期后，为了防止频繁需要用户授权，OAuth2.0引入了刷新令牌，规定用户在一定时间内无需手动授权就可以继续使用三方软件。</p>
+<ol>
+<li>授权服务在颁发access_token的时候会同步颁发一个refresh_token给三方软件，refresh_token的失效时间会比access_token更长。这样当access_token失效时，三方软件就会使用refresh_token请求授权服务。</li>
+<li>授权服务收到refresh_token后，会验证token类型、app_id、app_secret是否合法。</li>
+<li>重新生成新的access_token和refresh_token并发给三方服务。<strong>一个刷新令牌被使用以后，授权服务需要将其废弃，并重新颁发一个刷新令牌</strong>，不过refresh_token过期时间不会重新刷新。</li>
+</ol>
+<h3 id="使用JWT"><a href="#使用JWT" class="headerlink" title="使用JWT"></a>使用JWT</h3><p>授权服务的核心就是访问令牌，访问令牌没有具体的格式，目前使用最多的就是JWT令牌了。</p>
+<blockquote>
+<p>JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑的、自包含的方式，用于作为 JSON 对象在各方之间安全地传输信息。</p>
+</blockquote>
+<p>JWT 结构化体可以分为 HEADER（头部）、PAYLOAD（数据体）和 SIGNATURE（签名）三部分。经过签名之后的 JWT 的整体结构，是被句点符号分割的三段内容，结构为 header.payload.signature 。</p>
+<ul>
+<li>header：表示装载令牌类型和算法等信息。其中，typ 表示第二部分 PAYLOAD 是 JWT 类型，alg 表示使用 HS256 对称签名的算法。</li>
+<li>payload：表示JWT的数据体，可以是一切合法json格式的数据。</li>
+<li>signature：表示对 JWT 信息的签名。</li>
+</ul>
+<img src="/2023/09/02/OAuth/image-20230902214920832.png" class="" title="image-20230902214920832">
+
+<p>优点：</p>
+<ol>
+<li>用计算代替存储。通过对JWT进行解密就可以拿到json格式的数据，其中可以存放用户授权的范围，省去了调用rpc服务的时间。</li>
+<li>签名保障了传输过程的安全性。</li>
+</ol>
+<p>注意：由于服务器不存储JWT，当用户取消授权时需要同步取消JWT的有效性。这时可以把加密算法缩小到用户级别，保证每个用户的加密密钥都不一样，这样当用户取消授权时只要同步修改加密密钥，即可使JWT失效。</p>
+<h1 id="可能存在的安全漏洞"><a href="#可能存在的安全漏洞" class="headerlink" title="可能存在的安全漏洞"></a>可能存在的安全漏洞</h1><p>OAuth2.0作为安全协议，如果使用不当或不遵守规范，很容易产生一些安全漏洞。</p>
+<h2 id="CSRF攻击"><a href="#CSRF攻击" class="headerlink" title="CSRF攻击"></a>CSRF攻击</h2><p>恶意软件让浏览器向已完成用户身份认证的网站发起请求，并执行有害的操作，就是跨站请求伪造攻击，攻击过程的本质上就是，软件 A（攻击者）用自己的授权码 codeA 的值，通过 CSRF 攻击，“替换”了软件 B 的授权码的值。</p>
+<img src="/2023/09/02/OAuth/image-20230903175033067.png" class="" title="image-20230903175033067">
+
+<ul>
+<li>受害者登录a.com，并保留了登录凭证（Cookie）。</li>
+<li>攻击者引诱受害者访问了b.com。</li>
+<li>b.com 向 a.com 发送了一个请求：a.com&#x2F;act&#x3D;xx。浏览器会默认携带a.com的Cookie。</li>
+<li>a.com接收到请求后，对请求进行验证，并确认是受害者的凭证，误以为是受害者自己发送的请求。</li>
+<li>a.com以受害者的名义执行了act&#x3D;xx。</li>
+<li>攻击完成，攻击者在受害者不知情的情况下，冒充受害者，让a.com执行了自己定义的操作。</li>
+</ul>
+<p>解决办法：OAuth 2.0 中建议使用一个随机值 state 参数，当某三方服务请求授权码的时候附带一个自己生成 state 参数值，同时授权服务也要按照规则将这个随机的 state 值跟授权码 code 一起返回给三方服务，当三方服务接收授权码的时候，就要在服务端做一个 state 参数值的比对校验，如果相同就继续流程，否则直接拒绝后续流程。这样就可以避免获取到一个假的 code 进行后续流程。</p>
+<h2 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h2><p>XSS 攻击的主要手段是将恶意脚本注入到请求的输入中，攻击者可以通过注入的恶意脚本来进行攻击行为，比如搜集数据等。</p>
+<p>解决办法：对非法信息做转义过滤，如包含<code>&lt;script&gt;</code>、<code>&lt;img&gt;</code>、<code>&lt;a&gt;</code>等标签</p>
+<h2 id="水平越权"><a href="#水平越权" class="headerlink" title="水平越权"></a>水平越权</h2><p>水平越权指的是请求到达受保护资源服务时，服务端只做了token校验，没有检查这个请求获取的数据是否归属于当前授权的用户，导致不法者用自己获得的授权来访问受保护资源服务的时候，就有可能获取其他用户的数据。</p>
+<p>解决办法：不但检查access_token的合法性，更要检查请求的范围、数据的归属。</p>
+<h2 id="授权码失窃"><a href="#授权码失窃" class="headerlink" title="授权码失窃"></a>授权码失窃</h2><img src="/2023/09/02/OAuth/image-20230903220637576.png" class="" title="image-20230903220637576">
+
+<p>问题关键点：</p>
+<ul>
+<li>授权服务校验code的时候没有对code的归属app做校验。</li>
+<li>code使用以后没有及时实效。</li>
+<li>回调地址没有做校验。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/07/16/Kafka/" rel="prev" title="Kafka">
+                  <i class="fa fa-angle-left"></i> Kafka
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hao</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
