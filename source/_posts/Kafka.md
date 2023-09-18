@@ -21,7 +21,7 @@ Apache Kafka 是消息引擎系统，也是一个分布式事件流处理平台�
 
 ### 概念说明
 
-向目标topic发送消息的客户端被称为消费者，消费者源源不断的向**一个或多个**主题发送消息，而订阅这些topic的客户端被称为消费者，消费者同样订阅**一个或多个**topic。生产者和消费者统称为**客户端**，客户端可以运行多个实例，这些实例不停地进行生产和消费行为。
+向目标topic发送消息的客户端被称为生产者，生产者源源不断的向**一个或多个**主题发送消息，而订阅这些topic的客户端被称为消费者，消费者同样订阅**一个或多个**topic。生产者和消费者统称为**客户端**，客户端可以运行多个实例，这些实例不停地进行生产和消费行为。
 
 Kafka 的服务器端由被称为 Broker 的服务进程构成，即**一个 Kafka 集群由多个 Broker 组成**，Broker 负责接收和处理客户端发送过来的请求，以及对**消息进行持久化**。虽然多个 Broker 进程能够运行在同一台机器上，但更常见的做法是将不同的 Broker 分散运行在不同的机器上，这样如果**集群**中某一台机器宕机，即使在它上面运行的所有 Broker 进程都挂掉了，其他机器上的 Broker 也依然能够对外提供服务。这就是 Kafka 提供高可用的手段之一。
 
@@ -94,8 +94,8 @@ kafka的消息包含两层：消息集合以及消息。一个消息集合包含
 
 生产者端设置了消息压缩格式后，任何消息集合都会经过压缩后发送给broker，可以很好的节省网络贷款。通常情况下，broker只会原封不动的接收消息，除了以下条件：
 
-- broker端指定了和生产者端不同的压缩算法：此时只能解压缩后再次压缩。
-- broker发生了消息格式转换。为了兼容老版本的格式，Broker 端会对新版本消息执行向老版本格式的转换。这个过程中会涉及消息的解压缩和重新压缩。
+- broker端**指定了和生产者端不同的压缩算法**：此时只能解压缩后再次压缩。
+- broker发生了**消息格式转换**。为了兼容老版本的格式，Broker 端会对新版本消息执行向老版本格式的转换。这个过程中会涉及消息的解压缩和重新压缩。
 
 多数情况下压缩发生在生产端，压缩后的消息发送到broker之后保存下来，当消费者请求这些消息时，broker会把消息发送出去，当消息到达消费端时自行解压缩还原成原来的消息。Kafka 会将启用了哪种压缩算法**封装**进消息集合中，这样当 Consumer 读取到消息集合时，它自然就知道了这些消息使用的是哪种压缩算法。
 
@@ -211,6 +211,8 @@ Kafka的生产者、消费者、broker所有通信都是基于TCP协议的。
         producer.close();
 ```
 
+##### 生产者创建时机
+
 - 在创建KafkaProducer实例时，生产者会在后台创建一个名为sender的线程，该线程会负责初始化生产者和broker的连接，它会连接 bootstrap.servers 参数指定的所有 Broker，因此生产环境通常指定三四个就可以了，生产者连接到集群中的一台broker，会自动拿到集群的元数据即所有的集群数据。生产者拉取元数据信息有两种方式：
   - Producer 通过 metadata.max.age.ms 参数定期地去更新元数据信息。
   - Producer 给一个不存在的 topic 发送消息时，Broker会告诉他不存在，此时生产者会去请求最新的集群元数据信息。
@@ -218,7 +220,25 @@ Kafka的生产者、消费者、broker所有通信都是基于TCP协议的。
 - 当生产者拿到所有的集群数据后，会依次与没有建立连接的broker进行TCP连接。
 - 同时当生产者向目标发送消息时，倘若发现没有与之建立连接，这时也会进行TCP连接操作。
 
+##### 消费者创建时机
+
+创建KafkaConsumer实例时不会创建任何 TCP 连接，TCP 连接是在调用 KafkaConsumer.poll 方法时被创建的，内部有三个时机：
+
+- 发起 FindCoordinator 请求时。
+
+  当消费者程序首次启动调用poll方法时，消费者会建立一个连接去请求Broker哪个是协调者。
+
+- 连接协调者时。
+
+  当Broker告诉消费者真正的协调者后，消费者会与该协调者建立连接。只有成功连入协调者，协调者才能开启正常的组协调操作，比如加入组、等待组分配方案、心跳请求处理、位移获取、位移提交等。
+
+- 消费数据时。
+
+  消费者会为每个要消费的分区创建与该分区领导者副本所在 Broker 连接的 TCP。
+
 #### 连接关闭时机
+
+##### 生产者关闭时机
 
 - 用户主动关闭
 
@@ -227,6 +247,18 @@ Kafka的生产者、消费者、broker所有通信都是基于TCP协议的。
 - Kafka自动关闭
 
   Producer 端参数 connections.max.idle.ms 的值决定了无通信时连接的最大存活时间，当超过最大存活时间后仍然没有新的通信，broker会主动关闭TCP连接。
+
+##### 消费者关闭时机
+
+当第三类 TCP 连接成功创建后，消费者程序就会废弃第一类 TCP 连接，之后在定期请求元数据时，它会改为使用第三类 TCP 连接。也就是说，第一类 TCP 连接会在后台被默默地关闭掉。对一个运行了一段时间的消费者程序来说，只会有后面两类 TCP 连接存在。
+
+- 用户主动关闭
+
+  手动调用 KafkaConsumer.close() 方法，或者是执行 Kill 命令
+
+- Kafka自动关闭
+
+  消费者端参数 connection.max.idle.ms 控制，不过消费者程序一般都是使用循环消费消息，一般不会超时关闭。
 
 ### 消费者组
 
@@ -261,11 +293,50 @@ Kafka 提供了专门的**后台线程**称为 Log Cleaner定期地巡检待 Com
 
 #### 位移提交
 
+消费者需要向Kafka提交自己的位移数据，由于消费者可以消费多个分区的数据，因此位移提交是在分区维度上进行的，即消费者向每个订阅的分区汇报自己的下一个消费位移。有了位移数据，消费者在故障重启后便可以从Kafka得到这些数据，并按照这些数据继续消费，避免从头开始重复消费消息。
 
+**一旦向Kafka提交了位移数据，Kafka会认为提交位移前的所有数据都已经消费完毕**，Kafka提供了多种位移提交的方法，从用户的角度来说，位移提交分为自动提交和手动提交；从 Consumer 端的角度来说，位移提交分为同步提交和异步提交。
+
+- 自动提交（默认）：`enable.auto.commit = true；auto.commit.interval.ms = 10`，每10s自动提交一次位移。Kafka在指定时间调用poll方法时，提交上次poll方法处理过的所有消息，它能保证不出现消息丢失的情况，但是如果发生了rebalance操作，消费者将从上次提交的位移处开始消费，此时会出现**重复消费**。
+- 同步提交：`KafkaConsumer#commitSync()`，Broker返回结果前，消费者一直被阻塞，会自动重试。
+- 异步提交：`KafkaConsumer#commitAsync(callback)`：无法代替同步提交，如果提交失败不会重试，通常将同步异步结合使用，保证最终提交成功。
+- 精细化提交：`commitSync(Map<TopicPartition, OffsetAndMetadata>) 和 commitAsync(Map<TopicPartition, OffsetAndMetadata>)`：可以准确提交多少条数据。
+
+```java
+   try {
+           while(true) {
+                        ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
+                        process(records); // 处理消息
+                        commitAysnc(); // 使用异步提交规避阻塞
+            }
+	} catch(Exception e) {
+            handle(e); // 处理异常
+	} finally {
+            try {
+                        consumer.commitSync(); // 最后一次提交使用同步阻塞式提交
+  	} finally {
+       consumer.close();
+	}
+}
+
+```
+
+对于常规性、阶段性的手动提交，调用 commitAsync() 避免程序阻塞，而在 Consumer 要关闭前，调用 commitSync() 方法执行同步阻塞式的位移提交，以确保 Consumer 关闭前能够保存正确的位移数据。
+
+#### CommitFailedException异常
+
+Consumer在提交位移的时候发生了异常，并且该异常Kafka无法通过自动重试解禁，只能中断程序。CommitFailedException 异常通常发生在手动提交位移时，即用户显式调用 KafkaConsumer.commitSync() 方法时，常见的两种场景可能触发此异常：
+
+- 消息处理时间超过了设置的 max.poll.interval.ms 值。解决办法：
+  - 减少单个消息的处理时间
+  - 增大消费者最大消费时间，即 max.poll.interval.ms 值
+  - 减少每次获取的消息数量，Consumer 端参数 max.poll.records 的值，默认每次消费500条消息
+  - consumer使用多线程来处理消息
+- Kafka还有一种独立消费者，每个消费者实例之间没有关系，但是也要指定group.id才能提交位移，如果group.id和消费者组相同，那么就好抛出此异常
 
 #### Rebalance
 
-Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下**所有**的 Consumer 实例都会在协调者组件的帮助下共同参与，因此在这个过程中所有的实例都不能消费消息（stop the world）。协调者在 Kafka 中对应的术语是 Coordinator，它专门为 Consumer Group 服务，负责为 Group 执行 Rebalance 以及提供位移管理和组成员管理等。Consumer 端应用程序在提交位移时，其实是向 Coordinator 所在的 Broker 提交位移。同样地，当 Consumer 应用启动时，也是向 Coordinator 所在的 Broker 发送各种请求，然后由 Coordinator 负责执行消费者组的注册、成员管理记录等元数据管理操作。
+Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下**所有**的 Consumer 实例都会在协调者组件的帮助下共同参与，因此在这个过程中所有的实例都不能消费消息（stop the world）。**协调者**在 Kafka 中对应的术语是 Coordinator，它专门为 Consumer Group 服务，负责为 Group 执行 Rebalance 以及提供位移管理和组成员管理等。Consumer 端应用程序在提交位移时，其实是向 Coordinator 所在的 Broker 提交位移。同样地，当 Consumer 应用启动时，也是向 Coordinator 所在的 Broker 发送各种请求，然后由 Coordinator 负责执行消费者组的注册、成员管理记录等元数据管理操作。
 
 所有 Broker 在启动时，都会创建和开启相应的 Coordinator 组件。也就是说，**所有 Broker 都有各自的 Coordinator 组件**，消费者组通过以下算法定位为自己负责的 Coordinator 组件：
 
@@ -284,3 +355,8 @@ Rebalance的触发条件有三个：
 1. 消费端有`session.timeout.ms`参数来控制心跳时间，超出时间没有进行心跳连接，Coordinator 就会认为该实例下线，进而进行Rebalance，推荐设置为6s
 2. Consumer 还提供了一个允许控制发送心跳请求频率的参数，就是`heartbeat.interval.ms`。这个值设置得越小，Consumer 实例发送心跳请求的频率就越高。频繁地发送心跳请求会额外消耗带宽资源，但**好处是能够更加快速地知晓当前是否开启 Rebalance**，因为，目前 Coordinator 通知各个 Consumer 实例开启 Rebalance 的方法，就是将 REBALANCE_NEEDED 标志封装进心跳请求的响应体中，推荐设置为2s，也就是判断下线应该至少经历三次心跳无反应。
 3. Consumer 端`max.poll.interval.ms`参数用于控制 Consumer 实际消费能力对 Rebalance 的影响。它限定了 Consumer 端应用程序两次调用 poll 方法的最大时间间隔，表示 Consumer 程序如果在指定时间内无法消费完 poll 方法返回的消息，那么 Consumer 会主动发起“离开组”的请求，Coordinator 也会开启新一轮 Rebalance。推荐根据下游消费逻辑消耗时间设置此值。
+
+### 消费进度监控
+
+消费者组滞后程度称为Consumer Lag，即消费消息与生产消息的差值。对消费者而言，Lag 应该算是最重要的监控指标了。它直接反映了一个消费者的运行情况。一个正常工作的消费者，它的 Lag 值应该很小，甚至是接近于 0 的，这表示该消费者能够及时地消费生产者生产出来的消息，滞后程度很小。反之，如果一个消费者 Lag 值很大，通常就表明它无法跟上生产者的速度，最终 Lag 会越来越大，从而拖慢下游消息的处理速度。
+
