@@ -1027,3 +1027,6 @@ public class ApplicationContextProvider implements ApplicationContextAware {
 }
 ```
 两种最终结果相同，实现接口可以封装更多方法，如getBean，getBeansWithAnnotation等。
+
+# spring常见操作
+
