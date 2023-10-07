@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/image-20230903175033067.png">
 <meta property="og:image" content="https://wixhz.github.io/2023/09/02/OAuth/image-20230903220637576.png">
 <meta property="article:published_time" content="2023-09-02T01:52:56.000Z">
-<meta property="article:modified_time" content="2023-09-03T14:20:39.894Z">
+<meta property="article:modified_time" content="2023-09-11T08:44:43.885Z">
 <meta property="article:author" content="Hao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wixhz.github.io/2023/09/02/OAuth/Oauth2.0.png">
@@ -231,7 +231,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-09-03 22:20:39" itemprop="dateModified" datetime="2023-09-03T22:20:39+08:00">2023-09-03</time>
+      <time title="Modified: 2023-09-11 16:44:43" itemprop="dateModified" datetime="2023-09-11T16:44:43+08:00">2023-09-11</time>
     </span>
 
   
@@ -256,7 +256,7 @@
 
 <h2 id="重定向的必要性"><a href="#重定向的必要性" class="headerlink" title="重定向的必要性"></a>重定向的必要性</h2><p>如果没有重定向，只有纯粹后端逻辑的交互，那么用户在第三方平台跳转到授权服务后，用户与三方平台的连接关系就中断了，相当于用户一直停留在授权服务的页面。</p>
 <h2 id="授权码的必要性"><a href="#授权码的必要性" class="headerlink" title="授权码的必要性"></a>授权码的必要性</h2><p>用户在不同平台千万另一个平台时，由于域名的不同，需要使用重定向功能讲用户引导过去。与此同时由于域名的不同，cookie这些保存登陆态的信息无法携带跳转，即使用户在一个平台授权登录后其他平台仍然无法感知，因此需要携带一些信息告诉其他平台，用户已经授权过了。为了保证信息的安全性，携带的信息不能是用户密钥，于是使用了授权码机制（一种临时的、间接的凭证）。</p>
-<p>第三方软件最终是需要拿到安全保密性要求极高的访问令牌才能操作用户数据，而两次重定向操作是暴露在浏览器上的，有了授权码的参与，保证了访问令牌只在后端服务之间传输。</p>
+<p>第三方软件最终是需要拿到安全保密性要求极高的访问令牌才能操作用户数据，而两次重定向操作是暴露在浏览器上的，有了授权码的参与，保证了访问令牌只在后端服务之间传输。 使用授权码的目的之一，就是把浏览器和第三方软件的信息做一个隔离，确保浏览器看不到第三方软件最重要的访问令牌 access_token 的值</p>
 <h2 id="三方软件的流程"><a href="#三方软件的流程" class="headerlink" title="三方软件的流程"></a>三方软件的流程</h2><ol>
 <li><p>注册信息。三方软件首先需要去授权平台申请app_id、app_serect、回调地址、申请权限等信息。</p>
 </li>
