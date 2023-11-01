@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"wixhz.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wixhz.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="kafka介绍Apache Kafka 是消息引擎系统，也是一个分布式事件流处理平台，企业利用它可以在A、B两个系统之间传递消息，实现松耦合的异步数据传输。总的来说，消息引擎具有两个重要能力：  消息引擎传输的对象是消息 定义了传输消息的规范  消息引擎不在乎A、B两个系统是否相同，它可以在不同系统间传递消息，因此消息的通用格式以及如何传输消息至关重要。kafka的消息格式化使用的是二进制字节序列">
 <meta property="og:type" content="article">
@@ -27,11 +27,21 @@
 <meta property="og:description" content="kafka介绍Apache Kafka 是消息引擎系统，也是一个分布式事件流处理平台，企业利用它可以在A、B两个系统之间传递消息，实现松耦合的异步数据传输。总的来说，消息引擎具有两个重要能力：  消息引擎传输的对象是消息 定义了传输消息的规范  消息引擎不在乎A、B两个系统是否相同，它可以在不同系统间传递消息，因此消息的通用格式以及如何传输消息至关重要。kafka的消息格式化使用的是二进制字节序列">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20230712110937524.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231009204444418.png">
 <meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20230712113230478.png">
 <meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20230730220615172.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231025200256037.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231025201512500.png">
 <meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20230806230532868.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231026103854842.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231026120119093.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231026120133318.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231030205933546.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231030210135366.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231030210303706.png">
+<meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231030211111244.png">
 <meta property="article:published_time" content="2023-07-16T13:04:13.000Z">
-<meta property="article:modified_time" content="2023-09-18T09:55:08.028Z">
+<meta property="article:modified_time" content="2023-11-01T06:36:24.472Z">
 <meta property="article:author" content="Hao">
 <meta property="article:tag" content="中间件">
 <meta name="twitter:card" content="summary">
@@ -144,7 +154,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">kafka介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">概念说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%E6%9C%BA%E5%88%B6"><span class="nav-number">2.1.</span> <span class="nav-text">消息分区机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AE%E8%AF%A2%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.1.</span> <span class="nav-text">轮询策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.2.</span> <span class="nav-text">随机策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E6%B6%88%E6%81%AF%E9%94%AE%E4%BF%9D%E5%AD%98%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.3.</span> <span class="nav-text">按消息键保存策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.2.</span> <span class="nav-text">消息压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E6%B6%88%E6%81%AF%E4%BA%A4%E4%BB%98%E5%8F%AF%E9%9D%A0%E6%80%A7%E4%BF%9D%E8%AF%81"><span class="nav-number">2.3.</span> <span class="nav-text">Kafka消息交付可靠性保证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%97%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E4%BF%9D%E8%AF%81"><span class="nav-number">2.3.1.</span> <span class="nav-text">消息无丢失的保证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BA%A4%E4%BB%98%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">2.3.2.</span> <span class="nav-text">消息交付可靠性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%82%E7%AD%89%E6%80%A7%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">幂等性生产者</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E5%9E%8B%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">事务型生产者</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">2.4.</span> <span class="nav-text">Kafka拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E7%9A%84TCP%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.5.</span> <span class="nav-text">Kafka的TCP连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.1.</span> <span class="nav-text">连接创建时机</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">生产者创建时机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">消费者创建时机</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.2.</span> <span class="nav-text">连接关闭时机</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%85%B3%E9%97%AD%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">生产者关闭时机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%85%B3%E9%97%AD%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.2.2.</span> <span class="nav-text">消费者关闭时机</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84"><span class="nav-number">2.6.</span> <span class="nav-text">消费者组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%A7%BB%E4%B8%BB%E9%A2%98"><span class="nav-number">2.6.1.</span> <span class="nav-text">位移主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%A7%BB%E6%8F%90%E4%BA%A4"><span class="nav-number">2.6.2.</span> <span class="nav-text">位移提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CommitFailedException%E5%BC%82%E5%B8%B8"><span class="nav-number">2.6.3.</span> <span class="nav-text">CommitFailedException异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebalance"><span class="nav-number">2.6.4.</span> <span class="nav-text">Rebalance</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%BF%9B%E5%BA%A6%E7%9B%91%E6%8E%A7"><span class="nav-number">2.7.</span> <span class="nav-text">消费进度监控</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">kafka介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AF%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">副本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%AF%E6%9C%AC%E9%80%89%E4%B8%BE"><span class="nav-number">1.1.1.</span> <span class="nav-text">副本选举</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%E6%9C%BA%E5%88%B6"><span class="nav-number">2.1.</span> <span class="nav-text">消息分区机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AE%E8%AF%A2%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.1.</span> <span class="nav-text">轮询策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.2.</span> <span class="nav-text">随机策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%89%E6%B6%88%E6%81%AF%E9%94%AE%E4%BF%9D%E5%AD%98%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.3.</span> <span class="nav-text">按消息键保存策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.2.</span> <span class="nav-text">消息压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E6%B6%88%E6%81%AF%E4%BA%A4%E4%BB%98%E5%8F%AF%E9%9D%A0%E6%80%A7%E4%BF%9D%E8%AF%81"><span class="nav-number">2.3.</span> <span class="nav-text">Kafka消息交付可靠性保证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%97%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E4%BF%9D%E8%AF%81"><span class="nav-number">2.3.1.</span> <span class="nav-text">消息无丢失的保证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BA%A4%E4%BB%98%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">2.3.2.</span> <span class="nav-text">消息交付可靠性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%82%E7%AD%89%E6%80%A7%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">幂等性生产者</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E5%9E%8B%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">事务型生产者</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">2.4.</span> <span class="nav-text">Kafka拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E7%9A%84TCP%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.5.</span> <span class="nav-text">Kafka的TCP连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.1.</span> <span class="nav-text">连接创建时机</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">生产者创建时机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%88%9B%E5%BB%BA%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">消费者创建时机</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.2.</span> <span class="nav-text">连接关闭时机</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%85%B3%E9%97%AD%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">生产者关闭时机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%85%B3%E9%97%AD%E6%97%B6%E6%9C%BA"><span class="nav-number">2.5.2.2.</span> <span class="nav-text">消费者关闭时机</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka%E8%AF%B7%E6%B1%82%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">2.6.</span> <span class="nav-text">Kafka请求的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84"><span class="nav-number">2.7.</span> <span class="nav-text">消费者组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%A7%BB%E4%B8%BB%E9%A2%98"><span class="nav-number">2.7.1.</span> <span class="nav-text">位移主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%A7%BB%E6%8F%90%E4%BA%A4"><span class="nav-number">2.7.2.</span> <span class="nav-text">位移提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CommitFailedException%E5%BC%82%E5%B8%B8"><span class="nav-number">2.7.3.</span> <span class="nav-text">CommitFailedException异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebalance"><span class="nav-number">2.7.4.</span> <span class="nav-text">Rebalance</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6"><span class="nav-number">2.7.4.1.</span> <span class="nav-text">心跳机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-number">2.7.4.2.</span> <span class="nav-text">消费者组状态机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%AB%AF%E9%87%8D%E5%B9%B3%E8%A1%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">2.7.4.3.</span> <span class="nav-text">消费者端重平衡流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Broker%E7%AB%AF%E9%87%8D%E5%B9%B3%E8%A1%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">2.7.4.4.</span> <span class="nav-text">Broker端重平衡流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%BF%9B%E5%BA%A6%E7%9B%91%E6%8E%A7"><span class="nav-number">2.8.</span> <span class="nav-text">消费进度监控</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="nav-number">2.8.1.</span> <span class="nav-text">命令行工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API"><span class="nav-number">2.8.2.</span> <span class="nav-text">API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JMX-%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87"><span class="nav-number">2.8.3.</span> <span class="nav-text">JMX 监控指标</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -231,7 +241,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-09-18 17:55:08" itemprop="dateModified" datetime="2023-09-18T17:55:08+08:00">2023-09-18</time>
+      <time title="Modified: 2023-11-01 14:36:24" itemprop="dateModified" datetime="2023-11-01T14:36:24+08:00">2023-11-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -262,16 +272,9 @@
 <li>点对点模型：也叫消息队列模型，消息只能由A系统发出，由B系统接收，其他模型无权生产与消费消息，简单来说是一对一的模型。</li>
 <li>发布 &#x2F; 订阅模型：有一个topic的概念，可以有多个生产者向topic中生产消息，同时允许多个消费者订阅topic进行消费，简单来说就是一种<strong>多对多</strong>的模型。</li>
 </ul>
-<h3 id="概念说明"><a href="#概念说明" class="headerlink" title="概念说明"></a>概念说明</h3><p>向目标topic发送消息的客户端被称为生产者，生产者源源不断的向<strong>一个或多个</strong>主题发送消息，而订阅这些topic的客户端被称为消费者，消费者同样订阅<strong>一个或多个</strong>topic。生产者和消费者统称为<strong>客户端</strong>，客户端可以运行多个实例，这些实例不停地进行生产和消费行为。</p>
+<p>向目标topic发送消息的客户端被称为生产者，生产者源源不断的向<strong>一个或多个</strong>主题发送消息，而订阅这些topic的客户端被称为消费者，消费者同样订阅<strong>一个或多个</strong>topic。生产者和消费者统称为<strong>客户端</strong>，客户端可以运行多个实例，这些实例不停地进行生产和消费行为。</p>
 <p>Kafka 的服务器端由被称为 Broker 的服务进程构成，即<strong>一个 Kafka 集群由多个 Broker 组成</strong>，Broker 负责接收和处理客户端发送过来的请求，以及对<strong>消息进行持久化</strong>。虽然多个 Broker 进程能够运行在同一台机器上，但更常见的做法是将不同的 Broker 分散运行在不同的机器上，这样如果<strong>集群</strong>中某一台机器宕机，即使在它上面运行的所有 Broker 进程都挂掉了，其他机器上的 Broker 也依然能够对外提供服务。这就是 Kafka 提供高可用的手段之一。</p>
-<p>为了实现高可用目标，kafka还会对消息进行备份，这些备份的数据在kafka中叫做<strong>副本</strong>。副本的数量可以配置，这些副本保存着相同的数据，但却有不同的角色和作用。Kafka 定义了两类副本：</p>
-<ul>
-<li>领导者副本（Leader Replica）：领导者副本对客户端<strong>提供服务</strong>。</li>
-<li>追随者副本（Follower Replica）：<strong>不对外提供服务</strong>，只是被动的追随领导者副本。</li>
-</ul>
-<p>生产者总是向领导者副本写消息；而消费者总是从领导者副本读消息。至于追随者副本，它只向领导者副本发送请求，请求领导者把最新生产的消息发给它，这样它能保持与领导者的同步。<strong>副本机制保证了消息的持久化</strong>。为了保证领导者副本保存的内容不会爆满，kafka对每个topic划分为多个分区，每个分区是一组有序地消息日志。生产者生产的消息只会被发送到同一topic下的某一个分区中，kafka的分区编号从0开始。</p>
-<p>副本是在分区这个级别下定义的。每个分区可以配置n个副本，其中领导者副本只能有1个，其余都是追随者副本。生产者向分区写入消息，每条消息在分区内由一个偏移量（offset）来表示其位置，其中偏移量编号从0开始，一旦消息被成功写入到一个分区上，它的位移值就是固定的了。</p>
-<p>总的来说，Kafka 使用消息日志（Log）来保存数据，一个日志就是磁盘上一个只能追加写（Append-only）消息的物理文件。因为只能追加写入，故避免了缓慢的随机 I&#x2F;O 操作，改为性能较好的顺序 I&#x2F;O 写操作，这也是实现 Kafka 高吞吐量特性的一个重要手段。因此kafka通过日志段（Log Segment）机制来定期地删除消息以回收磁盘。在 Kafka 底层，一个日志又进一步细分成多个日志段，消息被追加写到当前最新的日志段中，当写满了一个日志段后，Kafka 会自动切分出一个新的日志段，并将老的日志段封存起来。Kafka 在后台还有定时任务会定期地检查老的日志段是否能够被删除，从而实现回收磁盘空间的目的。</p>
+<p>总的来说，Kafka 使用消息日志（Log）来保存数据，一个日志就是磁盘上一个只能追加写（Append-only）消息的物理文件。因为只能追加写入，故避免了缓慢的随机 I&#x2F;O 操作，改为性能较好的<strong>顺序 I&#x2F;O 写</strong>操作，这也是实现 Kafka 高吞吐量特性的一个重要手段。因此kafka通过日志段（Log Segment）机制来定期地删除消息以回收磁盘。在 Kafka 底层，一个日志又进一步细分成多个日志段，消息被追加写到当前最新的日志段中，当写满了一个日志段后，Kafka 会自动切分出一个新的日志段，并将老的日志段封存起来。Kafka 在后台还有定时任务会定期地检查老的日志段是否能够被删除，从而实现回收磁盘空间的目的。</p>
 <p>每个消费者在消费消息的过程使用消费者位移（Consumer Offset）字段记录它当前消费到了分区的哪个位置，消费者位移可能是随时变化的，每个消费者有着自己的消费者位移。</p>
 <ul>
 <li>消息：Record。Kafka 是消息引擎，这里的消息就是指 Kafka 处理的主要对象。</li>
@@ -287,8 +290,26 @@
 </ul>
 <img src="/2023/07/16/Kafka/image-20230712110937524.png" class="" title="image-20230712110937524">
 
+<h3 id="副本"><a href="#副本" class="headerlink" title="副本"></a>副本</h3><p>为了实现高可用目标，kafka还会对消息进行备份，这些备份的数据在kafka中叫做<strong>副本</strong>。副本的数量可以配置，这些副本保存着相同的数据，但却有不同的角色和作用。Kafka 定义了两类副本：</p>
+<ul>
+<li>领导者副本（Leader Replica）：领导者副本对客户端<strong>提供服务</strong>。</li>
+<li>追随者副本（Follower Replica）：<strong>不对外提供服务</strong>，只是被动的追随领导者副本。</li>
+</ul>
+<p>Kafka所有的读写请求都必须发送到领导者副本所在的broker进行处理，追随者副本不处理请求，它仅仅是从领导者副本中<strong>异步</strong>拉取消息并写入到自己的提交日志中。与此同时如果领导者副本挂掉，基于zookeeper的监听功能，Kafka将立即开启新一轮的领导者副本选举，从追随者副本中选取一个作为新的领导者，老 Leader 副本重启回来后，只能作为追随者副本加入到集群中。<strong>副本机制保证了消息的持久化</strong>。为了<strong>保证领导者副本保存的内容不会爆满</strong>，kafka对每个topic划分为多个分区，每个分区是一组有序地消息日志。生产者生产的消息只会被发送到同一topic下的某一个分区中，kafka的分区编号从0开始。</p>
+<p><strong>副本是在分区这个级别下定义</strong>的，副本的本质就是一个只可以追加写的提交日志。每个分区可以配置n个副本，其中领导者副本只能有1个，其余都是追随者副本。副本分散部署在不同的broker上，每台broker上都可能存在各个主题下不同分区的副本，从而保证某些broker挂掉后Kafka仍然可以对外提供服务。生产者向分区写入消息，每条消息在分区内由一个偏移量（offset）来表示其位置，其中偏移量编号从0开始，一旦消息被成功写入到一个分区上，它的位移值就是固定的了。</p>
+<img src="/2023/07/16/Kafka/image-20231009204444418.png" class="" title="image-20231009204444418">
 
-
+<p>对于客户端来说，追随者副本没有任何作用，这样设计有两个好处：</p>
+<ol>
+<li>不同副本没有主从延迟的概念，写完就立马可读。如果允许追随者副本对外提供服务，由于副本同步是异步的，因此有可能出现追随者副本还没有从领导者副本那里拉取到最新的消息，从而使得客户端看不到最新写入的消息。</li>
+<li>消费者读时的密等性。消费者同时从不同追随者副本读取消息时，由于异步读取的滞后性，可能会出现读的结果不一致。但是如果所有请求都是由leader副本负责，那么很容易实现单调读一致性。</li>
+</ol>
+<p>Kafka引入了In-sync Replicas（ISR）来指出哪些副本是与 Leader 副本同步的，Leader 副本天然就在 ISR 中。也就是说，ISR 不只是追随者副本集合，它必然包括 Leader 副本，它是<strong>动态变化</strong>的。甚至在某些情况下，ISR 只有 Leader 这一个副本。评判 ISR 的标准就是 Broker 端参数<code>replica.lag.time.max.ms</code>的参数值控制的。这个参数的含义是 Follower 副本能够落后 Leader 副本的最长时间间隔。这就是说，只要一个 Follower 副本落后 Leader 副本的时间不连续超过这个参数值，那么 Kafka 就认为该 Follower 副本与 Leader 是同步的，即使此时 Follower 副本中保存的消息明显少于 Leader 副本中的消息。</p>
+<h4 id="副本选举"><a href="#副本选举" class="headerlink" title="副本选举"></a>副本选举</h4><p>如果 ISR 为空了，说明 Leader 副本也“挂掉”了，此时 Kafka 需要重新选举一个新的 Leader。可是那些不在ISR的副本又和原来的leader副本差距过大，选举这些副本又称为unclean 领导者选举。此时可以通过broker端参数<code>unclean.leader.election.enable</code>控制是否开启unclean 领导者选举，通常<strong>不建议开启</strong>，这个参数是否开启应该由业务来决定：</p>
+<ul>
+<li>开启这个参数可能会造成消息丢失，但是不至于停止对外提供服务。</li>
+<li>关闭参数保证了消息不会丢失，但牺牲了高可用性。</li>
+</ul>
 <h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><h3 id="消息分区机制"><a href="#消息分区机制" class="headerlink" title="消息分区机制"></a>消息分区机制</h3><p>kafka的主题是承载消息的逻辑容器，在每个主题下还有很多个分区，消息最终保存在不同的分区下，主题下的消息只会保存在一个分区中，而不会在多个分区中保存多份。分区的目的就是为了负载均衡、实现系统的高伸缩性，不同的分区可以放在不同的机器上，数据的读写操作针对分区进行，即使某一分区挂掉也不影响其他分区继续提供服务。</p>
 <p><strong>分区策略可以决定消费者将消息发送到哪个分区。</strong>kafka提供多种分区策略，同时支持自定义分区策略，只需配置生产端的参数<code>partitioner.class</code>以及实现<code>org.apache.kafka.clients.producer.Partitioner</code>接口。</p>
 <h4 id="轮询策略"><a href="#轮询策略" class="headerlink" title="轮询策略"></a>轮询策略</h4><p>也就是顺序分配，即消息按照分区挨个发送。</p>
@@ -334,7 +355,7 @@
 <p>幂等性的好处在于可以安全的重复这些操作，不会对系统造成任何改变。</p>
 </blockquote>
 <p>Kafka的默认生产者不是幂等性的，要启用幂等性功能，只需设置一个参数即可: <code>props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG， true)</code>。开启幂等性服务后，broker使用空间换时间思路，对每条消息额外保存一些字段，通过这些字段进行去重操作。</p>
-<p>幂等性生产者只能保障单一分区上的要求，即一个幂等性 Producer 能够保证某个主题的一个分区上不出现重复消息，它无法实现多个分区的幂等性。其次，它只能实现<strong>单会话上</strong>的幂等性，不能实现跨会话的幂等性。当重启了 Producer 进程之后，这种幂等性保证就丧失了。</p>
+<p>幂等性生产者<strong>只能保障单一分区</strong>上的要求，即一个幂等性 Producer 能够保证某个主题的一个分区上不出现重复消息，它无法实现多个分区的幂等性。其次，它只能实现<strong>单会话上</strong>的幂等性，不能实现跨会话的幂等性。当重启了 Producer 进程之后，这种幂等性保证就丧失了。</p>
 <h5 id="事务型生产者"><a href="#事务型生产者" class="headerlink" title="事务型生产者"></a>事务型生产者</h5><p>事务型 Producer 能够保障原子地将消息发送到不同分区中，这批消息要么全部成功，要么全部失败，同时不惧 Producer 进程的重启。</p>
 <p>开启事务型生产者需要两个步骤：</p>
 <ol>
@@ -411,6 +432,19 @@
 <p>消费者端参数 connection.max.idle.ms 控制，不过消费者程序一般都是使用循环消费消息，一般不会超时关闭。</p>
 </li>
 </ul>
+<h3 id="Kafka请求的处理"><a href="#Kafka请求的处理" class="headerlink" title="Kafka请求的处理"></a>Kafka请求的处理</h3><p>Kafka的客户端和broker端都是通过 ”请求&#x2F;响应“ 的形式进行交互，Kafka自定义了许多请求格式来进行交互，比如PRODUCE请求用于生产消息、FETCH请求用于消费消息、METADATA请求用于获取集群数据元信息。<strong>所有的请求都是通过TCP网络以Socket的形式进行通信</strong>。</p>
+<p>当消息到达broker后，Kafka使用Reactor模式处理请求，其处理架构如下图所示。</p>
+<blockquote>
+<p>Reactor是一种基于事件驱动的架构模式，擅长处理多个客户端并发向服务端发送请求的场景。</p>
+</blockquote>
+<img src="/2023/07/16/Kafka/image-20231025200256037.png" class="" title="image-20231025200256037">
+
+<p>由上图可以看出，Kafka的Broker有个SocketServer组件，它有对应的Acceptor线程和网络线程池。其中Acceptor线程采用轮询的方式分发客户端发送过来的请求给网络线程池，网络线程池则负责处理接收到的请求。Kafka 提供了 Broker 端参数<code>num.network.threads</code>，用于调整该网络线程池的线程数。其默认值是 3，表示每台 Broker 启动时会创建 3 个网络线程，专门处理客户端发送的请求。</p>
+<p>网络线程池中工作线程的处理速度可能跟不上分发线程的派送速度，因此网络线程在这里再次执行了一次异步处理操作。</p>
+<img src="/2023/07/16/Kafka/image-20231025201512500.png" class="" title="image-20231025201512500">
+
+<p>所有的网络线程拿到请求后都会把请求放到一个<strong>共享请求队列中</strong>，Broker端的<strong>IO线程池从共享请求队列取出请求执行真正的处理逻辑</strong>，处理完毕后放到相应队列中。Broker 端参数<code>num.io.threads</code>控制了IO线程池中的线程数。目前该参数默认值是 8，表示每台 Broker 启动后自动创建 8 个 IO 线程处理请求。网络线程池的请求响应队列不是共享的，每个网络线程有自己专属的响应队列。这样设计的原因就是Acceptor线程只负责分发请求，不负责向客户端返回响应，每个请求由不同的网络线程自己发送 Response 给客户端，所以这些 Response 也就没必要放在一个公共的地方。</p>
+<p>Purgatory 的组件是用来缓存延时请求（Delayed Request）的。所谓延时请求，就是那些一时未满足条件不能立刻处理的请求。比如设置了 acks&#x3D;all 的 PRODUCE 请求，一旦设置了 acks&#x3D;all，那么该请求就必须等待 ISR 中所有副本都接收了消息后才能返回，此时处理该请求的 IO 线程就必须等待其他 Broker 的写入结果。当请求不能立刻处理时，它就会暂存在 Purgatory 中。稍后一旦满足了完成条件，IO 线程会继续处理该请求，并将 Response 放入对应网络线程的响应队列中。</p>
 <h3 id="消费者组"><a href="#消费者组" class="headerlink" title="消费者组"></a>消费者组</h3><p>Consumer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制。组内有多个消费者实例，它们具有共同的Group ID，一个组结合起来消费订阅主题下的所有分区，<strong>其中一个分区最多只能被同组内的一个消费者消费，但是可以被其他组的实例消费。</strong>因此一个消费者组的实例数在理想情况下应该等于它所订阅主题的分区总数。</p>
 <p>当 Consumer Group 订阅了多个主题后，组内的每个实例<strong>不要求一定要订阅主题的所有分区</strong>，它只会消费部分分区中的消息。Consumer Group <strong>之间彼此独立</strong>，互不影响，它们能够订阅相同的一组主题而互不干涉。如果所有实例都属于同一个 Group，那么它实现的就是消息队列模型；如果所有实例分别属于不同的 Group，那么它实现的就是发布 &#x2F; 订阅模型。</p>
 <h4 id="位移主题"><a href="#位移主题" class="headerlink" title="位移主题"></a>位移主题</h4><p>消费者在消费的过程中需要记录自己的消费位置信息，对于消费者组来说，这些数据以键值对的方式保存，其中键是分区、值是该分区的最新消费位移。这些位置数据存放的具体位置因客户端版本的不同而不同，老版本存放在zookeeper中，当 Consumer 重启后，它能自动从 ZooKeeper 中读取位移数据，从而在上次消费截止的地方继续消费。这种设计使得 Kafka Broker 不需要保存位移数据，减少了 Broker 端需要持有的状态空间，因而有利于实现高伸缩性。但是位移数据需要频繁更新，<strong>大吞吐量的写操作会极大地拖慢 ZooKeeper 集群的性能</strong>，因此新版本的客户端修改了存放地址，把位移信息放在了Kafka 内部主题—__consumer_offsets中。</p>
@@ -451,7 +485,7 @@
 <li>consumer使用多线程来处理消息</li>
 </ul>
 </li>
-<li>Kafka还有一种独立消费者，每个消费者实例之间没有关系，但是也要指定group.id才能提交位移，如果group.id和消费者组相同，那么就好抛出此异常</li>
+<li>Kafka还有一种独立消费者，每个消费者实例之间没有关系，但是也要指定group.id才能提交位移，如果group.id和消费者组相同，那么就会抛出此异常</li>
 </ul>
 <h4 id="Rebalance"><a href="#Rebalance" class="headerlink" title="Rebalance"></a>Rebalance</h4><p>Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。Rebalance 发生时，Group 下<strong>所有</strong>的 Consumer 实例都会在协调者组件的帮助下共同参与，因此在这个过程中所有的实例都不能消费消息（stop the world）。<strong>协调者</strong>在 Kafka 中对应的术语是 Coordinator，它专门为 Consumer Group 服务，负责为 Group 执行 Rebalance 以及提供位移管理和组成员管理等。Consumer 端应用程序在提交位移时，其实是向 Coordinator 所在的 Broker 提交位移。同样地，当 Consumer 应用启动时，也是向 Coordinator 所在的 Broker 发送各种请求，然后由 Coordinator 负责执行消费者组的注册、成员管理记录等元数据管理操作。</p>
 <p>所有 Broker 在启动时，都会创建和开启相应的 Coordinator 组件。也就是说，<strong>所有 Broker 都有各自的 Coordinator 组件</strong>，消费者组通过以下算法定位为自己负责的 Coordinator 组件：</p>
@@ -461,18 +495,67 @@
 </ol>
 <p>Rebalance的触发条件有三个：</p>
 <ol>
-<li><strong>组成员数发生变更</strong>。比如有新的 Consumer 实例加入组或者离开组，抑或是有 Consumer 实例崩溃被“踢出”组。</li>
+<li><strong>组成员数发生变更</strong>。比如有新的 Consumer 实例<strong>加入组或者离开组</strong>，抑或是有 Consumer 实例崩溃被“踢出”组。</li>
 <li><strong>订阅主题数发生变更</strong>。若Consumer Group 订阅所有以字母 t 开头、字母 c 结尾的主题，在 Consumer Group 的运行过程中，新创建了一个满足这样条件的主题，那么该 Group 就会发生 Rebalance。</li>
 <li><strong>订阅主题的分区数发生变更</strong>。Kafka 当前只能允许增加一个主题的分区数。当分区数增加时，就会触发订阅该主题的所有 Group 开启 Rebalance。</li>
 </ol>
-<p>在 Rebalance 过程中，所有 Consumer 实例都会<strong>停止消费</strong>，等待 Rebalance 完成，其次目前 Rebalance 的设计是所有 Consumer 实例共同参与，<strong>不考虑局部性原理</strong>，全部重新分配所有分区。</p>
+<h5 id="心跳机制"><a href="#心跳机制" class="headerlink" title="心跳机制"></a>心跳机制</h5><p>在 Rebalance 过程中，所有 Consumer 实例都会<strong>停止消费</strong>，等待 Rebalance 完成，其次目前 Rebalance 的设计是所有 Consumer 实例共同参与，<strong>不考虑局部性原理</strong>，全部重新分配所有分区。</p>
 <p>消费端有三个参数可能影响到Rebalance触发，实际上多数Rebalance发生都是这些原因，也是实际生产环境应该经历避免的。：</p>
 <ol>
 <li>消费端有<code>session.timeout.ms</code>参数来控制心跳时间，超出时间没有进行心跳连接，Coordinator 就会认为该实例下线，进而进行Rebalance，推荐设置为6s</li>
 <li>Consumer 还提供了一个允许控制发送心跳请求频率的参数，就是<code>heartbeat.interval.ms</code>。这个值设置得越小，Consumer 实例发送心跳请求的频率就越高。频繁地发送心跳请求会额外消耗带宽资源，但<strong>好处是能够更加快速地知晓当前是否开启 Rebalance</strong>，因为，目前 Coordinator 通知各个 Consumer 实例开启 Rebalance 的方法，就是将 REBALANCE_NEEDED 标志封装进心跳请求的响应体中，推荐设置为2s，也就是判断下线应该至少经历三次心跳无反应。</li>
 <li>Consumer 端<code>max.poll.interval.ms</code>参数用于控制 Consumer 实际消费能力对 Rebalance 的影响。它限定了 Consumer 端应用程序两次调用 poll 方法的最大时间间隔，表示 Consumer 程序如果在指定时间内无法消费完 poll 方法返回的消息，那么 Consumer 会主动发起“离开组”的请求，Coordinator 也会开启新一轮 Rebalance。推荐根据下游消费逻辑消耗时间设置此值。</li>
 </ol>
+<p>Kafka通过心跳机制通知Consumer进行Rebalance操作，每个Consumer除了工作主线程外还会有一个心跳线程，当协调者决定要开启Rebalance操作时，它会在心跳响应中带上<strong>REBALANCE_IN_PROGRESS</strong>参数，Consumer发现心跳响应中有REBALANCE_IN_PROGRESS就知道要开始Rebalance操作了。</p>
+<h5 id="消费者组状态机"><a href="#消费者组状态机" class="headerlink" title="消费者组状态机"></a>消费者组状态机</h5><p>Rebalance操作开始的时候，协调者使用状态机来完成消费者状态的扭转，Kafka给消费者组定义了五种状态：</p>
+<ul>
+<li>Empty：组内没有任何成员，但是消费者组可能存在已提交的位移数据，并且位移还未过期。</li>
+<li>Dead：组内没有任何成员，但是组的元数据信息在协调者端已经被删除。</li>
+<li>PreparingRebalance：准备开启重平衡，此时组内所有消费者都有重新请求加入消费者组。</li>
+<li>CompletingRebalance：组内消费者都已经加入，成员在等待分配消费方案。</li>
+<li>Stable：消费者组的稳定状态，重平衡已经完成，可以正常消费数据。</li>
+</ul>
+<img src="/2023/07/16/Kafka/image-20231026103854842.png" class="" title="image-20231026103854842">
+
+<p>消费者组最开始处于Empty状态，当准备开始重平衡后它会进入PreparingRebalance等待所有消费者实例加入，之后变更到CompletingRebalance状态等待分配方案，最后流转到Stable状态完成重平衡。</p>
+<p>当有新成员加入或已有成员退出时，消费者组的状态从Stable直接跳到PreparingRebalance状态，此时，所有现存成员就必须重新申请加入组。当所有成员都退出组后，消费者组状态变更为Empty。Kafka定期自动删除过期位移的条件就是，组要处于Empty状态。</p>
+<h5 id="消费者端重平衡流程"><a href="#消费者端重平衡流程" class="headerlink" title="消费者端重平衡流程"></a>消费者端重平衡流程</h5><p>从消费者视角来看，重平衡操作有两个流程分别是加入组和等待领导消费者分配消费方案，对应的两种请求分别是：<strong>JoinGroup请求和SyncGroup请求</strong>。</p>
+<p>当消费者加入组内时会首先向协调者发送JoinGroup请求，在该请求中每个消费者都要汇报自己订阅的主题，因此协调者可以拿到组内所有的订阅主题信息。通常情况下第一个发送JoinGroup请求的消费者会被协调者定位Leader Consumer，<strong>领导者消费者的任务是收集所有成员的订阅信息，然后根据这些信息，制定具体的分区消费分配方案</strong>。</p>
+<img src="/2023/07/16/Kafka/image-20231026120119093.png" class="" title="image-20231026120119093">
+
+<p>选出领导者后，协调者会把组内消费者的订阅信息以JoinGroup请求响应体的方式发送给领导者，领导者根据这些信息制定出消费计划，接着所有消费者都会给协调者发送SyncGroup请求。不过领导者的请求包含了所有消费者的消费计划，而<strong>其他成员的请求中为空</strong>，最后协调者把领导者上报的消费信息以SyncGroup响应的方式发送给每个消费者。<strong>SyncGroup请求的目的就是让所有成员知道自己的消费信息。</strong></p>
+<img src="/2023/07/16/Kafka/image-20231026120133318.png" class="" title="image-20231026120133318">
+
+<h5 id="Broker端重平衡流程"><a href="#Broker端重平衡流程" class="headerlink" title="Broker端重平衡流程"></a>Broker端重平衡流程</h5><p>从服务端来看，消费者的变化有四种情况：</p>
+<ol>
+<li><p>稳定的组中有新消费者加入，协调者收到新的加入请求后，会在心跳反应中通知其余消费者开始rebalance</p>
+<img src="/2023/07/16/Kafka/image-20231030205933546.png" class="" title="image-20231030205933546">
+</li>
+<li><p>稳定的组中有消费者主动离开，协调者收到LeaveGroup请求后，依然会以心跳响应的方式通知其他成员。</p>
+<img src="/2023/07/16/Kafka/image-20231030210135366.png" class="" title="image-20231030210135366">
+</li>
+<li><p>稳定的组中有消费者崩溃离开，崩溃离开是被动行为，在指定心跳时间内没有回应就会通知其余成员。</p>
+<img src="/2023/07/16/Kafka/image-20231030210303706.png" class="" title="image-20231030210303706">
+</li>
+<li><p>重平衡时协调者会对组内成员提交位移指定一个时间段，每个成员都要在指定时间提交自己的位移情况，然后再开始正常的JoinGroup&#x2F;SyncGroup请求发送。</p>
+<img src="/2023/07/16/Kafka/image-20231030211111244.png" class="" title="image-20231030211111244"></li>
+</ol>
 <h3 id="消费进度监控"><a href="#消费进度监控" class="headerlink" title="消费进度监控"></a>消费进度监控</h3><p>消费者组滞后程度称为Consumer Lag，即消费消息与生产消息的差值。对消费者而言，Lag 应该算是最重要的监控指标了。它直接反映了一个消费者的运行情况。一个正常工作的消费者，它的 Lag 值应该很小，甚至是接近于 0 的，这表示该消费者能够及时地消费生产者生产出来的消息，滞后程度很小。反之，如果一个消费者 Lag 值很大，通常就表明它无法跟上生产者的速度，最终 Lag 会越来越大，从而拖慢下游消息的处理速度。</p>
+<p>Kafka监控Lag是在分区层面上的，如果需要topic层面的Lag，需要手动把所有分区进行汇总，得到总的Lag值。监控这些重要指标有三种方法：</p>
+<ol>
+<li>使用 Kafka 自带的命令行工具 kafka-consumer-groups 脚本。</li>
+<li>使用 Kafka Java Consumer API 编程。</li>
+<li>使用 Kafka 自带的 JMX 监控指标。</li>
+</ol>
+<h4 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h4><p>脚本位于bin目录下，使用方式如下</p>
+<p><code>bin/kafka-consumer-groups.sh --bootstrap-server &lt;Kafka broker连接信息&gt; --describe --group &lt;group名称&gt;</code></p>
+<h4 id="API"><a href="#API" class="headerlink" title="API"></a>API</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;TopicPartition, Long&gt; <span class="title function_">lagOf</span><span class="params">(String groupID, String bootstrapServers)</span> <span class="keyword">throws</span> TimeoutException &#123;</span><br><span class="line">        <span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">AdminClient</span> <span class="variable">client</span> <span class="operator">=</span> AdminClient.create(props)) &#123;</span><br><span class="line">            <span class="comment">// 获取给定groupID的最新消费位移</span></span><br><span class="line">            <span class="type">ListConsumerGroupOffsetsResult</span> <span class="variable">result</span> <span class="operator">=</span> client.listConsumerGroupOffsets(groupID);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Map&lt;TopicPartition, OffsetAndMetadata&gt; consumedOffsets = result.partitionsToOffsetAndMetadata().get(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">                props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, <span class="literal">false</span>); <span class="comment">// 禁止自动提交位移</span></span><br><span class="line">                props.put(ConsumerConfig.GROUP_ID_CONFIG, groupID);</span><br><span class="line">                props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());</span><br><span class="line">                props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());</span><br><span class="line">                <span class="keyword">try</span> (<span class="keyword">final</span> KafkaConsumer&lt;String, String&gt; consumer = <span class="keyword">new</span> <span class="title class_">KafkaConsumer</span>&lt;&gt;(props)) &#123;</span><br><span class="line">                    <span class="comment">// 获取订阅分区的最新消息位移</span></span><br><span class="line">                    Map&lt;TopicPartition, Long&gt; endOffsets = consumer.endOffsets(consumedOffsets.keySet());</span><br><span class="line">                    <span class="comment">// 减法计算Lag值</span></span><br><span class="line">                    <span class="keyword">return</span> endOffsets.entrySet().stream().collect(Collectors.toMap(entry -&gt; entry.getKey(),</span><br><span class="line">                            entry -&gt; entry.getValue() - consumedOffsets.get(entry.getKey()).offset()));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                Thread.currentThread().interrupt();</span><br><span class="line">                <span class="comment">// 处理中断异常</span></span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">                <span class="keyword">return</span> Collections.emptyMap();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">                <span class="comment">// 处理ExecutionException</span></span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">                <span class="keyword">return</span> Collections.emptyMap();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (TimeoutException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TimeoutException</span>(<span class="string">&quot;Timed out when getting lag for consumer group &quot;</span> + groupID);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="JMX-监控指标"><a href="#JMX-监控指标" class="headerlink" title="JMX 监控指标"></a>JMX 监控指标</h4><p>Kafka 消费者提供了一个名为 kafka.consumer:type&#x3D;consumer-fetch-manager-metrics,client-id&#x3D;“{client-id}”的 JMX 指标，它可以方便的集成到其他监控框架中，里面有两组属性比较重要：</p>
+<ol>
+<li>records-lag-max：消费延迟的最大值。</li>
+<li>records-lead-min：Lead 值是指消费者最新消费消息的位移与分区当前第一条消息位移的差值。Kafka的消息默认保存一周，如果接近0就表示消费者消费的数据即将被Kafka删除，消费端<strong>即将要丢失消息</strong>。</li>
+</ol>
 
     </div>
 
