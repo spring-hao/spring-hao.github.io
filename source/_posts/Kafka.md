@@ -19,26 +19,13 @@ Apache Kafka 是消息引擎系统，也是一个分布式事件流处理平台�
 - 点对点模型：也叫消息队列模型，消息只能由A系统发出，由B系统接收，其他模型无权生产与消费消息，简单来说是一对一的模型。
 - 发布 / 订阅模型：有一个topic的概念，可以有多个生产者向topic中生产消息，同时允许多个消费者订阅topic进行消费，简单来说就是一种**多对多**的模型。
 
-### 概念说明
-
 向目标topic发送消息的客户端被称为生产者，生产者源源不断的向**一个或多个**主题发送消息，而订阅这些topic的客户端被称为消费者，消费者同样订阅**一个或多个**topic。生产者和消费者统称为**客户端**，客户端可以运行多个实例，这些实例不停地进行生产和消费行为。
 
 Kafka 的服务器端由被称为 Broker 的服务进程构成，即**一个 Kafka 集群由多个 Broker 组成**，Broker 负责接收和处理客户端发送过来的请求，以及对**消息进行持久化**。虽然多个 Broker 进程能够运行在同一台机器上，但更常见的做法是将不同的 Broker 分散运行在不同的机器上，这样如果**集群**中某一台机器宕机，即使在它上面运行的所有 Broker 进程都挂掉了，其他机器上的 Broker 也依然能够对外提供服务。这就是 Kafka 提供高可用的手段之一。
 
-为了实现高可用目标，kafka还会对消息进行备份，这些备份的数据在kafka中叫做**副本**。副本的数量可以配置，这些副本保存着相同的数据，但却有不同的角色和作用。Kafka 定义了两类副本：
-
-- 领导者副本（Leader Replica）：领导者副本对客户端**提供服务**。
-- 追随者副本（Follower Replica）：**不对外提供服务**，只是被动的追随领导者副本。
-
-生产者总是向领导者副本写消息；而消费者总是从领导者副本读消息。至于追随者副本，它只向领导者副本发送请求，请求领导者把最新生产的消息发给它，这样它能保持与领导者的同步。**副本机制保证了消息的持久化**。为了保证领导者副本保存的内容不会爆满，kafka对每个topic划分为多个分区，每个分区是一组有序地消息日志。生产者生产的消息只会被发送到同一topic下的某一个分区中，kafka的分区编号从0开始。
-
-副本是在分区这个级别下定义的。每个分区可以配置n个副本，其中领导者副本只能有1个，其余都是追随者副本。生产者向分区写入消息，每条消息在分区内由一个偏移量（offset）来表示其位置，其中偏移量编号从0开始，一旦消息被成功写入到一个分区上，它的位移值就是固定的了。
-
-总的来说，Kafka 使用消息日志（Log）来保存数据，一个日志就是磁盘上一个只能追加写（Append-only）消息的物理文件。因为只能追加写入，故避免了缓慢的随机 I/O 操作，改为性能较好的顺序 I/O 写操作，这也是实现 Kafka 高吞吐量特性的一个重要手段。因此kafka通过日志段（Log Segment）机制来定期地删除消息以回收磁盘。在 Kafka 底层，一个日志又进一步细分成多个日志段，消息被追加写到当前最新的日志段中，当写满了一个日志段后，Kafka 会自动切分出一个新的日志段，并将老的日志段封存起来。Kafka 在后台还有定时任务会定期地检查老的日志段是否能够被删除，从而实现回收磁盘空间的目的。
+总的来说，Kafka 使用消息日志（Log）来保存数据，一个日志就是磁盘上一个只能追加写（Append-only）消息的物理文件。因为只能追加写入，故避免了缓慢的随机 I/O 操作，改为性能较好的**顺序 I/O 写**操作，这也是实现 Kafka 高吞吐量特性的一个重要手段。因此kafka通过日志段（Log Segment）机制来定期地删除消息以回收磁盘。在 Kafka 底层，一个日志又进一步细分成多个日志段，消息被追加写到当前最新的日志段中，当写满了一个日志段后，Kafka 会自动切分出一个新的日志段，并将老的日志段封存起来。Kafka 在后台还有定时任务会定期地检查老的日志段是否能够被删除，从而实现回收磁盘空间的目的。
 
 每个消费者在消费消息的过程使用消费者位移（Consumer Offset）字段记录它当前消费到了分区的哪个位置，消费者位移可能是随时变化的，每个消费者有着自己的消费者位移。
-
-
 
 - 消息：Record。Kafka 是消息引擎，这里的消息就是指 Kafka 处理的主要对象。
 - 主题：Topic。主题是承载消息的逻辑容器，在实际使用中多用来区分具体的业务。
@@ -53,7 +40,32 @@ Kafka 的服务器端由被称为 Broker 的服务进程构成，即**一个 Kaf
 
 ![image-20230712110937524](Kafka/image-20230712110937524.png)
 
+### 副本
 
+为了实现高可用目标，kafka还会对消息进行备份，这些备份的数据在kafka中叫做**副本**。副本的数量可以配置，这些副本保存着相同的数据，但却有不同的角色和作用。Kafka 定义了两类副本：
+
+- 领导者副本（Leader Replica）：领导者副本对客户端**提供服务**。
+- 追随者副本（Follower Replica）：**不对外提供服务**，只是被动的追随领导者副本。
+
+Kafka所有的读写请求都必须发送到领导者副本所在的broker进行处理，追随者副本不处理请求，它仅仅是从领导者副本中**异步**拉取消息并写入到自己的提交日志中。与此同时如果领导者副本挂掉，基于zookeeper的监听功能，Kafka将立即开启新一轮的领导者副本选举，从追随者副本中选取一个作为新的领导者，老 Leader 副本重启回来后，只能作为追随者副本加入到集群中。**副本机制保证了消息的持久化**。为了**保证领导者副本保存的内容不会爆满**，kafka对每个topic划分为多个分区，每个分区是一组有序地消息日志。生产者生产的消息只会被发送到同一topic下的某一个分区中，kafka的分区编号从0开始。
+
+**副本是在分区这个级别下定义**的，副本的本质就是一个只可以追加写的提交日志。每个分区可以配置n个副本，其中领导者副本只能有1个，其余都是追随者副本。副本分散部署在不同的broker上，每台broker上都可能存在各个主题下不同分区的副本，从而保证某些broker挂掉后Kafka仍然可以对外提供服务。生产者向分区写入消息，每条消息在分区内由一个偏移量（offset）来表示其位置，其中偏移量编号从0开始，一旦消息被成功写入到一个分区上，它的位移值就是固定的了。
+
+![image-20231009204444418](Kafka/image-20231009204444418.png)
+
+对于客户端来说，追随者副本没有任何作用，这样设计有两个好处：
+
+1. 不同副本没有主从延迟的概念，写完就立马可读。如果允许追随者副本对外提供服务，由于副本同步是异步的，因此有可能出现追随者副本还没有从领导者副本那里拉取到最新的消息，从而使得客户端看不到最新写入的消息。
+2. 消费者读时的密等性。消费者同时从不同追随者副本读取消息时，由于异步读取的滞后性，可能会出现读的结果不一致。但是如果所有请求都是由leader副本负责，那么很容易实现单调读一致性。
+
+Kafka引入了In-sync Replicas（ISR）来指出哪些副本是与 Leader 副本同步的，Leader 副本天然就在 ISR 中。也就是说，ISR 不只是追随者副本集合，它必然包括 Leader 副本，它是**动态变化**的。甚至在某些情况下，ISR 只有 Leader 这一个副本。评判 ISR 的标准就是 Broker 端参数`replica.lag.time.max.ms`的参数值控制的。这个参数的含义是 Follower 副本能够落后 Leader 副本的最长时间间隔。这就是说，只要一个 Follower 副本落后 Leader 副本的时间不连续超过这个参数值，那么 Kafka 就认为该 Follower 副本与 Leader 是同步的，即使此时 Follower 副本中保存的消息明显少于 Leader 副本中的消息。
+
+#### 副本选举
+
+如果 ISR 为空了，说明 Leader 副本也“挂掉”了，此时 Kafka 需要重新选举一个新的 Leader。可是那些不在ISR的副本又和原来的leader副本差距过大，选举这些副本又称为unclean 领导者选举。此时可以通过broker端参数`unclean.leader.election.enable`控制是否开启unclean 领导者选举，通常**不建议开启**，这个参数是否开启应该由业务来决定：
+
+- 开启这个参数可能会造成消息丢失，但是不至于停止对外提供服务。
+- 关闭参数保证了消息不会丢失，但牺牲了高可用性。
 
 ## 客户端
 
@@ -134,7 +146,7 @@ Kafka的默认生产者不是幂等性的，要启用幂等性功能，只需设
 
 
 
-幂等性生产者只能保障单一分区上的要求，即一个幂等性 Producer 能够保证某个主题的一个分区上不出现重复消息，它无法实现多个分区的幂等性。其次，它只能实现**单会话上**的幂等性，不能实现跨会话的幂等性。当重启了 Producer 进程之后，这种幂等性保证就丧失了。
+幂等性生产者**只能保障单一分区**上的要求，即一个幂等性 Producer 能够保证某个主题的一个分区上不出现重复消息，它无法实现多个分区的幂等性。其次，它只能实现**单会话上**的幂等性，不能实现跨会话的幂等性。当重启了 Producer 进程之后，这种幂等性保证就丧失了。
 
 ##### 事务型生产者
 
@@ -260,6 +272,26 @@ Kafka的生产者、消费者、broker所有通信都是基于TCP协议的。
 
   消费者端参数 connection.max.idle.ms 控制，不过消费者程序一般都是使用循环消费消息，一般不会超时关闭。
 
+### Kafka请求的处理
+
+Kafka的客户端和broker端都是通过 ”请求/响应“ 的形式进行交互，Kafka自定义了许多请求格式来进行交互，比如PRODUCE请求用于生产消息、FETCH请求用于消费消息、METADATA请求用于获取集群数据元信息。**所有的请求都是通过TCP网络以Socket的形式进行通信**。
+
+当消息到达broker后，Kafka使用Reactor模式处理请求，其处理架构如下图所示。
+
+> Reactor是一种基于事件驱动的架构模式，擅长处理多个客户端并发向服务端发送请求的场景。
+
+![image-20231025200256037](Kafka/image-20231025200256037.png)
+
+由上图可以看出，Kafka的Broker有个SocketServer组件，它有对应的Acceptor线程和网络线程池。其中Acceptor线程采用轮询的方式分发客户端发送过来的请求给网络线程池，网络线程池则负责处理接收到的请求。Kafka 提供了 Broker 端参数`num.network.threads`，用于调整该网络线程池的线程数。其默认值是 3，表示每台 Broker 启动时会创建 3 个网络线程，专门处理客户端发送的请求。
+
+网络线程池中工作线程的处理速度可能跟不上分发线程的派送速度，因此网络线程在这里再次执行了一次异步处理操作。
+
+![image-20231025201512500](Kafka/image-20231025201512500.png)
+
+所有的网络线程拿到请求后都会把请求放到一个**共享请求队列中**，Broker端的**IO线程池从共享请求队列取出请求执行真正的处理逻辑**，处理完毕后放到相应队列中。Broker 端参数`num.io.threads`控制了IO线程池中的线程数。目前该参数默认值是 8，表示每台 Broker 启动后自动创建 8 个 IO 线程处理请求。网络线程池的请求响应队列不是共享的，每个网络线程有自己专属的响应队列。这样设计的原因就是Acceptor线程只负责分发请求，不负责向客户端返回响应，每个请求由不同的网络线程自己发送 Response 给客户端，所以这些 Response 也就没必要放在一个公共的地方。
+
+Purgatory 的组件是用来缓存延时请求（Delayed Request）的。所谓延时请求，就是那些一时未满足条件不能立刻处理的请求。比如设置了 acks=all 的 PRODUCE 请求，一旦设置了 acks=all，那么该请求就必须等待 ISR 中所有副本都接收了消息后才能返回，此时处理该请求的 IO 线程就必须等待其他 Broker 的写入结果。当请求不能立刻处理时，它就会暂存在 Purgatory 中。稍后一旦满足了完成条件，IO 线程会继续处理该请求，并将 Response 放入对应网络线程的响应队列中。
+
 ### 消费者组
 
 Consumer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制。组内有多个消费者实例，它们具有共同的Group ID，一个组结合起来消费订阅主题下的所有分区，**其中一个分区最多只能被同组内的一个消费者消费，但是可以被其他组的实例消费。**因此一个消费者组的实例数在理想情况下应该等于它所订阅主题的分区总数。
@@ -332,7 +364,7 @@ Consumer在提交位移的时候发生了异常，并且该异常Kafka无法通�
   - 增大消费者最大消费时间，即 max.poll.interval.ms 值
   - 减少每次获取的消息数量，Consumer 端参数 max.poll.records 的值，默认每次消费500条消息
   - consumer使用多线程来处理消息
-- Kafka还有一种独立消费者，每个消费者实例之间没有关系，但是也要指定group.id才能提交位移，如果group.id和消费者组相同，那么就好抛出此异常
+- Kafka还有一种独立消费者，每个消费者实例之间没有关系，但是也要指定group.id才能提交位移，如果group.id和消费者组相同，那么就会抛出此异常
 
 #### Rebalance
 
@@ -344,9 +376,11 @@ Rebalance 本质上是一种协议，规定了一个 Consumer Group 下的所有
 2. 找出该分区 Leader 副本所在的 Broker，该 Broker 即为对应的 Coordinator。
 
 Rebalance的触发条件有三个：
-1. **组成员数发生变更**。比如有新的 Consumer 实例加入组或者离开组，抑或是有 Consumer 实例崩溃被“踢出”组。
+1. **组成员数发生变更**。比如有新的 Consumer 实例**加入组或者离开组**，抑或是有 Consumer 实例崩溃被“踢出”组。
 2. **订阅主题数发生变更**。若Consumer Group 订阅所有以字母 t 开头、字母 c 结尾的主题，在 Consumer Group 的运行过程中，新创建了一个满足这样条件的主题，那么该 Group 就会发生 Rebalance。
 3. **订阅主题的分区数发生变更**。Kafka 当前只能允许增加一个主题的分区数。当分区数增加时，就会触发订阅该主题的所有 Group 开启 Rebalance。
+
+##### 心跳机制
 
 在 Rebalance 过程中，所有 Consumer 实例都会**停止消费**，等待 Rebalance 完成，其次目前 Rebalance 的设计是所有 Consumer 实例共同参与，**不考虑局部性原理**，全部重新分配所有分区。
 
@@ -356,7 +390,114 @@ Rebalance的触发条件有三个：
 2. Consumer 还提供了一个允许控制发送心跳请求频率的参数，就是`heartbeat.interval.ms`。这个值设置得越小，Consumer 实例发送心跳请求的频率就越高。频繁地发送心跳请求会额外消耗带宽资源，但**好处是能够更加快速地知晓当前是否开启 Rebalance**，因为，目前 Coordinator 通知各个 Consumer 实例开启 Rebalance 的方法，就是将 REBALANCE_NEEDED 标志封装进心跳请求的响应体中，推荐设置为2s，也就是判断下线应该至少经历三次心跳无反应。
 3. Consumer 端`max.poll.interval.ms`参数用于控制 Consumer 实际消费能力对 Rebalance 的影响。它限定了 Consumer 端应用程序两次调用 poll 方法的最大时间间隔，表示 Consumer 程序如果在指定时间内无法消费完 poll 方法返回的消息，那么 Consumer 会主动发起“离开组”的请求，Coordinator 也会开启新一轮 Rebalance。推荐根据下游消费逻辑消耗时间设置此值。
 
+Kafka通过心跳机制通知Consumer进行Rebalance操作，每个Consumer除了工作主线程外还会有一个心跳线程，当协调者决定要开启Rebalance操作时，它会在心跳响应中带上**REBALANCE_IN_PROGRESS**参数，Consumer发现心跳响应中有REBALANCE_IN_PROGRESS就知道要开始Rebalance操作了。
+
+##### 消费者组状态机
+
+Rebalance操作开始的时候，协调者使用状态机来完成消费者状态的扭转，Kafka给消费者组定义了五种状态：
+
+- Empty：组内没有任何成员，但是消费者组可能存在已提交的位移数据，并且位移还未过期。
+- Dead：组内没有任何成员，但是组的元数据信息在协调者端已经被删除。
+- PreparingRebalance：准备开启重平衡，此时组内所有消费者都有重新请求加入消费者组。
+- CompletingRebalance：组内消费者都已经加入，成员在等待分配消费方案。
+- Stable：消费者组的稳定状态，重平衡已经完成，可以正常消费数据。
+
+![image-20231026103854842](Kafka/image-20231026103854842.png)
+
+消费者组最开始处于Empty状态，当准备开始重平衡后它会进入PreparingRebalance等待所有消费者实例加入，之后变更到CompletingRebalance状态等待分配方案，最后流转到Stable状态完成重平衡。
+
+当有新成员加入或已有成员退出时，消费者组的状态从Stable直接跳到PreparingRebalance状态，此时，所有现存成员就必须重新申请加入组。当所有成员都退出组后，消费者组状态变更为Empty。Kafka定期自动删除过期位移的条件就是，组要处于Empty状态。
+
+##### 消费者端重平衡流程
+
+从消费者视角来看，重平衡操作有两个流程分别是加入组和等待领导消费者分配消费方案，对应的两种请求分别是：**JoinGroup请求和SyncGroup请求**。
+
+当消费者加入组内时会首先向协调者发送JoinGroup请求，在该请求中每个消费者都要汇报自己订阅的主题，因此协调者可以拿到组内所有的订阅主题信息。通常情况下第一个发送JoinGroup请求的消费者会被协调者定位Leader Consumer，**领导者消费者的任务是收集所有成员的订阅信息，然后根据这些信息，制定具体的分区消费分配方案**。
+
+![image-20231026120119093](Kafka/image-20231026120119093.png)
+
+选出领导者后，协调者会把组内消费者的订阅信息以JoinGroup请求响应体的方式发送给领导者，领导者根据这些信息制定出消费计划，接着所有消费者都会给协调者发送SyncGroup请求。不过领导者的请求包含了所有消费者的消费计划，而**其他成员的请求中为空**，最后协调者把领导者上报的消费信息以SyncGroup响应的方式发送给每个消费者。**SyncGroup请求的目的就是让所有成员知道自己的消费信息。**
+
+![image-20231026120133318](Kafka/image-20231026120133318.png)
+
+##### Broker端重平衡流程
+
+从服务端来看，消费者的变化有四种情况：
+
+1. 稳定的组中有新消费者加入，协调者收到新的加入请求后，会在心跳反应中通知其余消费者开始rebalance
+
+   ![image-20231030205933546](Kafka/image-20231030205933546.png)
+
+2. 稳定的组中有消费者主动离开，协调者收到LeaveGroup请求后，依然会以心跳响应的方式通知其他成员。
+
+   ![image-20231030210135366](Kafka/image-20231030210135366.png)
+
+3. 稳定的组中有消费者崩溃离开，崩溃离开是被动行为，在指定心跳时间内没有回应就会通知其余成员。
+
+   ![image-20231030210303706](Kafka/image-20231030210303706.png)
+
+4. 重平衡时协调者会对组内成员提交位移指定一个时间段，每个成员都要在指定时间提交自己的位移情况，然后再开始正常的JoinGroup/SyncGroup请求发送。
+
+   ![image-20231030211111244](Kafka/image-20231030211111244.png)
+
 ### 消费进度监控
 
 消费者组滞后程度称为Consumer Lag，即消费消息与生产消息的差值。对消费者而言，Lag 应该算是最重要的监控指标了。它直接反映了一个消费者的运行情况。一个正常工作的消费者，它的 Lag 值应该很小，甚至是接近于 0 的，这表示该消费者能够及时地消费生产者生产出来的消息，滞后程度很小。反之，如果一个消费者 Lag 值很大，通常就表明它无法跟上生产者的速度，最终 Lag 会越来越大，从而拖慢下游消息的处理速度。
+
+Kafka监控Lag是在分区层面上的，如果需要topic层面的Lag，需要手动把所有分区进行汇总，得到总的Lag值。监控这些重要指标有三种方法：
+
+1. 使用 Kafka 自带的命令行工具 kafka-consumer-groups 脚本。
+2. 使用 Kafka Java Consumer API 编程。
+3. 使用 Kafka 自带的 JMX 监控指标。
+
+#### 命令行工具
+
+脚本位于bin目录下，使用方式如下
+
+`bin/kafka-consumer-groups.sh --bootstrap-server <Kafka broker连接信息> --describe --group <group名称>`
+
+#### API
+
+```java
+public static Map<TopicPartition, Long> lagOf(String groupID, String bootstrapServers) throws TimeoutException {
+        Properties props = new Properties();
+        props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        try (AdminClient client = AdminClient.create(props)) {
+            // 获取给定groupID的最新消费位移
+            ListConsumerGroupOffsetsResult result = client.listConsumerGroupOffsets(groupID);
+            try {
+                Map<TopicPartition, OffsetAndMetadata> consumedOffsets = result.partitionsToOffsetAndMetadata().get(10, TimeUnit.SECONDS);
+                props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false); // 禁止自动提交位移
+                props.put(ConsumerConfig.GROUP_ID_CONFIG, groupID);
+                props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+                props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+                try (final KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
+                    // 获取订阅分区的最新消息位移
+                    Map<TopicPartition, Long> endOffsets = consumer.endOffsets(consumedOffsets.keySet());
+                    // 减法计算Lag值
+                    return endOffsets.entrySet().stream().collect(Collectors.toMap(entry -> entry.getKey(),
+                            entry -> entry.getValue() - consumedOffsets.get(entry.getKey()).offset()));
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                // 处理中断异常
+                // ...
+                return Collections.emptyMap();
+            } catch (ExecutionException e) {
+                // 处理ExecutionException
+                // ...
+                return Collections.emptyMap();
+            } catch (TimeoutException e) {
+                throw new TimeoutException("Timed out when getting lag for consumer group " + groupID);
+            }
+        }
+    }
+```
+
+####  JMX 监控指标
+
+Kafka 消费者提供了一个名为 kafka.consumer:type=consumer-fetch-manager-metrics,client-id=“{client-id}”的 JMX 指标，它可以方便的集成到其他监控框架中，里面有两组属性比较重要：
+
+1. records-lag-max：消费延迟的最大值。
+2. records-lead-min：Lead 值是指消费者最新消费消息的位移与分区当前第一条消息位移的差值。Kafka的消息默认保存一周，如果接近0就表示消费者消费的数据即将被Kafka删除，消费端**即将要丢失消息**。
 
