@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -176,6 +176,104 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2021/12/11/JUC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | null">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/12/11/JUC/" class="post-title-link" itemprop="url">JUC</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-12-11 21:12:08" itemprop="dateCreated datePublished" datetime="2021-12-11T21:12:08+08:00">2021-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-08-12 13:23:20" itemprop="dateModified" datetime="2022-08-12T13:23:20+08:00">2022-08-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="JUC概述"><a href="#JUC概述" class="headerlink" title="JUC概述"></a>JUC概述</h1><h2 id="创建线程的四种方式"><a href="#创建线程的四种方式" class="headerlink" title="创建线程的四种方式"></a>创建线程的四种方式</h2><ol>
+<li>实现 Runnable 接口；</li>
+<li>实现 Callable 接口；</li>
+<li>继承 Thread 类(很少使用，单继承原因)。</li>
+<li>线程池<br>实现 Runnable 和 Callable 接口的类只能当做一个可以在线程中运行的任务，不是真正意义上的线程，因此最后还需要通过 Thread 来调用</li>
+</ol>
+<h3 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h3><p>使用 Runnable 实例再创建一个 Thread 实例，然后调用 Thread 实例的 start() 方法来启动线程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/11/JUC/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1036,7 +1134,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-12-05 21:03:05" itemprop="dateModified" datetime="2021-12-05T21:03:05+08:00">2021-12-05</time>
+      <time title="Modified: 2023-11-05 21:03:05" itemprop="dateModified" datetime="2023-11-05T21:03:05+08:00">2023-11-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1059,129 +1157,12 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="分布式事务理论"><a href="#分布式事务理论" class="headerlink" title="分布式事务理论"></a>分布式事务理论</h1><p>传统的一个工程内为了保证数据的一致性，使用本地事务。本地事务只能解决同一工程中的事务问题，而现在的场景更加复杂，关系到两个工程模块，怎么保证要么都成功，要么都失败？</p>
-<p>​分布式事务就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。</p>
-<p>​分布式事务场景：不同应用相同数据库，相同应用不同数据库，不同应用不同数据库。</p>
-<p>​分布式事务产生的原因：分布式系统异常除了本地事务那些异常之外，还有：机器宕机、网络异常、消息丢失、消息乱序、数据错误、不可靠的TCP、存储数据丢失…</p>
+<p>分布式事务就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。</p>
+<p>分布式事务场景：不同应用相同数据库，相同应用不同数据库，不同应用不同数据库。</p>
+<p>分布式事务产生的原因：分布式系统异常除了本地事务那些异常之外，还有：机器宕机、网络异常、消息丢失、消息乱序、数据错误、不可靠的TCP、存储数据丢失…</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2021/08/25/Git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hao">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | null">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/25/Git/" class="post-title-link" itemprop="url">Git</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-08-25 09:53:44" itemprop="dateCreated datePublished" datetime="2021-08-25T09:53:44+08:00">2021-08-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-06-09 14:35:21" itemprop="dateModified" datetime="2022-06-09T14:35:21+08:00">2022-06-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="git日常使用的小问题"><a href="#git日常使用的小问题" class="headerlink" title="git日常使用的小问题"></a>git日常使用的小问题</h1><h2 id="嵌套仓库"><a href="#嵌套仓库" class="headerlink" title="嵌套仓库"></a>嵌套仓库</h2><p>如果在一个git仓库中嵌套了一个git仓库，那么被嵌套的git仓库的改动，不能被大git仓库检测到。</p>
-<p><strong>解决方案：</strong></p>
-<ul>
-<li><p>可以使用submodule，当引入子仓库时，使用如下命令即可：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add https://github.com/子仓库</span><br></pre></td></tr></table></figure>
-
-<p>作用类似git clone，但是他会在父仓库的下面新建.gitmodules文件，并且包含以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[submodule &quot;apps/firstApp&quot;]</span><br><span class="line">	path = apps/firstApp</span><br><span class="line">	url = https://github.com/muchang/mean-seed-app.git</span><br></pre></td></tr></table></figure>
-
-<p>这一段表示子仓库的位置，以及子仓库的远程仓库的地址。</p>
-<p>删除子仓库并且commit之后，这个文件和这个子仓库有关的部分就会消失。</p>
-</li>
-<li><p>本质和第一个方案类似，它会把总仓库内的所有内容拉取下来（<strong>包含子仓库</strong>）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https://github.com/总仓库</span><br></pre></td></tr></table></figure>
-
-<p><strong>这两种方案可以同时维护两个仓库，字仓库也可以随时拉取更新</strong></p>
-</li>
-<li><p>删除子仓库</p>
-<ol>
-<li>卸载子模块	<code>git submodule deinit &lt;submodule_path&gt;</code></li>
-<li>删除子模块目录   <code>git rm &lt;submodule_path&gt;</code></li>
-<li><code>git add</code></li>
-<li><code>git commit -m &quot;Remove submodule &lt;submodule_path&gt;&quot;</code></li>
-</ol>
-</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/25/Git/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
