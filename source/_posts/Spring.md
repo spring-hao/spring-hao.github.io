@@ -32,6 +32,13 @@ IOC容器职责：
 	3. 托管的资源(bean或其他)
 
 ## bean
+
+spring中有三种类型的bean，其中前两种都可以通过getbean方法获取到，第三种无法直接获取，是容器自己所使用的对象。
+
+1. 用户自定义的bean
+2. 容器自己的bean（内建bean对象），也是通过正常的bean注册流程生产的
+3. spring的内建依赖，无法通过自动注入方式设置对象 
+
 ### bean自动装配
 使用bean标签的**autowire属性**设置自动装配效果
 
@@ -49,7 +56,7 @@ IOC容器职责：
 xml（注解）->bean defination -> bean factory -> 实例化出bean。
 
 1. `BeanDefinitionReader`：从不同格式的定义bean信息中读取，完成从xml文件到bean defination的转变
-2. `BeanDefinition`：其中保存了从配置文件中读取到的该bean的各种信息，以后所有的操作都是对这个对象的操作。**Bean Definition从加载、解析、处理、注册到BeanFactory的过程，也就是IOC容器的初始化过程**
+2. `BeanDefinition`：其中保存了从配置文件中读取到的该bean的各种信息，包括bean的名字、类型、依赖关系、作用域等等，以后所有的操作都是对这个对象的操作。**Bean Definition从加载、解析、处理、注册到BeanFactory的过程，也就是IOC容器的初始化过程**
 3. `BeanFactory`：是Spring bean容器的根接口.**提供获取bean,是否包含bean,是否单例与原型,获取bean类型,bean 别名的方法** 。BeanFactory是一个接口，Spring为BeanFactory提供了多种实现
 4. `ApplicationContext`：ApplicationContext由BeanFactory派生而来，提供了更多面向实际应用的功能。ApplicationContext的主要实现类是`ClassPathXmlApplicationContext`和`FileSystemXmlApplicationContext`，前者默认从类路径加载配置文件，后者默认从文件系统中加载配置文件
 
@@ -210,9 +217,9 @@ Constructor >> @Autowired >> @PostConstruct
 ### 容器接口
 
 #### FactoryBean
-FactoryBean是Spring提供的一种整合第三方框架的常用机制。和普通的bean不同，配置一个FactoryBean类型的bean，在获取bean的时候得到的并不是class属性中配置的这个类的对象，而是getObject()方法的返回值。通过这种机制，Spring可以帮我们把复杂组件创建的详细过程和繁琐细节都屏蔽起来，只把最简洁的使用界面展示给我们。
+FactoryBean是Spring提供的一种整合第三方框架的常用机制。和普通的bean不同，配置一个FactoryBean类型的bean，在获取bean的时候得到的并不是class属性中配置的这个类的对象，而是getObject()方法的返回值。通过这种机制，Spring可以把复杂组件创建的详细过程和繁琐细节都屏蔽起来，只把最简洁的使用界面展示出来。
 
-Spring就是通过FactoryBean机制来创建SqlSessionFactory对象的。
+比如Spring就是通过继承FactoryBean并重写相关方法的机制来创建SqlSessionFactory对象。
 ```java
 public interface FactoryBean<T> {
 
@@ -235,7 +242,7 @@ BeanFactory的主要实现类
 ![image-20220325104702467](Spring/image-20220325104702467.png)
 
 #### ApplicationContext
-BeanFactory是底层的IOC容器，ApplicationContext是 BeanFactory 的子接口。它组合并扩展了 BeanFactory 的功能，不仅仅是继承关系，如：
+BeanFactory是底层的IOC容器，ApplicationContext是 BeanFactory 的子接口。它**组合**（类似于代理模式，核心的方法都是BeanFactory进行操作）并扩展了 BeanFactory 的功能，不仅仅是继承关系，如：
 
 * 国际化
 
