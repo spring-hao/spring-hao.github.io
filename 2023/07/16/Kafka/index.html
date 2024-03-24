@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231030210303706.png">
 <meta property="og:image" content="https://wixhz.github.io/2023/07/16/Kafka/image-20231030211111244.png">
 <meta property="article:published_time" content="2023-07-16T13:04:13.000Z">
-<meta property="article:modified_time" content="2023-11-06T03:19:23.972Z">
+<meta property="article:modified_time" content="2024-03-04T08:51:12.431Z">
 <meta property="article:author" content="Hao">
 <meta property="article:tag" content="中间件">
 <meta name="twitter:card" content="summary">
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -241,7 +241,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-11-06 11:19:23" itemprop="dateModified" datetime="2023-11-06T11:19:23+08:00">2023-11-06</time>
+      <time title="Modified: 2024-03-04 16:51:12" itemprop="dateModified" datetime="2024-03-04T16:51:12+08:00">2024-03-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -279,9 +279,9 @@
 <ul>
 <li>消息：Record。Kafka 是消息引擎，这里的消息就是指 Kafka 处理的主要对象。</li>
 <li>主题：Topic。主题是承载消息的逻辑容器，在实际使用中多用来区分具体的业务。</li>
-<li>分区：Partition。一个有序不变的消息序列。每个主题下可以有多个分区，一个分区通常只有一个消费者消费。</li>
+<li>分区：Partition。一个有序不变的消息序列。每个主题下可以有多个分区，一个分区通常只有一个消费者消费。Kafka 中的分区遍布所有 broker 中，因此<strong>每个 broker 都有可能是某个分区的 leader</strong>，也就是说所有 broker 都有可能对外提供服务，这点和 MySQL 的主从架构有所区别。</li>
 <li>消息位移：Offset。表示分区中每条消息的位置信息，是一个单调递增且不变的值。</li>
-<li>副本：Replica。Kafka 中同一条消息能够被拷贝到多个地方以提供数据冗余，这些地方就是所谓的副本。副本还分为领导者副本和追随者副本，各自有不同的角色划分。副本是在分区层级下的，即每个分区可配置多个副本实现高可用。</li>
+<li>副本：Replica。Kafka 中同一条消息能够被拷贝到多个地方以提供数据冗余，这些地方就是所谓的副本。副本还分为领导者副本和追随者副本，各自有不同的角色划分。<strong>副本是在分区层级下</strong>的，即<strong>每个分区可配置多个副本</strong>实现高可用。</li>
 <li>生产者：Producer。向主题发布新消息的应用程序。</li>
 <li>消费者：Consumer。从主题订阅新消息的应用程序。</li>
 <li>消费者位移：Consumer Offset。表征消费者消费进度，每个消费者都有自己的消费者位移。</li>
@@ -301,7 +301,7 @@
 
 <p>对于客户端来说，追随者副本没有任何作用，这样设计有两个好处：</p>
 <ol>
-<li>不同副本没有主从延迟的概念，写完就立马可读。如果允许追随者副本对外提供服务，由于副本同步是异步的，因此有可能出现追随者副本还没有从领导者副本那里拉取到最新的消息，从而使得客户端看不到最新写入的消息。</li>
+<li>不同副本没有主从延迟的概念，<strong>写完就立马可读</strong>。如果允许追随者副本对外提供服务，由于副本同步是异步的，因此有可能出现追随者副本还没有从领导者副本那里拉取到最新的消息，从而使得客户端看不到最新写入的消息。</li>
 <li>消费者读时的密等性。消费者同时从不同追随者副本读取消息时，由于异步读取的滞后性，可能会出现读的结果不一致。但是如果所有请求都是由leader副本负责，那么很容易实现单调读一致性。</li>
 </ol>
 <p>Kafka引入了In-sync Replicas（ISR）来指出哪些副本是与 Leader 副本同步的，Leader 副本天然就在 ISR 中。也就是说，ISR 不只是追随者副本集合，它必然包括 Leader 副本，它是<strong>动态变化</strong>的。甚至在某些情况下，ISR 只有 Leader 这一个副本。评判 ISR 的标准就是 Broker 端参数<code>replica.lag.time.max.ms</code>的参数值控制的。这个参数的含义是 Follower 副本能够落后 Leader 副本的最长时间间隔。这就是说，只要一个 Follower 副本落后 Leader 副本的时间不连续超过这个参数值，那么 Kafka 就认为该 Follower 副本与 Leader 是同步的，即使此时 Follower 副本中保存的消息明显少于 Leader 副本中的消息。</p>

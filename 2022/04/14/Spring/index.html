@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -281,7 +281,13 @@
 </ol>
 </li>
 </ol>
-<h2 id="bean"><a href="#bean" class="headerlink" title="bean"></a>bean</h2><h3 id="bean自动装配"><a href="#bean自动装配" class="headerlink" title="bean自动装配"></a>bean自动装配</h3><p>使用bean标签的<strong>autowire属性</strong>设置自动装配效果</p>
+<h2 id="bean"><a href="#bean" class="headerlink" title="bean"></a>bean</h2><p>spring中有三种类型的bean，其中前两种都可以通过getbean方法获取到，第三种无法直接获取，是容器自己所使用的对象。</p>
+<ol>
+<li>用户自定义的bean</li>
+<li>容器自己的bean（内建bean对象），也是通过正常的bean注册流程生产的</li>
+<li>spring的内建依赖，无法通过自动注入方式设置对象</li>
+</ol>
+<h3 id="bean自动装配"><a href="#bean自动装配" class="headerlink" title="bean自动装配"></a>bean自动装配</h3><p>使用bean标签的<strong>autowire属性</strong>设置自动装配效果</p>
 <p><strong>byType：根据类型匹配IOC容器中的某个兼容类型的bean，为属性自动赋值</strong></p>
 <p>若在IOC中，没有任何一个兼容类型的bean能够为属性赋值，则该属性不装配，即值为默认值null</p>
 <p>若在IOC中，有多个兼容类型的bean能够为属性赋值，则抛出异常NoUniqueBeanDefinitionException</p>
@@ -289,7 +295,7 @@
 <h3 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h3><h4 id="bean的装载过程："><a href="#bean的装载过程：" class="headerlink" title="bean的装载过程："></a><strong>bean的装载过程：</strong></h4><p>xml（注解）-&gt;bean defination -&gt; bean factory -&gt; 实例化出bean。</p>
 <ol>
 <li><code>BeanDefinitionReader</code>：从不同格式的定义bean信息中读取，完成从xml文件到bean defination的转变</li>
-<li><code>BeanDefinition</code>：其中保存了从配置文件中读取到的该bean的各种信息，以后所有的操作都是对这个对象的操作。<strong>Bean Definition从加载、解析、处理、注册到BeanFactory的过程，也就是IOC容器的初始化过程</strong></li>
+<li><code>BeanDefinition</code>：其中保存了从配置文件中读取到的该bean的各种信息，包括bean的名字、类型、依赖关系、作用域等等，以后所有的操作都是对这个对象的操作。<strong>Bean Definition从加载、解析、处理、注册到BeanFactory的过程，也就是IOC容器的初始化过程</strong></li>
 <li><code>BeanFactory</code>：是Spring bean容器的根接口.<strong>提供获取bean,是否包含bean,是否单例与原型,获取bean类型,bean 别名的方法</strong> 。BeanFactory是一个接口，Spring为BeanFactory提供了多种实现</li>
 <li><code>ApplicationContext</code>：ApplicationContext由BeanFactory派生而来，提供了更多面向实际应用的功能。ApplicationContext的主要实现类是<code>ClassPathXmlApplicationContext</code>和<code>FileSystemXmlApplicationContext</code>，前者默认从类路径加载配置文件，后者默认从文件系统中加载配置文件</li>
 </ol>
@@ -452,8 +458,8 @@
 <li>执行GC</li>
 <li>spring  bean重写finalize()方法</li>
 </ol>
-<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><h3 id="容器接口"><a href="#容器接口" class="headerlink" title="容器接口"></a>容器接口</h3><h4 id="FactoryBean"><a href="#FactoryBean" class="headerlink" title="FactoryBean"></a>FactoryBean</h4><p>FactoryBean是Spring提供的一种整合第三方框架的常用机制。和普通的bean不同，配置一个FactoryBean类型的bean，在获取bean的时候得到的并不是class属性中配置的这个类的对象，而是getObject()方法的返回值。通过这种机制，Spring可以帮我们把复杂组件创建的详细过程和繁琐细节都屏蔽起来，只把最简洁的使用界面展示给我们。</p>
-<p>Spring就是通过FactoryBean机制来创建SqlSessionFactory对象的。</p>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><h3 id="容器接口"><a href="#容器接口" class="headerlink" title="容器接口"></a>容器接口</h3><h4 id="FactoryBean"><a href="#FactoryBean" class="headerlink" title="FactoryBean"></a>FactoryBean</h4><p>FactoryBean是Spring提供的一种整合第三方框架的常用机制。和普通的bean不同，配置一个FactoryBean类型的bean，在获取bean的时候得到的并不是class属性中配置的这个类的对象，而是getObject()方法的返回值。通过这种机制，Spring可以把复杂组件创建的详细过程和繁琐细节都屏蔽起来，只把最简洁的使用界面展示出来。</p>
+<p>比如Spring就是通过继承FactoryBean并重写相关方法的机制来创建SqlSessionFactory对象。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">FactoryBean</span>&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    T <span class="title function_">getObject</span><span class="params">()</span> <span class="keyword">throws</span> Exception;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    Class&lt;?&gt; getObjectType();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h4><p>是ApplicationContext的父接口，是spring的核心容器。实际上的控制反转、依赖注入、Bean生命周期的各种功能都由它的实现类提供。</p>
 <img src="/2022/04/14/Spring/image-20220325104441524.png" class="" title="image-20220325104441524">
@@ -461,7 +467,7 @@
 <p>BeanFactory的主要实现类</p>
 <img src="/2022/04/14/Spring/image-20220325104702467.png" class="" title="image-20220325104702467">
 
-<h4 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h4><p>BeanFactory是底层的IOC容器，ApplicationContext是 BeanFactory 的子接口。它组合并扩展了 BeanFactory 的功能，不仅仅是继承关系，如：</p>
+<h4 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h4><p>BeanFactory是底层的IOC容器，ApplicationContext是 BeanFactory 的子接口。它<strong>组合</strong>（类似于代理模式，核心的方法都是BeanFactory进行操作）并扩展了 BeanFactory 的功能，不仅仅是继承关系，如：</p>
 <ul>
 <li><p>国际化</p>
 <p>语言支持：<code>applicationContext.getMessage()</code></p>
