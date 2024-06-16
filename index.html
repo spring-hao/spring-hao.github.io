@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -176,6 +176,95 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | null">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">分布式数据库</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-30 21:46:43" itemprop="dateCreated datePublished" datetime="2024-03-30T21:46:43+08:00">2024-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-06-16 11:37:13" itemprop="dateModified" datetime="2024-06-16T11:37:13+08:00">2024-06-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="选择分布式数据库"><a href="#选择分布式数据库" class="headerlink" title="选择分布式数据库"></a>选择分布式数据库</h2><p>以实际使用场景来看，假设有一个广告系统记录了所有用户在任何时刻触发不同广告的消耗明细，每天大约能产生 5000W 条用户消耗数据明细。现在需要实现一个供流量主可以实时查询这些数据的功能，此时应该选用哪种类型的数据库，在这个应用场景下数据库需要满足以下特点：</p>
+<ol>
+<li>数据量巨大，且面向 C 端用户查询。</li>
+<li>频繁写入且频繁查询，要支持范围查询，且查询性能需要在秒级以内。</li>
+<li>数据存在倾斜的可能性。</li>
+</ol>
+<h3 id="传统数据库的瓶颈"><a href="#传统数据库的瓶颈" class="headerlink" title="传统数据库的瓶颈"></a>传统数据库的瓶颈</h3><p>MySQL 数据库天生是单机数据库，即它只能运行在一台物理机器实例上，我们没有办法把他拆分开让同一个数据库同时运行在多台机器上。因此它的性能和物理机器实例的配置呈正相关，受到机器配置的制约，机器的天花板上限较低。但是它的好处就是架构较为简单，使用起来更加方便。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1000,101 +1089,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/02/22/RocketMQ/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2021/12/29/java%E5%AE%B9%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Hao">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | null">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/29/java%E5%AE%B9%E5%99%A8/" class="post-title-link" itemprop="url">java容器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-29 15:39:27" itemprop="dateCreated datePublished" datetime="2021-12-29T15:39:27+08:00">2021-12-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-08-11 15:21:25" itemprop="dateModified" datetime="2022-08-11T15:21:25+08:00">2022-08-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h1><p>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。</p>
-<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><img src="/2021/12/29/java%E5%AE%B9%E5%99%A8/image-20210914185116246-fbc941bd2cb249e5af06169021c82c74.png" class title="image-20210914185116246">
-
-<h3 id="1-Set-无序的、不可重复的"><a href="#1-Set-无序的、不可重复的" class="headerlink" title="1. Set(无序的、不可重复的)"></a>1. Set(无序的、不可重复的)</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/29/java%E5%AE%B9%E5%99%A8/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

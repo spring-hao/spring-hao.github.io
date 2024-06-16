@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"wixhz.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="选择分布式数据库以实际使用场景来看，假设有一个广告系统记录了所有用户在任何时刻触发不同广告的消耗明细，每天大约能产生 5000W 条用户消耗数据明细。现在需要实现一个供流量主可以实时查询这些数据的功能，此时应该选用哪种类型的数据库，在这个应用场景下数据库需要满足以下特点：  数据量巨大，且面向 C 端用户查询。 频繁写入且频繁查询，要支持范围查询，且查询性能需要在秒级以内。 数据存在倾斜的可能性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式数据库">
+<meta property="og:url" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="选择分布式数据库以实际使用场景来看，假设有一个广告系统记录了所有用户在任何时刻触发不同广告的消耗明细，每天大约能产生 5000W 条用户消耗数据明细。现在需要实现一个供流量主可以实时查询这些数据的功能，此时应该选用哪种类型的数据库，在这个应用场景下数据库需要满足以下特点：  数据量巨大，且面向 C 端用户查询。 频繁写入且频繁查询，要支持范围查询，且查询性能需要在秒级以内。 数据存在倾斜的可能性。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240406230729007.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240407204610504.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/tcc-e34cb994.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240518205539667.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/e610bcb9d4fa5b53cf9e7f293b4da425.jpg">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/f2a39536e65c8e0f4c282a0e05274160.jpg">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/c8dc734cd33a8149eeb1ffb2f435e6d2.jpg">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240520151735451.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/c0ca6200c5c48e7bdd55665ba7a000d6.jpg">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/be44d5f54d968507bb1a22103427c188.jpg">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/7421287e27f875d8990f0f8f2492fdec.jpg">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240526102902064.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240525143347079.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/2_f87f04d11f.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/3_e764da277c.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/4_7d840f500e.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240526113135902.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240525164017741.png">
+<meta property="og:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240616112927229.png">
+<meta property="article:published_time" content="2024-03-30T13:46:43.000Z">
+<meta property="article:modified_time" content="2024-06-16T03:37:13.607Z">
+<meta property="article:author" content="Hao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240406230729007.png">
+
+
+<link rel="canonical" href="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/","path":"2024/03/30/分布式数据库/","title":"分布式数据库"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>分布式数据库 | </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title"></p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">选择分布式数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%93%B6%E9%A2%88"><span class="nav-number">1.1.</span> <span class="nav-text">传统数据库的瓶颈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.2.</span> <span class="nav-text">什么是分布式数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%89%87%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.1.</span> <span class="nav-text">分片策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash-%E5%88%86%E7%89%87"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Hash 分片</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Range-%E5%88%86%E7%89%87"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">Range 分片</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">调度策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84ACID"><span class="nav-number">2.</span> <span class="nav-text">分布式数据库的ACID</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">原子性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCC"><span class="nav-number">2.1.1.</span> <span class="nav-text">TCC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2PC"><span class="nav-number">2.1.2.</span> <span class="nav-text">2PC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Percolator-%EF%BC%882PC-%E7%9A%84%E6%94%B9%E8%BF%9B%EF%BC%89"><span class="nav-number">2.1.3.</span> <span class="nav-text">Percolator （2PC 的改进）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%94%E7%A6%BB%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">隔离性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">持久性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">分布式数据库的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E4%B8%8B%E6%8E%A8"><span class="nav-number">3.1.</span> <span class="nav-text">计算下推</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">3.2.</span> <span class="nav-text">索引优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TiDB-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">TiDB 的简单介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text">整体架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">4.2.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E5%AE%9E%E7%8E%B0%EF%BC%88RocksDB%EF%BC%89"><span class="nav-number">4.2.1.</span> <span class="nav-text">读写实现（RocksDB）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.2.</span> <span class="nav-text">索引实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.2.3.</span> <span class="nav-text">一致性协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Paxos-%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">Paxos 协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Raft-%E5%8D%8F%E8%AE%AE%EF%BC%88%E9%87%87%E7%94%A8%EF%BC%89"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">Raft 协议（采用）</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hao</p>
+  <div class="site-description" itemprop="description">韶光易逝，劝君惜取少年时</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wixhz.github.io/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hao">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="韶光易逝，劝君惜取少年时">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="分布式数据库 | null">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分布式数据库
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-30 21:46:43" itemprop="dateCreated datePublished" datetime="2024-03-30T21:46:43+08:00">2024-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-06-16 11:37:13" itemprop="dateModified" datetime="2024-06-16T11:37:13+08:00">2024-06-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="选择分布式数据库"><a href="#选择分布式数据库" class="headerlink" title="选择分布式数据库"></a>选择分布式数据库</h2><p>以实际使用场景来看，假设有一个广告系统记录了所有用户在任何时刻触发不同广告的消耗明细，每天大约能产生 5000W 条用户消耗数据明细。现在需要实现一个供流量主可以实时查询这些数据的功能，此时应该选用哪种类型的数据库，在这个应用场景下数据库需要满足以下特点：</p>
+<ol>
+<li>数据量巨大，且面向 C 端用户查询。</li>
+<li>频繁写入且频繁查询，要支持范围查询，且查询性能需要在秒级以内。</li>
+<li>数据存在倾斜的可能性。</li>
+</ol>
+<h3 id="传统数据库的瓶颈"><a href="#传统数据库的瓶颈" class="headerlink" title="传统数据库的瓶颈"></a>传统数据库的瓶颈</h3><p>MySQL 数据库天生是单机数据库，即它只能运行在一台物理机器实例上，我们没有办法把他拆分开让同一个数据库同时运行在多台机器上。因此它的性能和物理机器实例的配置呈正相关，受到机器配置的制约，机器的天花板上限较低。但是它的好处就是架构较为简单，使用起来更加方便。</p>
+<p>单体数据库面临高并发场景的时候，还是会碰到写入性能不足的问题，要解决这个问题，那么就是进行分库分表。分库分表本质是在多个单体数据库前增加一个代理层，由代理层进行数据路由。进而会带来这几个问题：</p>
+<ol>
+<li>分表键的选择。在数据存储时根据<strong>分表键、分表的数量</strong>进行路由，这两个参数一经选择很难改变，后续所有查询都要根据这个规则进行。如果以后发现分表数量不够需要增加或者分表键需要修改，那么存量的数据查询会产生问题。</li>
+<li>高并发写的支持。即使我们可以选择主从来分担主库的读压力，但是所有写操作都必须在主库进行**，多数情况下 MySQL 集群只有一个主库，所有写操作必须在主库进行，单机器实例面对超高并发的写事务、加锁操作会存在瓶颈。</li>
+<li>代码的侵入性。分库分表通常是在代码层面选择不同数据库，因此代码中通常会带上相关的硬编码，对后续业务迁移变化带来风险。</li>
+</ol>
+<p>ks 当前的分库分表组件如下，通过独立的逻辑层（Shard-JDBC）建立数据分片和路由规则，使应用能够使用多个单体数据库，实现存储能力、并发能力的扩展。但是<strong>组件耦合作为系统的一部分</strong>，需要额外的维护分表配置，对应用侵入较严重。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240406230729007.png" class="" title="image-20240406230729007">
+
+<p>由于底层的数据库仍然是一个个的单体架构组成，因此代理层需要额外实现以下功能来完成业务使用：</p>
+<ol>
+<li>全局性的事务支持（ks 分片组件不支持，需要把事务要都落在同一实例上，避免跨实例的事务，否则可能会有不一致）。</li>
+<li>额外的计算能力。由于数据存储在不同单体节点，每个数据节点只能看到一部分数据，有些查询运算是无法处理的，比如排序、多表关联等。所以，代理节点要增强查询计算能力，支持跨多个单体数据库的查询。</li>
+<li>分片信息管理。需要维护分片的数据信息，ks 通过 kconf 和 zk 来维护。</li>
+</ol>
+<h3 id="什么是分布式数据库"><a href="#什么是分布式数据库" class="headerlink" title="什么是分布式数据库"></a>什么是分布式数据库</h3><p>与上述介绍不同的是，分布式数据库把所有技术细节收敛到数据库内部，对外以一个整体面对系统应用。</p>
+<p>分布式数据库就是一个提供高容量、高并发、高可用、可扩展的关系型数据库。</p>
+<p>分布式数据库有两个方向：</p>
+<ol>
+<li>进化后的单体式数据库（PGXC）。上边说的 sharding-MySQL 继续进化其实就是一种分布式数据库，但是它的单一节点仍然是一个单体数据库。</li>
+<li>原生分布式数据库（NewSQL）。基础是一个 K&#x2F;V 键值对数据库，其计算和存储分离，最小的存储单位称为一个分片，可以动态扩展。</li>
+</ol>
+<img src="分布式数据库/image-20240407204610504.png" alt="image-20240407204610504" style="zoom:50%;" />
+
+<p>单体式数据库实现高可用的一个重要手段：主从复制，这是一种粗粒度的完整复制整个主库的手段。而NewSQL采用了精细化的数据控制，每个分片空间通常控制在百 M 之内，通过以分片为单位采用 Paxos 或 Raft 等共识算法。这样NewSQL 就实现了更小粒度的高可靠单元，获得了更高的系统整体可靠性。</p>
+<p>分布式数据库可以提供海量并发、海量存储的关键能力在于分片（Regin），分片根据特定规则将切分好的数据记录分布到多个节点上，从而实现更强的存储和计算能力。</p>
+<h4 id="分片策略"><a href="#分片策略" class="headerlink" title="分片策略"></a>分片策略</h4><h5 id="Hash-分片"><a href="#Hash-分片" class="headerlink" title="Hash 分片"></a>Hash 分片</h5><p>根据数据记录中指定关键字的 Hash 值将数据记录映射到不同的分片中，关键在于 hash 键和 hash 函数的选择。</p>
+<p>这种策略实现简单，且由于 hash 函数会屏蔽掉业务属性，所以通常情况在数据会<strong>均匀</strong>分布到所有分片中，这是它的优点。</p>
+<p>但是如果分片数发生了变化，数据就要重新 Hash 计算，从而带来大规模的数据迁移。因此这种方式对于<strong>扩展性是不友好</strong>的。另外业务上的热点数据如果被分配到同一个分片上，也是系统的一个潜在瓶颈。</p>
+<h5 id="Range-分片"><a href="#Range-分片" class="headerlink" title="Range 分片"></a>Range 分片</h5><p>NewSQL 的 Range 分片，多数是用<strong>主键</strong>作为关键字来分片的，当然主键可以是系统自动生成的，也可以是用户指定的。但是<strong>主键必须保证唯一性</strong>，导致这种控制就会比较复杂，使用成本较高。所以如果使用自动生成主键的话基本可以认为，分片是一个系统自动处理的过程，用户是感知不到的。这样做的显然提升了系统的易用性。</p>
+<h4 id="调度策略"><a href="#调度策略" class="headerlink" title="调度策略"></a>调度策略</h4><p>当单个分片的数据量超过设定值时，分片可以一分为二，这样就可以保证每个分片的数据量较为均衡，避免了大量数据聚集在相同的分片中。多个数据量较少的分片，会在一定的周期内被合并为一个分片。同时分片也会被均衡地调度到各个节点上，节点间的数据量也保持总体平衡。</p>
+<p>除了维持数据量的平衡外，分布式数据库还会控制节点的访问压力。如果R2、R3 中存储的数据都是热点数据，这时候系统会根据负载情况，将 R2 和 R3 分别调度到不同的节点，来均衡访问压力。</p>
+<h2 id="分布式数据库的ACID"><a href="#分布式数据库的ACID" class="headerlink" title="分布式数据库的ACID"></a>分布式数据库的ACID</h2><h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>一个事务必须被视为不可分割的最小工作单位，一个事务中的所有操作要么全部成功提交，要么全部失败回滚，对于一个事务来说不可能只执行其中的部分操作，这就是事务的原子性。分布式数据库实现原子性常见的有两种协议：TCC、2PC。</p>
+<h4 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h4><p>一种面向应用层的补偿式的分布式协议，核心步骤包括 try、confirm、cancel，对业务代码侵入较重。TCC 规定协议的参与方有两种角色，分别是<strong>事务管理器和事务参与者，</strong>其中事务管理器只能有一个，而事务参与者可以为多个。</p>
+<blockquote>
+<p>补偿机制：</p>
+<p>在分布式事务出现异常时，通过一系列的操作，尽可能使得分布式事务状态回滚到之前的状态，从而避免分布式事务产生不一致的情况。</p>
+</blockquote>
+<ul>
+<li>try 阶段：尝试执行阶段，检查所需要的资源，具有排他性。</li>
+<li>confirm 阶段：所有 try 分支都返回成功，事务管理器会进行confirm，此阶段不执行检查操作，会直接进行业务操作，如果因为网络原因导致 confirm 失败，会一直重试。</li>
+<li>cancel 阶段：如果所有分支的Try有一个失败了，则走到Cancel阶段。Cancel释放 Try 阶段预留的业务资源。如果由于网络问题，或者服务器临时故障，那么事务管理器会进行重试，最终成功。</li>
+</ul>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/tcc-e34cb994.png" class="" title="TCC 模式">
+
+<p>可以看到 try、confirm、cancel 三个操作都需要业务来自己实现对应接口，由于相应的业务操作都需要编码实现，因此 TCC也叫做由业务方细粒度控制的<strong>侵入式分布式事务</strong>。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://seata.apache.org/zh-cn/docs/user/mode/tcc">https://seata.apache.org/zh-cn/docs/user/mode/tcc</a></p>
+<p>Seata TCC 模式</p>
+</blockquote>
+<p>TCC的<strong>优点</strong>：</p>
+<ol>
+<li>完全不依赖底层数据库，可以实现跨数据库的分布式事务功能。</li>
+<li>自由编码实现，可以自己控制锁力度，并发量会更高一点。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>需要业务系统自行实现 Try，Confirm，Cancel 三个操作，对业务系统有着非常大的入侵性，设计相对复杂。</li>
+<li>不同操作依赖网络进行交互，因此设计阶段操作接口必须满足幂等性，防止重试时造成数据不一致。</li>
+</ol>
+<h4 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a>2PC</h4><p>又被称为两阶段提交，两个阶段分别是 prepare 和 commit，具有事务管理器、资源管理器两个角色。两阶段提交依赖底层数据库的事务能力，底层的单体数据库也被称为资源管理器。</p>
+<p>借助于底层单体数据库的事务回滚和提交能力，使用一个全局的事务管理器就能实现一个分布式事务。</p>
+<p>第一阶段：向数据库发送要执行的 sql，并得到是否可以提交的回复。</p>
+<p>第二阶段：一阶段都返回成功则向数据库提交事务，否则向数据库提出回滚操作。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/image-20240518205539667.png" class="" title="image-20240518205539667">
+
+<p><strong>优点：</strong>利用了单体数据库的事务能力，不侵入业务代码，同时实现简单，这是它最大的优点。</p>
+<p>缺点：</p>
+<ol>
+<li>事务管理器存在单点故障，如果数据库在 commit 前管理器挂了，那么所有单体数据库都会被阻塞。</li>
+<li>执行时数据库需要锁定对应的行，如果其他事务刚好也要操作这些数据行，那它们就只能等待。这种设计可能会导致分布式事务出现高延迟和性能的显著下降。</li>
+<li><strong>事务管理器需要和所有单体数据库通信</strong>，如果因为网络原因某些数据库没有收到 commit 指令，那么会出现数据不一致的情况。</li>
+</ol>
+<h4 id="Percolator-（2PC-的改进）"><a href="#Percolator-（2PC-的改进）" class="headerlink" title="Percolator （2PC 的改进）"></a>Percolator （2PC 的改进）</h4><p>Percolator模型是对 2PC 的改进，TIDB 的分布式事务就是基于这个模型实现的。针对 2PC 的单点故障、数据不一致、进行了改进。</p>
+<p>准备阶段时事务管理器会给每个分片发送对应数据执行请求，每个分片收到请求后写入一个新记录，新纪录会被加上锁，只有当前事务才能读取到锁内容，所有分片的行锁只有一个主锁，主锁会随机分配到某个分片上，其余的锁指向主锁记录。与此同时还会写下本次操作日志。</p>
+<p>准备阶段结束的时候，两个分片都增加了私有版本记录，余额正好是转账顺利执行后的数字。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/e610bcb9d4fa5b53cf9e7f293b4da425.jpg" class="" title="img">
+
+<p>之后进入提交阶段，其中事务管理器<strong>只会和拥有主锁的分片</strong>进行通信发出 commit 指令，相比于 2PC 模型，单独的网络通信就解决了网络通信造成的数据不一致现象。通过这种巧妙的设计减少了事务管理器和分片的通信次数，但是其余分片的副锁仍然存在，此时其他事务读取到分片数据时会根据指针去查找主锁记录，由于主锁已经释放，这条数据就对所有事务开放了，但是增加了一次指针读取操作。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/f2a39536e65c8e0f4c282a0e05274160.jpg" class="" title="img">
+
+<p>因此Percolator模型增加了一个子线程，通过Lazy+异步线程更新非主锁的记录。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/c8dc734cd33a8149eeb1ffb2f435e6d2.jpg" class="" title="img">
+
+<p>Percolator 通过日志和异步线程的方式弱化了单点故障。</p>
+<p>一是，Percolator 引入的异步线程可以在事务管理器宕机后，回滚各个分片上的事务，提供了善后手段，不会让分片上被占用的资源无法释放。二是，事务管理器可以用记录日志的方式使自身无状态化，日志通过共识算法同时保存在系统的多个节点上。这样，事务管理器宕机后，可以在其他节点启动新的事务管理器，基于日志恢复事务操作。</p>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p>单体数据库通常使用 MVCC 来维护一份数据的历史版本，通过全局递增的<strong>事务管理器</strong>为每个事务分配一个事务 id，通过分配活跃的事务id 列表来实现不同的隔离方式。</p>
+<p>分布式数据库的两种阵营采用了两种不同的方式满足隔离性</p>
+<ul>
+<li>PGXC：它的底层数据源就是由一个个单体数据库组成的，因此它的实现方式和单体数据库类似，区别在于分布式数据库需要一个全局事务管理器来颁发事务 id 和维护全局事务列表。这也是它的一个风险点-单点风险。</li>
+<li>NewSQL：NewSQL 架构的分布式数据库没有普遍使用快照处理读写事务。如TiDB 如果两个事务操作同一个数据项。其中，事务 T1 执行写操作，由 Prewrite 和 Commit 两个阶段构成，T2 在这两个阶段之间试图执行读操作，但是 T2 会被<strong>阻塞</strong>，直到 T1 完成后，T2 才能继续执行。</li>
+</ul>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>分布式事务的一致性可以根据是否跨节点分为两个场景：</p>
+<ul>
+<li>不跨region：相当于传统的单节点数据库，和单实例一样，事务保证性即可，无需复杂的确认过程。至于多个副本之间的数据一致性，通过<strong>raft协议</strong>和事务日志应用保证leader和follower region之间的数据一致性。</li>
+<li>跨region：通过两阶段提交，事务完成primary row后即可返回，后台线程和日志重试保证seconary row 异步提交</li>
+</ul>
+<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p>TiDB也通过将数据持久化到磁盘中来实现持久性，确保一旦事务提交成功，数据不会丢失。</p>
+<h2 id="分布式数据库的优化"><a href="#分布式数据库的优化" class="headerlink" title="分布式数据库的优化"></a>分布式数据库的优化</h2><p>由于分布式数据库的计算节点和数据存储节点是分离开来的，但是通常情况下查询数据都会带着查询语句，查询计算和数据存储密不可分。因此带来一个新的问题，即应该将数据传输到计算节点，还是应该将计算逻辑传输到数据节点。由于计算逻辑通常相对较轻，数据传输量比较大，因此多数分布式数据库都选择了把计算逻辑下沉到存储节点，这也叫做计算下推。</p>
+<h3 id="计算下推"><a href="#计算下推" class="headerlink" title="计算下推"></a>计算下推</h3><p>如下图所示，当计算节点接收到客户端发来的查询条件时，会把查询条件发送到存储节点上，存储节点筛选数据通过网络传送到计算节点上，由计算节点进行 merge 操作并一起返回到客户端。</p>
+<img src="分布式数据库/image-20240520151735451.png" alt="image-20240520151735451" style="zoom:50%;" />
+
+<h3 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h3><p>计算下推是为了查询时减少无必要的网络 IO，本质是为了加速查询效率。单体数据库的索引可以分为一级索引（也叫主键索引或聚族索引）、二级索引，其中二级索引的叶子节点存储的是一级索引的值，如果一个查询命中了二级索引，通常需要进行一次回表来获取数据，这次回表会增加查询时间。</p>
+<p>和单体数据库类似，分布式数据库按照索引的实现方式可以分为分区索引和全局索引。分布式数据库索引存在两个问题：</p>
+<ol>
+<li>索引和数据不在一个分区中：这也意味着如果使用索引需要增加一次网络 IO</li>
+<li>索引和数据在一个分区中，但是索引类型是分区索引（局部索引）。如果期望的是全局唯一性索引，那么分区索引就无法实现，只能通过全局索引。不可避免的读操作需要网络 IO 回表，写操作需要分布式事务。</li>
+</ol>
+<p>所以，在使用分布式数据库时，是否有必要建立全局索引，是一个非常谨慎的决定。</p>
+<p>为了尽可能实现索引和数据保存在同一个分区内，分布式数据库对索引进行了特殊的设计。分布式数据库的每个分区会对应存储一系列数据，通过 hash 或 range 方法最终会得到一个不重叠的 key 范围。当客户端进行操作时，相同的 key 最终都会落到同一个分区中。当新增一个键值对（Key&#x2F;Value）时，系统会先判断这个 Key 与哪个分片的区间匹配，而后就分配到那个匹配的分片中保存，匹配算法一般采用左前缀匹配方式。</p>
+<p>索引 key 的命名方式如下所示：</p>
+<img src="分布式数据库/c0ca6200c5c48e7bdd55665ba7a000d6.jpg" alt="img" style="zoom: 33%;" />
+
+
+
+<img src="分布式数据库/be44d5f54d968507bb1a22103427c188.jpg" alt="img" style="zoom: 25%;" />
+
+
+
+<img src="分布式数据库/7421287e27f875d8990f0f8f2492fdec.jpg" alt="img" style="zoom: 33%;" />
+
+<h2 id="TiDB-的简单介绍"><a href="#TiDB-的简单介绍" class="headerlink" title="TiDB 的简单介绍"></a>TiDB 的简单介绍</h2><h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><p>TiDB 是基于 KV 存储实现的一种关系型分布式数据库，兼容 MySQL 协议和 MySQL 生态，并支持完整的分布式事务。它有三大模块组成，分别是：TiDB Server、TiKV、PD，之间的交互关系如下图。</p>
+<img src="分布式数据库/image-20240526102902064.png" alt="image-20240526102902064" style="zoom: 33%;" />
+
+<ul>
+<li>TiDB Server：用于计算使用，是无状态的，负责解析执行客户端发送来的 sql 语句，并接收整合存储模块发送的数据一并返回给客户端。这个模块不会成为分布式数据库的瓶颈，容量不够可以迅速扩张。</li>
+<li>TiKV：分布式数据库的存储单元，所有数据最终都是保存在此，TiDB使用开源的高性能单体数据库RocksDB作为存储引擎。简单来说 TiDB 自己不会负责持久化数据到磁盘，而是交由RocksDB来实现，RocksDB 是一个单机的 Key-Value Map。</li>
+<li>PD：负责调度整个存储引擎，掌握全局信息，可以对全局进行调度，作为一个中心节点，实现对系统的整体状况进行把控和调整。比如新增节点时数据的分化迁移，主从节点数量的控制，请求负载均衡、管理节点状态，包括手动上线&#x2F;下线节点，以及自动下线失效节点。PD 不断的通过 Store 或者 Leader 的心跳包收集信息，获得整个集群的详细数据，并且根据这些信息以及调度策略生成调度操作序列，每次收到 Region Leader 发来的心跳包时，PD 都会检查是否有对这个 Region 待进行的操作，通过心跳包的回复消息，将需要进行的操作返回给 Region Leader，并在后面的心跳包中监测执行结果。</li>
+</ul>
+<img src="分布式数据库/image-20240525143347079.png" alt="image-20240525143347079" style="zoom:50%;" />
+
+<p>为了保证数据的高可用，TiKV使用一致性协议 Raft 来实现主从节点的复制，其中客户端的每个数据变更都会落地转化为一条 Raft 日志，通过 Raft 的日志复制功能，将数据安全可靠地同步到 Group 的多数节点中。数据的写入是通过 Raft 这一层的接口写入，而不是直接写 RocksDB。基于此拥有了一个分布式的 KV存储系统。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/2_f87f04d11f.png" class="" title="Raft">
+
+<p>接下来就是确定要把数据写入到哪个 KV 节点中，通常有两种方式：一种是按照 Key 做 Hash，根据 Hash 值选择对应的存储节点；另一种是<strong>分 Range</strong>，某一段连续的 Key 都保存在一个存储节点上。TiKV 选择了第二种方式，将整个 Key-Value 空间分成很多段，每一段是一系列连续的 Key，每段区间叫做一个 <strong>Region</strong>，并且通过 PD 模块尽量保持每个 Region 中保存的数据不超过一定的大小(这个大小可以配置，目前默认是 96mb)。每一个 Region 都可以用 StartKey 到 EndKey 这样一个左闭右开区间来描述。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/3_e764da277c.png" class="" title="Region">
+
+<p>PD 模块会均匀的把所有Region划分到不同节点上，其中一个节点上的多个 Region 共用一个RocksDB实例，这样设计的原因是因为随机 I&#x2F;O 的性能远低于顺序 I&#x2F;O，所以 TiKV 使用同一个 RocksDB 实例来存储这些数据，以便不同 Region 的写入可以合并在一次 I&#x2F;O 中，并且尽量保证每个节点上服务的 Region 数量差不多。TiKV 是以 Region 为单位做数据的复制，也就是一个 Region 的数据会保存多个副本。Replica 之间是通过 Raft 来保持数据的一致，一个 Region 的多个 Replica 会保存在不同的节点上，构成一个 Raft Group。其中一个 Replica 会作为这个 Group 的 Leader，其他的 Replica 作为 Follower。<strong>所有的读和写都是通过 Leader 进行</strong>，再由 Leader 复制给 Follower。</p>
+<img src="/2024/03/30/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/4_7d840f500e.png" class="" title="KeyValue">
+
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><h4 id="读写实现（RocksDB）"><a href="#读写实现（RocksDB）" class="headerlink" title="读写实现（RocksDB）"></a>读写实现（RocksDB）</h4><p><a target="_blank" rel="noopener" href="https://github.com/facebook/rocksdb">RocksDB</a> 是由 Facebook 基于 LevelDB 开发的一款提供键值存储与读写功能的 <strong>LSM-tree</strong> 架构引擎。用户写入的键值对会先写入磁盘上的 WAL (Write Ahead Log)，然后再写入内存中的跳表（SkipList，这部分结构又被称作 MemTable）。LSM-tree 引擎由于将用户的随机修改（插入）转化为了对 WAL 文件的顺序写，因此具有比 B 树类存储引擎更高的写吞吐。</p>
+<blockquote>
+<p>MemTable往往是一个跳表（Skip List）组织的有序数据结构。对比B+树，当数据量特别大时，由于B+树更新和删除数据时需要沿着B+树逐层进行页分裂和页合并，严重影响数据写入性能。</p>
+<p>Immutable：不可修改的MemTable，由MemTable到达一定容量后转化而成。</p>
+<p>SSTable：键值存储，有序，内部包含了一系列分割的 Block 块，每个 Block 块的index存储在SSTable的尾部，用于帮助快速查找特定的Block。当一个SSTable被打开的时候，index会被加载到内存，然后根据key在内存index里面进行一个二分查找，查到该key对应的磁盘的offset之后，然后去磁盘把响应的块数据读取出来。</p>
+</blockquote>
+<img src="分布式数据库/image-20240526113135902.png" alt="image-20240526113135902" style="zoom:50%;" />
+
+<p>写入步骤（删除也会转为写入标记）：</p>
+<ol>
+<li>当有一个数据写入请求时，RocksDB 通过使用两阶段提交写前日志的方式完成数据写入，此时数据会在 WAL LOG 中被标记写入完成，同时内存中的 Memtable 也会被更新（跳表结构）。</li>
+<li>Memtable打到指定大小后会将其切换成 Immutable 并生成一个新的Memtable继续使用，后台线程会把Immutable持久化为SStable。<strong>如果写入流量很大，同时上一个Immutable还未成功持久化，此时就会阻塞写请求</strong>。</li>
+<li>内存中的数据达到一定阈值后，会刷到磁盘上生成 SST 文件 (Sorted String Table)，SST 又分为多层（默认至多 6 层），每一层的数据达到一定阈值后会挑选一部分 SST 合并到下一层，每一层的数据是上一层的 10 倍（因此 90% 的数据存储在最后一层）。此步骤也称为Major Compaction，这个阶段会<strong>真正的清除掉被标记删除掉的数据以及多版本数据的合并，避免浪费空间</strong>。</li>
+</ol>
+<p>读取：为了提高读取性能以及减少对磁盘的读取，RocksDB 将存储在磁盘上的文件都按照一定大小切分成 block（默认是 64KB），读取 block 时先去<strong>内存</strong>中的 BlockCache 中查看该块数据是否存在（内存加速），然后在level 0 SSTable中查找，最后在level N SSTable中查找。如果数据一直到到最底层才被找到，LSM Tree把这种读取和查找了无关SSTable的现象叫做读放大。</p>
+<p>合并需要将合并涉及的SSTable读入内存，并把合并后产生的新的SSTable写入磁盘，会增加磁盘IO和CPU的消耗，这种写入磁盘的数据量大于实际数据量现象成为写放大。</p>
+<p><strong>读放大可以通过布隆过滤器来快速确定数据不在SSTable中，但是写放大由于内存原因通常无法避免。</strong></p>
+<h4 id="索引实现"><a href="#索引实现" class="headerlink" title="索引实现"></a>索引实现</h4><p>KV 模型通常实现的是一种非关系型数据库，关系型数据库作为当下存储主流，TiDB 基于 KV 模型通过具体的数据、索引映射关系实现了关系型数据库。在关系系数据库中通常要保存三种类型的数据：表的元信息、索引数据、表的行数据。</p>
+<p>TiDB 对每个表分配一个 TableID，每一个索引都会分配一个 IndexID，每一行分配一个 RowID（如果表有整数型的 Primary Key，那么会用 Primary Key 的值当做 RowID），其中 TableID 在整个<strong>集群内唯一</strong>，IndexID&#x2F;RowID 在<strong>表内唯一</strong>。其中编码规则必须实现 key 在全局内是唯一的。</p>
+<p>表的行数据按照以下规则编码保存到 KV 模型中：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Key<span class="punctuation">:</span> tablePrefix<span class="punctuation">&#123;</span>tableID<span class="punctuation">&#125;</span>_recordPrefixSep<span class="punctuation">&#123;</span>rowID<span class="punctuation">&#125;</span></span><br><span class="line">Value<span class="punctuation">:</span> <span class="punctuation">[</span>col1<span class="punctuation">,</span> col2<span class="punctuation">,</span> col3<span class="punctuation">,</span> col4<span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>由于索引存在唯一索引和非唯一索引，因此索引存在以下两种编码方式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 唯一索引</span></span><br><span class="line">Key<span class="punctuation">:</span> tablePrefix<span class="punctuation">&#123;</span>tableID<span class="punctuation">&#125;</span>_indexPrefixSep<span class="punctuation">&#123;</span>indexID<span class="punctuation">&#125;</span>_indexedColumnsValue</span><br><span class="line">Value<span class="punctuation">:</span> rowID</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非唯一索引</span></span><br><span class="line">Key<span class="punctuation">:</span> tablePrefix<span class="punctuation">&#123;</span>tableID<span class="punctuation">&#125;</span>_indexPrefixSep<span class="punctuation">&#123;</span>indexID<span class="punctuation">&#125;</span>_indexedColumnsValue_rowID</span><br><span class="line">Value<span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span></span><br></pre></td></tr></table></figure>
+
+<p>通过这种编码规则能够对每行数据构造出唯一的 Key，无论是 Row 还是 Index 的 Key 编码方案，一个 Table 内部所有的 Row 都有相同的前缀，一个 Index 的数据也都有相同的前缀。这样具体相同的前缀的数据，在 TiKV 的 Key 空间内，是排列在一起。同时保证编码前和编码后的比较关系不变，那么就可以将 Row 或者 Index 数据有序地保存在 TiKV 中。采用这种编码后，一个表的所有 Row 数据就会按照 RowID 的顺序排列在 TiKV 的 Key 空间中，某一个 Index 的数据也会按照 Index 的 ColumnValue 顺序排列在 Key 空间内。</p>
+<img src="分布式数据库/image-20240525164017741.png" alt="image-20240525164017741" style="zoom: 50%;" />
+
+<h4 id="一致性协议"><a href="#一致性协议" class="headerlink" title="一致性协议"></a>一致性协议</h4><h5 id="Paxos-协议"><a href="#Paxos-协议" class="headerlink" title="Paxos 协议"></a>Paxos 协议</h5><p>该协议中有三种角色：提议者（Proposer）、接受者（Acceptor）、学习者（Learner），分布式系统中的每个节点可以身兼数职，也就是说既可以当做提议者发起提议，也可以对提议进行投票。</p>
+<ul>
+<li>提议者：提议一个值，尝试征求投票表决。</li>
+<li>接受者：参与共识协商，对每个提议进行投票表决，并存储提议的值。</li>
+<li>学习者：被动接受最终通票通过的决议，不参与投票表决，通常是 master-slave 中的 slave 角色。</li>
+</ul>
+<img src="分布式数据库/image-20240616112927229.png" alt="image-20240616112927229" style="zoom:50%;" />
+
+<p>在 Paxos 协议中每个提议包括一个提议编号 n 和提议值 v，计为 [n, v ] ，发起共识包括两个步骤：</p>
+<ol>
+<li>准备（Prepare）阶段：该阶段是为了获取到发起正式提议时的提议编号，<strong>接受者只会接受提议编号大的提议</strong>。</li>
+<li>接受（Accept）阶段</li>
+</ol>
+<h5 id="Raft-协议（采用）"><a href="#Raft-协议（采用）" class="headerlink" title="Raft 协议（采用）"></a>Raft 协议（采用）</h5>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/16/Redis-%E5%BA%94%E7%94%A8/" rel="prev" title="Redis 应用">
+                  <i class="fa fa-angle-left"></i> Redis 应用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Hao</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
