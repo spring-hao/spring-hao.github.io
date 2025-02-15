@@ -177,7 +177,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -633,7 +633,7 @@
 <li>MySQL里面表级锁有两种，一种是表锁，一种是元数据所(meta data lock,MDL)。表锁的语法是:<code>lock tables ... read/write</code></li>
 <li>可以用<code>unlock tables</code>主动释放锁，也可以在客户端断开的时候自动释放。<code>lock tables</code>语法除了会限制别的线程的读写外，也限定了本线程接下来的操作对象。</li>
 <li>对于<code>InnoDB</code>这种支持<code>行锁</code>的引擎，一般不使用<code>lock tables</code>命令来控制并发，毕竟锁住整个表的影响面还是太大。</li>
-<li>另一类表级的锁是<code>MDL</code>（metadata lock)。<code>MDL不需要显式使用</code>，在访问一个表的时候会被<code>自动加上</code>。MDL的作用是，<code>保证读写的正确性</code>。当对一个表做增删改查操作的时候，加<code>MDL读锁</code>；当要对表做结构变更操作的时候，加<code>MDL写锁</code>。<code>读锁之间不互斥</code>，因此你可以有多个线程同时对一张表增删改查。<code>读写锁之间、写锁之间是互斥的</code>，用来保证变更表结构操作的安全性。因此，如果有两个线程要同时给一个表加字段，其中一个要等另一个执行完才能开始执行。</li>
+<li>另一类表级的锁是<code>MDL</code>（metadata lock)。MDL不需要显式使用，在访问一个表的时候会被自动加上。MDL的作用是，保证读写的正确性。当对一个表做增删改查操作的时候，加MDL读锁；当要对表做结构变更操作的时候，加MDL写锁。<code>读锁之间不互斥</code>，因此你可以有多个线程同时对一张表增删改查。<code>读写锁之间、写锁之间是互斥的</code>，用来保证变更表结构操作的安全性。因此，如果有两个线程要同时给一个表加字段，其中一个要等另一个执行完才能开始执行。</li>
 <li><code>MDL</code> 会直到事务提交才会释放，在做表结构变更的时候，一定要小心不要导致锁住线上查询和更新。</li>
 </ul>
 <p> <strong>如何安全地给表加字段</strong></p>
@@ -1113,7 +1113,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
